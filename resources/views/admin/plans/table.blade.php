@@ -41,7 +41,7 @@
                                 ->class('data-confirm')
                                 ->attribute('autocomplete', 'off')
                                 ->attribute('data-confirm-message', __('system.plans.are_you_sure', ['name' => $plan->local_title]))
-                                ->attribute('data-confirm-title', __('system.crud.delete')) !!}
+                                ->attribute('data-confirm-title', __('system.crud.delete'))->open() !!}
                             @endif
 
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">

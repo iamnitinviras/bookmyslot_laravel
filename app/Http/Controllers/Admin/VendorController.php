@@ -216,7 +216,6 @@ class VendorController extends Controller
         Subscriptions::where('user_id', $vendor->id)->whereNull('subscription_id')->delete();
 
         //Delete Vendor Associated Data.
-        ProductUser::where('user_id', $vendor->id)->delete();
         Transactions::where('user_id', $vendor->id)->delete();
         User::where('created_by', $vendor->id)->where('user_type', User::USER_TYPE_STAFF)->delete();
 
