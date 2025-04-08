@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('member_trials', function (Blueprint $table) {
-            // $table->id();
             $table->uuid('id')->primary();
             $table->unsignedBigInteger('branch_id')->index();
             $table->string('name',200)->nullable();

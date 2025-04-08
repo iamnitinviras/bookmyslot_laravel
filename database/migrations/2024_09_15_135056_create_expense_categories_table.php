@@ -12,7 +12,6 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('expense_categories', function (Blueprint $table) {
-            // $table->id();
             $table->uuid('id')->primary();
             $table->unsignedBigInteger('branch_id')->nullable()->index();
             $table->string('name', 150);

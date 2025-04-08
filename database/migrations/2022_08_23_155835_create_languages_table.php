@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('languages', function (Blueprint $table) {
-            $table->id();
+            $table->uuid('id')->primary();
             $table->string('name', 100)->unique();
             $table->string('direction')->default('ltr');
             $table->string('store_location_name', 40)->commit('like en, hi')->unique();
