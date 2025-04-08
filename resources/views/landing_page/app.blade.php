@@ -5,7 +5,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>@yield('title')</title>
-    <link rel="shortcut icon" href="{{ asset(config('app.favicon_icon')) }}">
+    <link rel="shortcut icon" href="{{ asset(config('custom.favicon_icon')) }}">
     <meta name="keywords" content="{{ config('seo_keyword') }}">
     <meta name="description" content="{{ config('seo_description') }}">
     <meta name="robots" content="max-snippet:-1, max-image-preview:large, max-video-preview:-1">
@@ -28,7 +28,7 @@
     <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="{{url('/')}}">
-                <img style="width: 100%;height: 60px" src="{{ asset(config('app.logo')) }}" alt="{{ config('app.name') }}">
+                <img style="width: 100%;height: 60px" src="{{ asset(config('custom.logo')) }}" alt="{{ config('app.name') }}">
             </a>
             <!-- Navbar Toggler -->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#saasboxNav" aria-controls="saasboxNav" aria-expanded="false" aria-label="Toggle navigation"><i
@@ -119,29 +119,29 @@
         </div>
         <div class="footer-social-icon d-flex align-items-center mt-3 justify-content-center">
 
-            @if(config('app.facebook_url')!=null)
-                <a target="_blank" href="{{config('app.facebook_url')}}">
+            @if(config('custom.facebook_url')!=null)
+                <a target="_blank" href="{{config('custom.facebook_url')}}">
                     <i class="bi bi-facebook"></i>
                 </a>
             @endif
 
-            @if(config('app.twitter_url')!=null)
-                <a target="_blank" href="{{config('app.twitter_url')}}">
+            @if(config('custom.twitter_url')!=null)
+                <a target="_blank" href="{{config('custom.twitter_url')}}">
                     <i class="bi bi-twitter"></i>
                 </a>
             @endif
-            @if(config('app.instagram_url')!=null)
-                <a target="_blank" href="{{config('app.instagram_url')}}">
+            @if(config('custom.instagram_url')!=null)
+                <a target="_blank" href="{{config('custom.instagram_url')}}">
                     <i class="bi bi-instagram"></i>
                 </a>
             @endif
-            @if(config('app.linkedin_url')!=null)
-                <a target="_blank" href="{{config('app.linkedin_url')}}">
+            @if(config('custom.linkedin_url')!=null)
+                <a target="_blank" href="{{config('custom.linkedin_url')}}">
                     <i class="bi bi-linkedin"></i>
                 </a>
             @endif
-            @if(config('app.youtube_url')!=null)
-                <a target="_blank" href="{{config('app.youtube_url')}}">
+            @if(config('custom.youtube_url')!=null)
+                <a target="_blank" href="{{config('custom.youtube_url')}}">
                     <i class="bi bi-youtube"></i>
                 </a>
             @endif

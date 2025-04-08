@@ -1,4 +1,4 @@
-<script src="{{ asset('js/tinymce/tinymce.min.js', config('app.redirect_https')) }}" referrerpolicy="origin"></script>
+<script src="{{ asset('js/tinymce/tinymce.min.js', config('custom.redirect_https')) }}" referrerpolicy="origin"></script>
 <script>
     tinymce.init({
         selector: '.editor',

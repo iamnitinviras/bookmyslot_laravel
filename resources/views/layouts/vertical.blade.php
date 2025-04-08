@@ -4,19 +4,19 @@
             <div class="navbar-brand-box">
                 <a href="{{ route('home') }}" class="logo logo-light">
                             <span class="logo-sm">
-                                <img class="lazyload" src="{{ asset(config('app.favicon_icon')) }}" alt="{{config('app.name')}}" height="30">
+                                <img class="lazyload" src="{{ asset(config('custom.favicon_icon')) }}" alt="{{config('app.name')}}" height="30">
                             </span>
                     <span class="logo-lg">
-                                <img class="lazyload" src="{{ asset(config('app.logo')) }}" alt="{{config('app.name')}}" height="60">
+                                <img class="lazyload" src="{{ asset(config('custom.logo')) }}" alt="{{config('app.name')}}" height="60">
                             </span>
                 </a>
 
                 <a href="{{ route('home') }}" class="logo logo-dark">
                             <span class="logo-sm">
-                                <img class="lazyload" src="{{ asset(config('app.favicon_icon')) }}" alt="{{config('app.name')}}" height="30">
+                                <img class="lazyload" src="{{ asset(config('custom.favicon_icon')) }}" alt="{{config('app.name')}}" height="30">
                             </span>
                     <span class="logo-lg">
-                                <img class="lazyload" src="{{ asset(config('app.logo')) }}" alt="{{config('app.name')}}" height="60">
+                                <img class="lazyload" src="{{ asset(config('custom.logo')) }}" alt="{{config('app.name')}}" height="60">
                             </span>
                 </a>
             </div>

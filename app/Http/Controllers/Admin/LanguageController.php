@@ -119,7 +119,7 @@ class LanguageController extends Controller
     public function destroy(Language $language)
     {
         $request = request();
-        if (strtolower($language->name) == 'english' || $language->store_location_name == config('app.app_locale')) {
+        if (strtolower($language->name) == 'english' || $language->store_location_name == config('app.locale')) {
             request()->session()->flash('Error', __('system.languages.can_not_remove'));
             return redirect()->back();
         }

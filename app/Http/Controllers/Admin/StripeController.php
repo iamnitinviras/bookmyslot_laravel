@@ -20,7 +20,7 @@ class StripeController extends Controller
 
         try {
 
-            $currency = config('app.currency');
+            $currency = config('custom.currency');
             $stripe_data = Settings::where('title', 'stripe')->first();
             $stripePayment = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
 
@@ -182,7 +182,7 @@ class StripeController extends Controller
     public function subscriptionPayment($plan, $request, $userPlan)
     {
 
-        $currency = config('app.currency');
+        $currency = config('custom.currency');
         try {
 
             $authUser = auth()->user();

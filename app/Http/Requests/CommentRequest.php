@@ -25,7 +25,7 @@ class CommentRequest extends FormRequest
             'message' => 'required',
             'user_name' => 'nullable'
         ];
-        if (config('app.enable_captcha_on_comments') == true) {
+        if (config('custom.enable_captcha_on_comments') == true) {
             $rules['g-recaptcha-response'] = 'required|captcha';
         }
         return $rules;

@@ -32,7 +32,7 @@ class FeedbackRequest extends FormRequest
             'roadmap_id' => ['nullable'],
             'feedback_image' => ['nullable'],
         ];
-        if(config('app.enable_captcha_on_suggestion')==true && $captcha_check==true){
+        if(config('custom.enable_captcha_on_suggestion')==true && $captcha_check==true){
             $rules['g-recaptcha-response']='required|captcha';
         }
         return $rules;

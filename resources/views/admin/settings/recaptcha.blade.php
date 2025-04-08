@@ -72,9 +72,9 @@
                                     <div class="card-body">
                                         <div class="row">
                                             <div class="col-md-12 mb-3">
-                                                @php($enable_captcha=old('enable_recaptcha',config('app.enable_captcha')))
-                                                @php($nocaptcha_secret=old('nocaptcha_secret',config('app.nocaptcha_secret')))
-                                                @php($nocaptcha_sitekey=old('nocaptcha_sitekey',config('app.nocaptcha_sitekey')))
+                                                @php($enable_captcha=old('enable_recaptcha',config('custom.enable_captcha')))
+                                                @php($nocaptcha_secret=old('nocaptcha_secret',config('custom.nocaptcha_secret')))
+                                                @php($nocaptcha_sitekey=old('nocaptcha_sitekey',config('custom.nocaptcha_sitekey')))
                                                 <div class="mb-3 form-group @error('status') has-danger @enderror  @error('status') has-danger @enderror">
                                                     <label class="form-label w-100" for="name">{{trans('system.environment.enable_recaptcha')}}</label>
                                                     <div class="form-check form-check-inline">
@@ -137,10 +137,10 @@
                                             <div class="col-md-6">
                                                 <div class="card">
                                                     <div class="card-body">
-                                                        @php($enable_captcha_on_suggestion=old('enable_captcha_on_suggestion',config('app.enable_captcha_on_suggestion')))
-                                                        @php($enable_captcha_on_comments=old('enable_captcha_on_comments',config('app.enable_captcha_on_comments')))
-                                                        @php($enable_captcha_on_contact_us=old('enable_captcha_on_contact_us',config('app.enable_captcha_on_contact_us')))
-                                                        @php($enable_captcha_on_support_request=old('enable_captcha_on_support_request',config('app.enable_captcha_on_support_request')))
+                                                        @php($enable_captcha_on_suggestion=old('enable_captcha_on_suggestion',config('custom.enable_captcha_on_suggestion')))
+                                                        @php($enable_captcha_on_comments=old('enable_captcha_on_comments',config('custom.enable_captcha_on_comments')))
+                                                        @php($enable_captcha_on_contact_us=old('enable_captcha_on_contact_us',config('custom.enable_captcha_on_contact_us')))
+                                                        @php($enable_captcha_on_support_request=old('enable_captcha_on_support_request',config('custom.enable_captcha_on_support_request')))
                                                         <div class="mb-3 form-group @error('status') has-danger @enderror  @error('status') has-danger @enderror">
                                                             <label class="form-label w-100" for="name">{{trans('system.environment.enable_captcha_on_suggestion')}}</label>
                                                             <div class="form-check form-check-inline">

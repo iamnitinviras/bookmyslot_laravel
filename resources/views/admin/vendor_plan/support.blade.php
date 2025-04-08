@@ -34,21 +34,21 @@
                                                <p class="font-weight-bold">{{ __('system.fields.support_content') }}</p>
                                            </div>
 
-                                           @if(config('app.support_email') !=null||config('app.support_phone') !=null)
+                                           @if(config('custom.support_email') !=null||config('custom.support_phone') !=null)
                                                <div class="col-md-12">
                                                    <p>{{ __('system.fields.support_content_sub') }}</p>
                                                </div>
                                            @endif
 
-                                           @if(config('app.support_email') !=null)
+                                           @if(config('custom.support_email') !=null)
                                                <div class="col-md-12">
-                                                   <p class="mb-3"><b>{{ __('system.fields.email') }}:</b> <a class="text-dark" href="mailto:{{config('app.support_email')}}">{{config('app.support_email')}}</a></p>
+                                                   <p class="mb-3"><b>{{ __('system.fields.email') }}:</b> <a class="text-dark" href="mailto:{{config('custom.support_email')}}">{{config('custom.support_email')}}</a></p>
                                                </div>
                                            @endif
 
-                                           @if(config('app.support_phone') !=null)
+                                           @if(config('custom.support_phone') !=null)
                                                <div class="col-md-12">
-                                                   <p><b>{{ __('system.fields.phone_number') }}:</b> <a class="text-dark" href="tel:{{config('app.support_phone')}}">{{config('app.support_phone')}}</a></p>
+                                                   <p><b>{{ __('system.fields.phone_number') }}:</b> <a class="text-dark" href="tel:{{config('custom.support_phone')}}">{{config('custom.support_phone')}}</a></p>
                                                </div>
                                            @endif
                                        </div>

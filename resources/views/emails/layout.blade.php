@@ -13,7 +13,7 @@
     <tr>
         <td class="email_body_table_td">
             <a href="{{url('')}}" title="{{config('app.name')}}">
-                <img src="{{URL::asset(config('app.logo'))}}" class="email_body_table_td_img">
+                <img src="{{URL::asset(config('custom.logo'))}}" class="email_body_table_td_img">
             </a>
         </td>
     </tr>

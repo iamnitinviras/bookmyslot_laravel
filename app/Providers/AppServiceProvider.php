@@ -29,7 +29,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
 
-        Carbon::setToStringFormat(config('app.date_time_format'));
+        Carbon::setToStringFormat(config('custom.date_time_format'));
         Paginator::defaultView('vendor.pagination.bootstrap-5');
 
         VerifyEmail::toMailUsing(function (object $notifiable, string $url) {

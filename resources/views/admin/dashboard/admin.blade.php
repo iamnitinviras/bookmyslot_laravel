@@ -65,7 +65,7 @@
             $show_smtp = true;
         }
 
-        if (empty(config('app.timezone')) || empty(config('app.date_time_format')) || empty(config('app.date_format')) || empty(config('app.currency')) || empty(config('app.currency_symbol')) || (empty(config('app.favicon_icon')) || config('app.favicon_icon') == '/assets/images/defualt_logo/logo.png') || (empty(config('app.logo')) || config('app.logo') == '/assets/images/defualt_logo/logo.png')) {
+        if (empty(config('custom.timezone')) || empty(config('custom.date_time_format')) || empty(config('custom.date_format')) || empty(config('custom.currency')) || empty(config('custom.currency_symbol')) || (empty(config('custom.favicon_icon')) || config('custom.favicon_icon') == '/assets/images/defualt_logo/logo.png') || (empty(config('custom.logo')) || config('custom.logo') == '/assets/images/defualt_logo/logo.png')) {
             $show_admin_boarding = true;
             $show_system = true;
         }

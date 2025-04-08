@@ -5,7 +5,7 @@
     <title> @yield('title', 'Welcome') | {{ config('app.name') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <link rel="shortcut icon" href="{{ asset(config('app.favicon_icon')) }}">
+    <link rel="shortcut icon" href="{{ asset(config('custom.favicon_icon')) }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/preloader.min.css') }}" type="text/css" />
     <link href="{{ asset('assets/admin/css/bootstrap.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css" />
     <link href="{{ asset('assets/admin/css/icons.min.css') }}" rel="stylesheet" type="text/css" />
@@ -14,7 +14,7 @@
     @stack('page_css')
     <style>
         .auth-bg {
-            background-image: url({{asset(config('app.banner_image_two'))}});
+            background-image: url({{asset(config('custom.banner_image_two'))}});
             background-attachment: scroll;
             background-position: center;
             background-repeat: no-repeat;
@@ -33,7 +33,7 @@
 
                                 <div class="mb-4 mb-md-5 text-center">
                                     <a href="{{ url('/') }}" class="d-block auth-logo">
-                                        <img src="{{ asset(config('app.logo')) }}" alt="{{ config('app.name') }}" height="60" class="lazyload">
+                                        <img src="{{ asset(config('custom.logo')) }}" alt="{{ config('app.name') }}" height="60" class="lazyload">
                                     </a>
                                 </div>
 

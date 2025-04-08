@@ -1,6 +1,7 @@
 <?php
 //Custom environment variable
 return [
+    'redirect_https' => env('REDIRECT_HTTPS',true),
     'facebook_url' => env('FACEBOOK_URL'),
     'instagram_url' => env('INSTAGRAM_URL'),
     'twitter_url' => env('TWITTER_URL'),

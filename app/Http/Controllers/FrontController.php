@@ -72,7 +72,7 @@ class   FrontController extends Controller
 
     public function product($product_slug)
     {
-        $hide_product_after_days = config('app.hide_product_after_days');
+        $hide_product_after_days = config('custom.hide_product_after_days');
 
         $product = Branch::where('slug', $product_slug)->first();
 

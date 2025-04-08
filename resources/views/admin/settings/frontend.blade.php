@@ -76,7 +76,7 @@
                                             <div class="card-body">
                                                 <div class="form-group">
                                                     <div class="d-flex align-items-center ">
-                                                        <img src="{{ asset(config('app.banner_image_one')) }}" alt="" class="avatar-xl  preview-image_21 avater-120-contain">
+                                                        <img src="{{ asset(config('custom.banner_image_one')) }}" alt="" class="avatar-xl  preview-image_21 avater-120-contain">
                                                     </div>
                                                     @error('banner_image_one')
                                                     <div class="pristine-error text-help px-3">{{ $message }}</div>
@@ -102,7 +102,7 @@
                                             <div class="card-body">
                                                 <div class="form-group">
                                                     <div class="d-flex align-items-center ">
-                                                        <img src="{{ asset(config('app.banner_image_two')) }}" alt="" class="avatar-xl  preview-image_22 avater-120-contain">
+                                                        <img src="{{ asset(config('custom.banner_image_two')) }}" alt="" class="avatar-xl  preview-image_22 avater-120-contain">
                                                     </div>
                                                     @error('banner_image_two')
                                                     <div class="pristine-error text-help px-3">{{ $message }}</div>

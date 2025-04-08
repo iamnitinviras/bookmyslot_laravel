@@ -26,7 +26,7 @@
                 @php($lbl_app_currency = __('system.fields.select_app_currency'))
                 <div class="mb-3 form-group @error('app_currency') has-danger @enderror">
                     <label class="form-label" for="input-app_currency">{{ $lbl_app_currency }} <span class="text-danger">*</span></label>
-                    {!! html()->select('app_currency', getAllCurrencies(), config('app.currency'))
+                    {!! html()->select('app_currency', getAllCurrencies(), config('custom.currency'))
                     ->class('form-select choice-picker')
                     ->id('input-app_currency')
                     ->attribute('data-remove_attr', 'data-type')
@@ -44,7 +44,7 @@
                     {!! html()->select('currency_position', [
                             'left' => 'left',
                             'right' => 'right'
-                        ], config('app.currency_position'))
+                        ], config('custom.currency_position'))
                         ->class('form-control form-select')
                         ->id('input-currency_position')
                         ->required() !!}
@@ -59,7 +59,7 @@
                 @php($lbl_support_email = __('system.fields.support_email'))
                 <div class="mb-3 form-group @error('support_email') has-danger @enderror">
                     <label class="form-label" for="app_name">{{ $lbl_support_email }} <span class="text-danger">*</span></label>
-                    {!! html()->email('support_email', config('app.support_email'))
+                    {!! html()->email('support_email', config('custom.support_email'))
                     ->class('form-control')
                     ->id('support_email')
                     ->attribute('placeholder', $lbl_support_email)
@@ -74,7 +74,7 @@
                 @php($lbl_support_phone = __('system.fields.support_phone'))
                 <div class="mb-3 form-group @error('support_phone') has-danger @enderror">
                     <label class="form-label" for="support_phone">{{ $lbl_support_phone }} <span class="text-danger">*</span></label>
-                    {!! html()->text('support_phone', config('app.support_phone'))
+                    {!! html()->text('support_phone', config('custom.support_phone'))
                     ->class('form-control')
                     ->id('support_phone')
                     ->attribute('placeholder', $lbl_support_phone)
@@ -99,7 +99,7 @@
                 @php($lbl_app_timezone = __('system.fields.app_timezone'))
                 <div class="mb-3 form-group @error('app_timezone') has-danger @enderror">
                     <label class="form-label" for="input-app_timezone">{{ $lbl_app_timezone }} <span class="text-danger">*</span></label>
-                    {!! html()->select('app_timezone', \App\Http\Controllers\Admin\EnvSettingController::GetTimeZones(), config('app.timezone'))
+                    {!! html()->select('app_timezone', \App\Http\Controllers\Admin\EnvSettingController::GetTimeZones(), config('custom.timezone'))
                     ->class('form-select choice-picker')
                     ->id('input-app_timezone')
                     ->required()
@@ -114,7 +114,7 @@
 
                 <div class="mb-3 form-group @error('app_date_time_format') has-danger @enderror">
                     <label class="form-label" for="input-app_date_time_format">{{ $lbl_app_date_time_format }} <span class="text-danger">*</span></label>
-                    {!! html()->select('app_date_time_format', App\Http\Controllers\Admin\EnvSettingController::GetDateFormat(), config('app.date_time_format'))
+                    {!! html()->select('app_date_time_format', App\Http\Controllers\Admin\EnvSettingController::GetDateFormat(), config('custom.date_time_format'))
                     ->class('form-control form-select')
                     ->id('input-app_date_time_format')
                     ->required() !!}
@@ -139,7 +139,7 @@
                 @php($lbl_facebook_url = __('system.fields.facebook'))
                 <div class="mb-3 form-group @error('facebook_url') has-danger @enderror">
                     <label class="form-label" for="facebook_url">{{ $lbl_facebook_url }}</label>
-                    {!! html()->text('facebook_url', config('app.facebook_url'))
+                    {!! html()->text('facebook_url', config('custom.facebook_url'))
                     ->class('form-control')
                     ->id('facebook_url')
                     ->attribute('placeholder', $lbl_facebook_url)
@@ -154,7 +154,7 @@
                 @php($lbl_instagram_url = __('system.fields.instagram'))
                 <div class="mb-3 form-group @error('instagram_url') has-danger @enderror">
                     <label class="form-label" for="instagram_url">{{ $lbl_instagram_url }}</label>
-                    {!! html()->text('instagram_url', config('app.instagram_url'))
+                    {!! html()->text('instagram_url', config('custom.instagram_url'))
                     ->class('form-control')
                     ->id('instagram_url')
                     ->attribute('placeholder', $lbl_instagram_url)
@@ -169,7 +169,7 @@
                 @php($lbl_twitter_url = __('system.fields.twitter'))
                 <div class="mb-3 form-group @error('twitter_url') has-danger @enderror">
                     <label class="form-label" for="twitter_url">{{ $lbl_twitter_url }}</label>
-                    {!! html()->text('twitter_url', config('app.twitter_url'))
+                    {!! html()->text('twitter_url', config('custom.twitter_url'))
                     ->class('form-control')
                     ->id('twitter_url')
                     ->attribute('placeholder', $lbl_twitter_url)
@@ -184,7 +184,7 @@
                 @php($lbl_youtube_url = __('system.fields.youtube'))
                 <div class="mb-3 form-group @error('youtube_url') has-danger @enderror">
                     <label class="form-label" for="youtube_url">{{ $lbl_youtube_url }}</label>
-                    {!! html()->text('youtube_url', config('app.youtube_url'))
+                    {!! html()->text('youtube_url', config('custom.youtube_url'))
                     ->class('form-control')
                     ->id('youtube_url')
                     ->attribute('placeholder', $lbl_youtube_url)
@@ -199,7 +199,7 @@
                 @php($lbl_linkedin_url = __('system.fields.linkedin'))
                 <div class="mb-3 form-group @error('linkedin_url') has-danger @enderror">
                     <label class="form-label" for="linkedin_url">{{ $lbl_linkedin_url }}</label>
-                    {!! html()->text('linkedin_url', config('app.linkedin_url'))
+                    {!! html()->text('linkedin_url', config('custom.linkedin_url'))
                     ->class('form-control')
                     ->id('linkedin_url')
                     ->attribute('placeholder', $lbl_linkedin_url)
@@ -225,7 +225,7 @@
                 <label class="form-label d-block" for="app_name">{{ $lbl_app_logo }} <span class="text-danger">*</span></label>
                 <div class="d-flex align-items-center ">
                     <div class='mx-3 '>
-                        <img src="{{ asset(config('app.logo')) }}" alt="" class=" preview-image avater-120-contain">
+                        <img src="{{ asset(config('custom.logo')) }}" alt="" class=" preview-image avater-120-contain">
                     </div>
                 </div>
                 <input type="file" name="app_dark_logo" id="app_dark_logo" class="d-none my-preview" accept="image/*"
@@ -244,7 +244,7 @@
                 <label class="form-label d-block" for="app_name">{{ $lbl_app_favicon_logo }} <span class="text-danger">*</span></label>
                 <div class="d-flex align-items-center ">
                     <div class='mx-3 '>
-                        <img src="{{ asset(config('app.favicon_icon')) }}" alt="" class="avatar-xl  preview-image_21 avater-120-contain">
+                        <img src="{{ asset(config('custom.favicon_icon')) }}" alt="" class="avatar-xl  preview-image_21 avater-120-contain">
                     </div>
                 </div>
                 <input type="file" name="app_favicon_logo" id="app_favicon_logo" class="d-none my-preview" accept="image/*"

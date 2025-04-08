@@ -50,7 +50,7 @@
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                 <a role="button" href="{{ route('admin.languages.edit', ['language' => $language->id]) }}" class="btn btn-dark">{{ __('system.languages_data.edit.menu') }}</a>
 
-                                @if (!(strtolower($language->name) == 'english' || $language->store_location_name == config('app.app_locale')))
+                                @if (!(strtolower($language->name) == 'english' || $language->store_location_name == config('app.locale')))
                                     <button type="submit" class="btn btn-danger">{{ __('system.crud.delete') }}</button>
                                 @endif
                             </div>
