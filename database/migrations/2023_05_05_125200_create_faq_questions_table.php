@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('faq_questions', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->longText('question');
             $table->longText('answer');
             $table->longText('lang_question')->nullable();

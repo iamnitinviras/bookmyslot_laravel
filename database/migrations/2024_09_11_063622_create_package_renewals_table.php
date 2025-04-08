@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('package_renewals', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->unsignedBigInteger('member_pk_id')->index();
             $table->unsignedBigInteger('previous_package_id')->index();
             $table->unsignedBigInteger('new_package_id')->index();

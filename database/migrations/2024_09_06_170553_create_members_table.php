@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('members', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->unsignedBigInteger('gym_customer_id')->index();
             $table->string('name', 150);
             $table->string('email',190)->unique()->nullable();
@@ -25,9 +25,9 @@ return new class extends Migration
             $table->date('package_start_date')->nullable();
             $table->date('package_end_date')->nullable();
             $table->boolean('is_active')->default(false);
-            $table->unsignedBigInteger('branch_id')->nullable()->index();
-            $table->unsignedBigInteger('created_by')->nullable()->index();
-            $table->unsignedBigInteger('package_id')->nullable()->index();
+            $table->unsignedInteger('branch_id')->nullable()->index();
+            $table->unsignedInteger('created_by')->nullable()->index();
+            $table->unsignedInteger('package_id')->nullable()->index();
             $table->string('height', 10)->nullable();
             $table->string('weight', 10)->nullable();
             $table->string('city', 150)->nullable();

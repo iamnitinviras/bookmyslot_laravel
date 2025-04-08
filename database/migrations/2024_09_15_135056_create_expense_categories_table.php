@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('expense_categories', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->unsignedBigInteger('branch_id')->nullable()->index();
             $table->string('name', 150);
             $table->json('lang_name')->nullable();

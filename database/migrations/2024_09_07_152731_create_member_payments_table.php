@@ -12,10 +12,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('member_payments', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->unsignedBigInteger('branch_id')->index();
-            $table->unsignedBigInteger('member_pk_id')->nullable()->index();
-            $table->unsignedBigInteger('package_id')->nullable()->index();
+            $table->id();
+            $table->unsignedInteger('branch_id')->index();
+            $table->unsignedInteger('member_pk_id')->nullable()->index();
+            $table->unsignedInteger('package_id')->nullable()->index();
             $table->double('amount_paid')->default(0);
             $table->double('package_price')->default(0);
             $table->double('discount')->default(0);
@@ -25,7 +25,7 @@ return new class extends Migration
             $table->enum('payment_type',['full','partial'])->default('full');
             $table->double('due_amount')->default(0);
             $table->string('payment_mode',100)->nullable();
-            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedInteger('created_by')->nullable();
             $table->timestamps();
         });
     }

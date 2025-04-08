@@ -11,6 +11,7 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Str;
 
 class User extends Authenticatable implements Searchable, MustVerifyEmail
 {
@@ -24,6 +25,20 @@ class User extends Authenticatable implements Searchable, MustVerifyEmail
     const USER_TYPE_ADMIN = 1;
     const USER_TYPE_STAFF = 2;
     const USER_TYPE_VENDOR = 3;
+    public $incrementing = false; // Disable auto-increment
+    protected $keyType = 'string'; // Key type is string
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model)
+        {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
 
     protected $fillable = [
         'first_name',

@@ -4,13 +4,27 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Str;
 
 class Transactions extends Model
 {
     use HasFactory;
     public $table = 'transactions';
     public $primaryKey = 'id';
+    public $incrementing = false; // Disable auto-increment
+    protected $keyType = 'string'; // Key type is string
 
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model)
+        {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
     protected $fillable = [
         'id',
         'transaction_id',

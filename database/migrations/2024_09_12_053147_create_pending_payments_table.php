@@ -12,7 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('pending_payments', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->unsignedBigInteger('branch_id')->index();
             $table->unsignedBigInteger('member_pk_id')->index();
             $table->unsignedBigInteger('package_id')->index();

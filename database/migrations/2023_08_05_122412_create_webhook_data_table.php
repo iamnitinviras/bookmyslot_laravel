@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('webhook_data', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->longText('response')->nullable();
             $table->string('type',150)->nullable();
             $table->timestamps();

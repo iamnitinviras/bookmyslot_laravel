@@ -14,8 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('vendor_settings', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->unsignedBigInteger('user_id')->index();
+            $table->id();
+            $table->unsignedInteger('user_id')->index();
             $table->longText('default_item_image')->nullable();
             $table->longText('default_category_image')->nullable();
             $table->string('default_currency',50)->default('USD');

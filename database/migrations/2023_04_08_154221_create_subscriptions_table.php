@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('subscriptions', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->unsignedInteger('user_id');
             $table->unsignedInteger('plan_id');
             $table->string('payment_method')->nullable();

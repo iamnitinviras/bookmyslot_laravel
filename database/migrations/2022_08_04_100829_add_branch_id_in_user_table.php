@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('branch_users', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->unsignedBigInteger('branch_id')->comment('Branch ID')->nullable()->index();
             $table->unsignedBigInteger('user_id')->nullable()->index();
             $table->tinyInteger('role')->comment('1 - Admin, 2 - Staff, 3 - Vendor')->default(3);

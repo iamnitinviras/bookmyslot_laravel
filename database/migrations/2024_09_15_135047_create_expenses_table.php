@@ -12,15 +12,15 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('expenses', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->unsignedBigInteger('branch_id')->index();
-            $table->unsignedBigInteger('category_id')->index();
+            $table->id();
+            $table->unsignedInteger(column: 'branch_id')->index();
+            $table->unsignedInteger('category_id')->index();
             $table->text('title')->nullable();
             $table->text('description')->nullable();
             $table->decimal('amount', 10, 2);
             $table->date('expense_date');
             $table->string('payment_method')->nullable();
-            $table->unsignedBigInteger('created_by');
+            $table->unsignedInteger('created_by');
             $table->text('receipt_path')->nullable();
             $table->timestamps();
         });

@@ -13,7 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('branches', function (Blueprint $table) {
-            $table->uuid('id')->primary();
+            $table->id();
             $table->unsignedBigInteger('user_id')->nullable()->index();
             $table->string('branch_title', 190);
             $table->string('branch_phone',20)->nullable();

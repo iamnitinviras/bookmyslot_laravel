@@ -12,12 +12,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('member_trials', function (Blueprint $table) {
-            $table->uuid('id')->primary();
-            $table->unsignedBigInteger('branch_id')->index();
+            $table->id();
+            $table->unsignedInteger('branch_id')->index();
             $table->string('name',200)->nullable();
             $table->string('phone_number',20)->nullable();
-            $table->unsignedBigInteger('trainer')->nullable();
-            $table->unsignedBigInteger('created_by')->nullable();
+            $table->unsignedInteger('trainer')->nullable();
+            $table->unsignedInteger('created_by')->nullable();
             $table->unsignedBigInteger('duration_of_trial')->default(3);
             $table->text('notes')->nullable();
             $table->timestamps();
