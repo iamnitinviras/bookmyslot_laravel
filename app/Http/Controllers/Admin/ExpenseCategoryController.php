@@ -14,12 +14,14 @@ use Illuminate\Support\Facades\DB;
 
 class ExpenseCategoryController extends Controller
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('permission:show expenses_categories')->only('index','show');
-        $this->middleware('permission:add expenses_categories')->only('create','store');
-        $this->middleware('permission:edit expenses_categories')->only('edit','update');
-        $this->middleware('permission:delete expenses_categories')->only('destroy');
+        return [
+            'permission:show expenses_categories' => ['only' => ['index', 'show']],
+            'permission:add expenses_categories' => ['only' => ['create', 'store']],
+            'permission:edit expenses_categories' => ['only' => ['edit', 'update']],
+            'permission:delete expenses_categories' => ['only' => ['destroy']],
+        ];
     }
 
     public function index()
@@ -27,7 +29,7 @@ class ExpenseCategoryController extends Controller
         $request = request();
         $user = auth()->user();
         $params = $request->only('par_page', 'sort', 'direction', 'filter', 'branch_id');
-        $params['branch_id'] = $user->branch_id??0;
+        $params['branch_id'] = $user->branch_id ?? 0;
         $expenses_categories = (new ExpenseRepository())->getAllExpensCategories($params);
         return view('admin.expenses_categories.index', ['expenses_categories' => $expenses_categories]);
     }
@@ -35,7 +37,7 @@ class ExpenseCategoryController extends Controller
     public function create()
     {
         $user = auth()->user();
-        if($user->branch_id==null){
+        if ($user->branch_id == null) {
             return redirect('branch')->with(['Error' => __('system.dashboard.create_branch')]);
         }
         return view('admin.expenses_categories.create');
@@ -45,13 +47,13 @@ class ExpenseCategoryController extends Controller
     {
         try {
             DB::beginTransaction();
-            $input = $request->only('name', 'description', 'branch_id','lang_description', 'lang_name','status');
+            $input = $request->only('name', 'description', 'branch_id', 'lang_description', 'lang_name', 'status');
             ExpenseCategory::create($input);
             DB::commit();
             $request->session()->flash('Success', __('system.messages.saved', ['model' => __('system.expenses_categories.title')]));
         } catch (\Exception $ex) {
             DB::rollback();
-            $request->session()->flash('Error',$ex->getMessage());
+            $request->session()->flash('Error', $ex->getMessage());
             return redirect()->back();
         }
         return redirect()->route('admin.expense-categories.index');
@@ -63,9 +65,12 @@ class ExpenseCategoryController extends Controller
             $user = auth()->user();
         }
 
-        $user->load(['branch.expenses_categories' => function ($q) use ($package_id) {
-            $q->where('id', $package_id);
-        }]);
+        $user->load([
+            'branch.expenses_categories' => function ($q) use ($package_id)
+            {
+                $q->where('id', $package_id);
+            }
+        ]);
 
         if (!isset($user->branch) || count($user->branch->expenses_categories) == 0) {
             $back = request()->get('back', route('admin.expense-categories.index'));
@@ -87,7 +92,7 @@ class ExpenseCategoryController extends Controller
         if (($redirect = $this->checkValidCategory($expense_category->id)) != null) {
             return redirect($redirect);
         }
-        $input = $request->only('name', 'description','lang_description', 'lang_name','status');
+        $input = $request->only('name', 'description', 'lang_description', 'lang_name', 'status');
         $expense_category->fill($input)->save();
 
         $request->session()->flash('Success', __('system.messages.updated', ['model' => __('system.expenses_categories.title')]));

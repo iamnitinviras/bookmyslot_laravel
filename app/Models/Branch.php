@@ -33,7 +33,7 @@ class Branch extends Model implements Searchable
         'qr_details' => "json"
     ];
 
-    public $sortable = ['id', 'title'];
+    public $sortable = ['id', 'branch_title'];
 
     public function users()
     {

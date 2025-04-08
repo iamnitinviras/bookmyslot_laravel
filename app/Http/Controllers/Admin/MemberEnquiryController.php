@@ -11,12 +11,14 @@ use Illuminate\Support\Facades\DB;
 
 class MemberEnquiryController extends Controller
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('permission:show members_enquiry')->only('index', 'show');
-        $this->middleware('permission:add members_enquiry')->only('create', 'store');
-        $this->middleware('permission:edit members_enquiry')->only('edit', 'update');
-        $this->middleware('permission:delete members_enquiry')->only('destroy');
+        return [
+            'permission:show members_enquiry' => ['only' => ['index', 'show']],
+            'permission:add members_enquiry' => ['only' => ['create', 'store']],
+            'permission:edit members_enquiry' => ['only' => ['edit', 'update']],
+            'permission:delete members_enquiry' => ['only' => ['destroy']],
+        ];
     }
 
     public function index()
@@ -49,16 +51,16 @@ class MemberEnquiryController extends Controller
         try {
             $user = auth()->user();
             MemberEnquiry::create([
-                'branch_id'=>$request->branch_id,
-                'name'=>$request->name,
-                'email'=>$request->email,
-                'phone'=>$request->phone,
-                'gender'=>$request->gender,
-                'next_follow_up_date'=>$request->next_follow_up_date,
-                'location'=>$request->location,
-                'interest'=>$request->interest,
-                'notes'=>$request->notes,
-                'created_by'=>$user->id,
+                'branch_id' => $request->branch_id,
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'gender' => $request->gender,
+                'next_follow_up_date' => $request->next_follow_up_date,
+                'location' => $request->location,
+                'interest' => $request->interest,
+                'notes' => $request->notes,
+                'created_by' => $user->id,
             ]);
 
             DB::commit();
@@ -85,7 +87,7 @@ class MemberEnquiryController extends Controller
             return redirect($redirect);
         }
 
-        $data = $request->only('name', 'branch_id', 'email', 'phone', 'gender','next_follow_up_date','location','interest','notes','enquiry_source');
+        $data = $request->only('name', 'branch_id', 'email', 'phone', 'gender', 'next_follow_up_date', 'location', 'interest', 'notes', 'enquiry_source');
         $member_enquiry->fill($data)->save();
 
         $request->session()->flash('Success', __('system.messages.updated', ['model' => __('system.member_enquiry.title')]));
@@ -98,7 +100,7 @@ class MemberEnquiryController extends Controller
 
     public function checkIsValidUser($member)
     {
-        $branch=auth()->user()->branch_id;
+        $branch = auth()->user()->branch_id;
         if ($member->branch_id !== $branch) {
             $back = request()->get('back', route('admin.members.index'));
             request()->session()->flash('Error', __('system.messages.not_found', ['model' => __('system.member_enquiry.title')]));

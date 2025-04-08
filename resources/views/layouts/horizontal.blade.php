@@ -47,7 +47,7 @@
                         <div class="dropdown">
                             <div class="input-group" style="background:#ffc107;border-radius: 10px;">
                                 <input readonly style="color: #000; font-weight: bold;" autocomplete="off" type="text" id="current_user_board" class="form-control"
-                                       value="{{ auth()->user()->branch->title }}"/>
+                                       value="{{ auth()->user()->branch->branch_title }}"/>
                             </div>
                             @if(isset($act_branches) && count($act_branches)>1)
                                 <button class="btn btn-primary dropdown-toggle card-drop" data-bs-toggle="dropdown" aria-expanded="false">
@@ -58,7 +58,7 @@
                                         @if (auth()->user()->branch_id != $act_branch->id)
                                             <li>
                                                 <a onclick="event.preventDefault(); document.getElementById('default_board_{{ $act_branch->id }}').submit();" href="javascript:void(0)"
-                                                   class="dropdown-item"><i class="mdi mdi-city-variant-outline font-size-16 text-success me-1"></i> {{ $act_branch->title }}</a>
+                                                   class="dropdown-item"><i class="mdi mdi-city-variant-outline font-size-16 text-success me-1"></i> {{ $act_branch->branch_title }}</a>
                                             </li>
                                         @endif
                                     @endforeach

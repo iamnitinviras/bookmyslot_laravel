@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Hash;
 
 class MemberTrialController extends Controller
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('permission:show members_trial')->only('index', 'show');
-        $this->middleware('permission:add members_trial')->only('create', 'store');
-        $this->middleware('permission:edit members_trial')->only('edit', 'update');
-        $this->middleware('permission:delete members_trial')->only('destroy');
+        return [
+            'permission:show members_trial'   => ['only' => ['index', 'show']],
+            'permission:add members_trial'    => ['only' => ['create', 'store']],
+            'permission:edit members_trial'   => ['only' => ['edit', 'update']],
+            'permission:delete members_trial' => ['only' => ['destroy']],
+        ];
     }
 
     public function index()

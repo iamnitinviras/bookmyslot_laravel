@@ -16,20 +16,23 @@ use Illuminate\Support\Facades\DB;
 
 class ExpenseController extends Controller
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('permission:show expenses')->only('index','show');
-        $this->middleware('permission:add expenses')->only('create','store');
-        $this->middleware('permission:edit expenses')->only('edit','update');
-        $this->middleware('permission:delete expenses')->only('destroy');
+        return [
+            'permission:show expenses' => ['only' => ['index', 'show']],
+            'permission:add expenses' => ['only' => ['create', 'store']],
+            'permission:edit expenses' => ['only' => ['edit', 'update']],
+            'permission:delete expenses' => ['only' => ['destroy']],
+        ];
     }
+
 
     public function index()
     {
         $request = request();
         $user = auth()->user();
         $params = $request->only('par_page', 'sort', 'direction', 'filter', 'branch_id');
-        $params['branch_id'] = $user->branch_id??0;
+        $params['branch_id'] = $user->branch_id ?? 0;
         $expenses = (new ExpenseRepository())->getAllExpenses($params);
         return view('admin.expenses.index', ['expenses' => $expenses]);
     }
@@ -37,24 +40,24 @@ class ExpenseController extends Controller
     public function create()
     {
         $user = auth()->user();
-        if($user->branch_id==null){
+        if ($user->branch_id == null) {
             return redirect('branch')->with(['Error' => __('system.dashboard.create_branch')]);
         }
-        $categories=ExpenseCategory::where('status','active')->orderBy('name','asc')->get();
-        return view('admin.expenses.create',compact('categories'));
+        $categories = ExpenseCategory::where('status', 'active')->orderBy('name', 'asc')->get();
+        return view('admin.expenses.create', compact('categories'));
     }
 
     public function store(ExpenseRequest $request)
     {
         try {
             DB::beginTransaction();
-            $input = $request->only('title', 'description', 'branch_id','category_id','amount','expense_date','payment_method','created_by','receipt_path');
+            $input = $request->only('title', 'description', 'branch_id', 'category_id', 'amount', 'expense_date', 'payment_method', 'created_by', 'receipt_path');
             Expense::create($input);
             DB::commit();
             $request->session()->flash('Success', __('system.messages.saved', ['model' => __('system.expenses.title')]));
         } catch (\Exception $ex) {
             DB::rollback();
-            $request->session()->flash('Error',$ex->getMessage());
+            $request->session()->flash('Error', $ex->getMessage());
             return redirect()->back();
         }
         return redirect()->route('admin.expenses.index');
@@ -66,9 +69,12 @@ class ExpenseController extends Controller
             $user = auth()->user();
         }
 
-        $user->load(['branch.expenses' => function ($q) use ($expense_id) {
-            $q->where('id', $expense_id);
-        }]);
+        $user->load([
+            'branch.expenses' => function ($q) use ($expense_id)
+            {
+                $q->where('id', $expense_id);
+            }
+        ]);
 
         if (!isset($user->branch) || count($user->branch->expenses) == 0) {
             $back = request()->get('back', route('admin.expenses.index'));
@@ -82,8 +88,8 @@ class ExpenseController extends Controller
         if (($redirect = $this->checkValidCategory($expense->id)) != null) {
             return redirect($redirect);
         }
-        $categories=ExpenseCategory::where('status','active')->orderBy('name','asc')->get();
-        return view('admin.expenses.edit', ['expense' => $expense,'categories'=>$categories]);
+        $categories = ExpenseCategory::where('status', 'active')->orderBy('name', 'asc')->get();
+        return view('admin.expenses.edit', ['expense' => $expense, 'categories' => $categories]);
     }
 
     public function update(ExpenseRequest $request, Expense $expense)
@@ -91,7 +97,7 @@ class ExpenseController extends Controller
         if (($redirect = $this->checkValidCategory($expense->id)) != null) {
             return redirect($redirect);
         }
-        $input = $request->only('title', 'description', 'branch_id','category_id','amount','expense_date','payment_method','created_by','receipt_path');
+        $input = $request->only('title', 'description', 'branch_id', 'category_id', 'amount', 'expense_date', 'payment_method', 'created_by', 'receipt_path');
         $expense->fill($input)->save();
 
         $request->session()->flash('Success', __('system.messages.updated', ['model' => __('system.expenses.title')]));
