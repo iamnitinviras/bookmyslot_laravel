@@ -18,12 +18,14 @@ use Illuminate\Http\UploadedFile;
 
 class PackageController extends Controller
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('permission:show packages')->only('index','show');
-        $this->middleware('permission:add packages')->only('create','store');
-        $this->middleware('permission:edit packages')->only('edit','update');
-        $this->middleware('permission:delete packages')->only('destroy');
+        return [
+            'permission:show packages' => ['only' => ['index', 'show']],
+            'permission:add packages' => ['only' => ['create', 'store']],
+            'permission:edit packages' => ['only' => ['edit', 'update']],
+            'permission:delete packages' => ['only' => ['destroy']],
+        ];
     }
 
     public function index()
@@ -31,7 +33,7 @@ class PackageController extends Controller
         $request = request();
         $user = auth()->user();
         $params = $request->only('par_page', 'sort', 'direction', 'filter', 'branch_id');
-        $params['branch_id'] = $user->branch_id??0;
+        $params['branch_id'] = $user->branch_id ?? 0;
         $packages = (new PackageRepository())->getAllPackages($params);
         return view('admin.packages.index', ['packages' => $packages]);
     }
@@ -39,7 +41,7 @@ class PackageController extends Controller
     public function create()
     {
         $user = auth()->user();
-        if($user->branch_id==null){
+        if ($user->branch_id == null) {
             return redirect('branch')->with(['Error' => __('system.dashboard.create_product')]);
         }
         return view('admin.packages.create');
@@ -49,13 +51,13 @@ class PackageController extends Controller
     {
         try {
             DB::beginTransaction();
-            $input = $request->only('name', 'description', 'branch_id','lang_description', 'lang_name','status','price','number_of_months');
+            $input = $request->only('name', 'description', 'branch_id', 'lang_description', 'lang_name', 'status', 'price', 'number_of_months');
             Package::create($input);
             DB::commit();
             $request->session()->flash('Success', __('system.messages.saved', ['model' => __('system.packages.title')]));
         } catch (\Exception $ex) {
             DB::rollback();
-            $request->session()->flash('Error',$ex->getMessage());
+            $request->session()->flash('Error', $ex->getMessage());
             return redirect()->back();
         }
         return redirect()->route('admin.packages.index');
@@ -67,9 +69,12 @@ class PackageController extends Controller
             $user = auth()->user();
         }
 
-        $user->load(['branch.packages' => function ($q) use ($package_id) {
-            $q->where('id', $package_id);
-        }]);
+        $user->load([
+            'branch.packages' => function ($q) use ($package_id)
+            {
+                $q->where('id', $package_id);
+            }
+        ]);
 
         if (!isset($user->branch) || count($user->branch->packages) == 0) {
             $back = request()->get('back', route('admin.packages.index'));
@@ -91,7 +96,7 @@ class PackageController extends Controller
         if (($redirect = $this->checkValidCategory($package->id)) != null) {
             return redirect($redirect);
         }
-        $input = $request->only('name', 'lang_name','description','lang_description','status','price','number_of_months');
+        $input = $request->only('name', 'lang_name', 'description', 'lang_description', 'status', 'price', 'number_of_months');
         $package->fill($input)->save();
 
         $request->session()->flash('Success', __('system.messages.updated', ['model' => __('system.packages.title')]));
@@ -108,9 +113,9 @@ class PackageController extends Controller
             return redirect($redirect);
         }
 
-        $memberCount=Members::where('package_id',$package->id)->count();
+        $memberCount = Members::where('package_id', $package->id)->count();
 
-        if ($memberCount>0){
+        if ($memberCount > 0) {
             request()->session()->flash('Error', __('system.packages.not_allowed_to_delete'));
             return redirect()->back();
         }
@@ -127,12 +132,16 @@ class PackageController extends Controller
     {
         $user = request()->user();
 
-        $user->load(['branch.packages' => function ($q) {
-            $q->orderBy('name', 'asc');
-        }]);
+        $user->load([
+            'branch.packages' => function ($q)
+            {
+                $q->orderBy('name', 'asc');
+            }
+        ]);
 
-        if($user->product!=null){
-            $packages = $user->product->packages->mapWithKeys(function ($package, $key) {
+        if ($user->product != null) {
+            $packages = $user->product->packages->mapWithKeys(function ($package, $key)
+            {
                 return [$package->id => $package->name];
             });
             return $packages->toarray();

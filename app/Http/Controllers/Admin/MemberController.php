@@ -17,12 +17,14 @@ use Response;
 
 class MemberController extends Controller
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('permission:show members')->only('index', 'show');
-        $this->middleware('permission:add members')->only('create', 'store');
-        $this->middleware('permission:edit members')->only('edit', 'update');
-        $this->middleware('permission:delete members')->only('destroy');
+        return [
+            'permission:show members' => ['only' => ['index', 'show']],
+            'permission:add members' => ['only' => ['create', 'store']],
+            'permission:edit members' => ['only' => ['edit', 'update']],
+            'permission:delete members' => ['only' => ['destroy']],
+        ];
     }
 
     public function index()

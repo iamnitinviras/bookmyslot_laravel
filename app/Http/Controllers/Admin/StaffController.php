@@ -15,12 +15,14 @@ use App\Repositories\StaffRepository;
 
 class StaffController extends Controller
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('permission:show staff')->only('index', 'show');
-        $this->middleware('permission:add staff')->only('create', 'store');
-        $this->middleware('permission:edit staff')->only('edit', 'update');
-        $this->middleware('permission:delete staff')->only('destroy');
+        return [
+            'permission:show staff' => ['only' => ['index', 'show']],
+            'permission:add staff' => ['only' => ['create', 'store']],
+            'permission:edit staff' => ['only' => ['edit', 'update']],
+            'permission:delete staff' => ['only' => ['destroy']],
+        ];
     }
 
     public function index()
@@ -118,7 +120,7 @@ class StaffController extends Controller
         if (($redirect = $this->checkIsValidUser($staff)) != null) {
             return redirect($redirect);
         }
-        $staff=$staff;
+        $staff = $staff;
         return view('admin.staff.show', compact('staff'));
     }
 
@@ -141,7 +143,8 @@ class StaffController extends Controller
 
         $staffBoard = BranchUser::where('user_id', $staff->id)->pluck('branch_id')->toArray();
 
-        $branches = Branch::select('id', 'title')->where('user_id', $owner_id)->when(isset($assigned_product), function ($query) use ($assigned_product) {
+        $branches = Branch::select('id', 'title')->where('user_id', $owner_id)->when(isset($assigned_product), function ($query) use ($assigned_product)
+        {
             if (count($assigned_product) > 0) {
                 $query->whereIn('id', $assigned_product);
             }
