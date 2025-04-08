@@ -26,8 +26,8 @@ class BranchRequest extends FormRequest
     {
         $id = isset($this->branch->id) ? $this->branch->id : 0;
         $rules = [
-            'title' => ['required', 'string', 'max:255'],
-            'phone' => ['required'],
+            'branch_title' => ['required', 'string', 'max:255'],
+            'branch_phone' => ['required'],
             'street_address' => ['required'],
             'city' => ['required'],
             'state' => ['required'],
@@ -37,7 +37,7 @@ class BranchRequest extends FormRequest
         ];
 
         if (isset($this->product)) {
-            $rules['title'] = ['required', 'string', 'max:255', 'unique:branchs,title,' . $this->product->id];
+            $rules['branch_title'] = ['required', 'string', 'max:255', 'unique:branchs,branch_title,' . $this->product->id];
         }
         return $rules;
     }
@@ -51,16 +51,16 @@ class BranchRequest extends FormRequest
         $lbl_zip = __('system.fields.zip');
         $lbl_phone = __('system.fields.phone_number');
         return [
-            "title.required" => __('validation.required', ['attribute' => $lbl_board_name]),
+            "branch_title.required" => __('validation.required', ['attribute' => $lbl_board_name]),
             "street_address.required" => __('validation.required', ['attribute' => $lbl_address]),
             "city.required" => __('validation.required', ['attribute' => $lbl_city]),
             "state.required" => __('validation.required', ['attribute' => $lbl_state]),
             "country.required" => __('validation.required', ['attribute' => $lbl_country]),
             "zip.required" => __('validation.required', ['attribute' => $lbl_zip]),
-            "phone.required" => __('validation.required', ['attribute' => $lbl_phone]),
-            "title.string" => __('validation.custom.invalid', ['attribute' => $lbl_board_name]),
-            "title.max" => __('validation.custom.invalid', ['attribute' => $lbl_board_name]),
-            "title.unique" => __('validation.unique', ['attribute' => $lbl_board_name]),
+            "branch_phone.required" => __('validation.required', ['attribute' => $lbl_phone]),
+            "branch_title.string" => __('validation.custom.invalid', ['attribute' => $lbl_board_name]),
+            "branch_title.max" => __('validation.custom.invalid', ['attribute' => $lbl_board_name]),
+            "branch_title.unique" => __('validation.unique', ['attribute' => $lbl_board_name]),
         ];
     }
 }

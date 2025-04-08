@@ -183,7 +183,7 @@ class HomeController extends Controller
             if ($user->user_type == User::USER_TYPE_STAFF) {
                 $query->whereIn('id', $assigned_branch);
             }
-        })->select('id', 'title')->get();
+        })->select('id', 'branch_title')->get();
     }
 
     public function getRightBarContent(Request $request)

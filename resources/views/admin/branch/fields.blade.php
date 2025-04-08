@@ -25,15 +25,15 @@
     </div>
     <div class="col-md-4">
         @php($lbl_phone = __('system.fields.phone_number'))
-        <div class="mb-3 form-group @error('phone') has-danger @enderror">
-            <label class="form-label" for="phone">{{ $lbl_phone }} <span class="text-danger">*</span></label>
-            {!! html()->text('phone', old('phone'))
+        <div class="mb-3 form-group @error('branch_phone') has-danger @enderror">
+            <label class="form-label" for="branch_phone">{{ $lbl_phone }} <span class="text-danger">*</span></label>
+            {!! html()->text('branch_phone', old('branch_phone'))
             ->class('form-control')
-            ->id('phone')
+            ->id('branch_phone')
             ->required()
             ->attribute('placeholder', $lbl_phone)
             ->attribute('data-pristine-required-message', __('validation.required', ['attribute' => strtolower($lbl_phone)])) !!}
-            @error('phone')
+            @error('branch_phone')
             <div class="pristine-error text-help">{{ $message }}</div>
             @enderror
         </div>
