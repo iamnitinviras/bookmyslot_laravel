@@ -6,7 +6,7 @@
     <meta charset="utf-8"/>
     <title>@yield('title') | {{ config('app.name') }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="shortcut icon" href="{{ asset(config('app.favicon_icon')) }}">
+    <link rel="shortcut icon" href="{{ asset(config('custom.favicon_icon')) }}">
     <link rel="stylesheet" href="{{ asset('assets/admin/css/preloader.min.css') }}" type="text/css"/>
     @if($dir=='rtl')
         <link href="{{ asset('assets/admin/css/bootstrap-rtl.min.css') }}" id="bootstrap-style" rel="stylesheet" type="text/css"/>

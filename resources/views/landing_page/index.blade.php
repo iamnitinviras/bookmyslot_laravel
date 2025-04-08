@@ -29,7 +29,7 @@
                 </div>
                 <!-- Welcome, Thumb -->
                 <div class="col-12 col-sm-9 col-md-6">
-                    <div class="welcome-thumb ms-xl-5 wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s"><img src="{{ asset(config('app.banner_image_one')) }}" alt=""></div>
+                    <div class="welcome-thumb ms-xl-5 wow fadeInUp" data-wow-duration="1s" data-wow-delay="1s"><img src="{{ asset(config('custom.banner_image_one')) }}" alt=""></div>
                 </div>
             </div>
         </div>
@@ -172,7 +172,7 @@
                                 <div class="pricing-heading d-flex justify-content-between mb-5">
                                     <div class="price"><span class="badge bg-primary rounded-3 fz-12">{{trans('system.plans.trial')}}</span>
                                         <div class="price-quantity">
-                                            <h2 class="mb-0 monthly-price">{{config('app.trial_days')}}<span class="fz-12">{{trans('system.plans.days')}}</span></h2>
+                                            <h2 class="mb-0 monthly-price">{{config('custom.trial_days')}}<span class="fz-12">{{trans('system.plans.days')}}</span></h2>
                                         </div>
                                     </div>
                                     <div class="price-icon"><img src="{{asset('landing_page/img/svg-icon/plant2.svg')}}" alt=""></div>
@@ -180,10 +180,10 @@
                                 <div class="pricing-desc mb-5">
                                     <ul class="list-unstyled mb-0">
                                         <li><font
-                                                style="vertical-align: inherit;"><strong>{{config('app.trial_board')}}</strong> {{trans('system.plans.branch_limit')}}
+                                                style="vertical-align: inherit;"><strong>{{config('custom.trial_board')}}</strong> {{trans('system.plans.branch_limit')}}
                                             </font></li>
                                         <li><font
-                                                style="vertical-align: inherit;"><strong>{{config('app.trial_staff')}}</strong> {{trans('system.plans.staff_limit')}}
+                                                style="vertical-align: inherit;"><strong>{{config('custom.trial_staff')}}</strong> {{trans('system.plans.staff_limit')}}
                                             </font></li>
                                         <li><font
                                                 style="vertical-align: inherit;">{{trans('system.plans.unlimited_support')}}</font>

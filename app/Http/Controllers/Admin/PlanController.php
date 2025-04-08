@@ -27,11 +27,11 @@ class PlanController extends Controller
         $params = $request->only('par_page', 'sort', 'direction', 'filter', 'plan_id');
         $params['plan_id'] = $params['plan_id'] ?? $user->plan_id;
         $plans = (new PlanRepository())->allPlan($params);
-        $trial_days = config('app.trial_days');
-        $trial_branch = config('app.trial_branch');
-        $trial_staff = config('app.trial_staff');
-        $trial_member = config('app.trial_member');
-        return view('admin.plans.index', ['plans' => $plans, 'trial_days' => $trial_days, 'trial_branch' => $trial_branch,'trial_staff' => $trial_staff,'trial_member'=>$trial_member]);
+        $trial_days = config('custom.trial_days');
+        $trial_branch = config('custom.trial_branch');
+        $trial_staff = config('custom.trial_staff');
+        $trial_member = config('custom.trial_member');
+        return view('admin.plans.index', ['plans' => $plans, 'trial_days' => $trial_days, 'trial_branch' => $trial_branch, 'trial_staff' => $trial_staff, 'trial_member' => $trial_member]);
     }
 
     /**
@@ -101,9 +101,9 @@ class PlanController extends Controller
             return redirect()->back();
         }
 
-        $subscription_count=Subscriptions::where('plan_id',$plan->plan_id)->whereIn('status',array('pending','approved'))->count();
+        $subscription_count = Subscriptions::where('plan_id', $plan->plan_id)->whereIn('status', array('pending', 'approved'))->count();
 
-        if ($subscription_count>0){
+        if ($subscription_count > 0) {
             request()->session()->flash('Error', __('system.plans.plan_already_subscribed'));
             return redirect()->back();
         }
@@ -176,10 +176,10 @@ class PlanController extends Controller
     public function trailDetails(Request $request)
     {
         $request->validate([
-            'trial_days' => ['required','integer'],
-            'branch_limit' => ['required','integer'],
-            'staff_limit' => ['required','integer'],
-            'member_limit' => ['required','integer'],
+            'trial_days' => ['required', 'integer'],
+            'branch_limit' => ['required', 'integer'],
+            'staff_limit' => ['required', 'integer'],
+            'member_limit' => ['required', 'integer'],
         ]);
 
         $data = [

@@ -253,8 +253,8 @@ function moveFile($paths, $folder)
 function displayCurrency($val, $symbol = null, $position = null)
 {
     if (isset($val) && $val >= 0) {
-        $currency_symbol = $symbol ?? config('app.currency_symbol');
-        $currency_position = $position ?? config('app.currency_position');
+        $currency_symbol = $symbol ?? config('custom.currency_symbol');
+        $currency_position = $position ?? config('custom.currency_position');
 
         if ($currency_position == 'right') {
             return number_format($val, 2) . $currency_symbol;
@@ -268,8 +268,8 @@ function getUsdDiscountPrice($val, $type, $symbol = null, $position = null)
 {
     if ($type == 'fixed') {
         if (isset($val) && $val >= 0) {
-            $currency_symbol = $symbol ?? config('app.currency_symbol');
-            $currency_position = $position ?? config('app.currency_position');
+            $currency_symbol = $symbol ?? config('custom.currency_symbol');
+            $currency_position = $position ?? config('custom.currency_position');
 
             if ($currency_position == 'right') {
                 return number_format($val, 2) . $currency_symbol;
@@ -284,11 +284,11 @@ function getUsdDiscountPrice($val, $type, $symbol = null, $position = null)
 
 function formatDate($date)
 {
-    return date(config('app.date_time_format'), strtotime($date));
+    return date(config('custom.date_time_format'), strtotime($date));
 }
 function formatDateOnly($date)
 {
-    return date(config('app.date_format'), strtotime($date));
+    return date(config('custom.date_format'), strtotime($date));
 }
 function getSiteSetting()
 {

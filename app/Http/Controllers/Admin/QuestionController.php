@@ -29,7 +29,7 @@ class QuestionController extends Controller
         $request = request();
         $user = auth()->user();
         $params = $request->only('par_page', 'sort', 'direction', 'filter');
-        $par_page = config('app.per_page');
+        $par_page = config('custom.per_page');
         if (in_array($request->par_page, [10, 25, 50, 100])) {
             $par_page = $request->par_page;
         }

@@ -40,17 +40,17 @@
                         <p class="mb-4">{{ __('system.frontend.contact_description') }}</p>
                         <div class="contact-mini-card-wrapper">
                             <!-- Contact Mini Card-->
-                            @if(config('app.support_email')!=null)
+                            @if(config('custom.support_email')!=null)
                                 <div class="contact-mini-card">
                                     <div class="contact-mini-card-icon"><i class="bi bi-envelope"></i></div>
-                                    <p><a href="mailto:{{config('app.support_email')}}">{{config('app.support_email')}}</a></p>
+                                    <p><a href="mailto:{{config('custom.support_email')}}">{{config('custom.support_email')}}</a></p>
                                 </div>
                             @endif
 
-                            @if(config('app.support_phone')!=null)
+                            @if(config('custom.support_phone')!=null)
                                 <div class="contact-mini-card">
                                     <div class="contact-mini-card-icon"><i class="bi bi-phone"></i></div>
-                                    <p><a href="tel:{{config('app.support_phone')}}">{{config('app.support_phone')}}</a></p>
+                                    <p><a href="tel:{{config('custom.support_phone')}}">{{config('custom.support_phone')}}</a></p>
                                 </div>
                             @endif
 

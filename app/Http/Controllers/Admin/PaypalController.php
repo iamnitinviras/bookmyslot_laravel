@@ -25,7 +25,7 @@ class PaypalController extends Controller
         if ($credentials == null) {
             return redirect('vendor/plan')->with('Error', 'Paypal credentials not found.');
         }
-        $currency = config('app.currency');
+        $currency = config('custom.currency');
 
         $config = [
             'mode'    => isset($credentials->mode) ? $credentials->mode : 'sandbox',
@@ -164,7 +164,7 @@ class PaypalController extends Controller
             return redirect('vendor/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
         }
 
-        $currency = config('app.currency');
+        $currency = config('custom.currency');
         $config = [
             'mode'    => isset($credentials->mode) ? $credentials->mode : 'sandbox',
             'sandbox' => [
@@ -252,11 +252,11 @@ class PaypalController extends Controller
         $payer = new \PayPal\Api\Payer();
         $payer->setPaymentMethod('paypal');
 
-        $currency = config('app.currency');
+        $currency = config('custom.currency');
         $amount = new \PayPal\Api\Amount();
 
         $amount->setTotal($plan->amount);
-        $amount->setCurrency($currency); //TODO:: get the currency
+        $amount->setCurrency($currency);
 
         $transaction = new \PayPal\Api\Transaction();
         $transaction->setAmount($amount);
