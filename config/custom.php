@@ -1,7 +1,7 @@
 <?php
 //Custom environment variable
 return [
-    'redirect_https' => env('REDIRECT_HTTPS',true),
+    'redirect_https' => env('REDIRECT_HTTPS', true),
     'facebook_url' => env('FACEBOOK_URL'),
     'instagram_url' => env('INSTAGRAM_URL'),
     'twitter_url' => env('TWITTER_URL'),
@@ -27,7 +27,7 @@ return [
     'nocaptcha_secret' => env('NOCAPTCHA_SECRET', ''),
     'nocaptcha_sitekey' => env('NOCAPTCHA_SITEKEY', ''),
 
-    'trial_days' => env('TRIAL_DAYS', 14),
+    'trial_days' => (int) env('TRIAL_DAYS', 14),
     'trial_member' => env('TRIAL_MEMBER', 5),
     'trial_branch' => env('TRIAL_BRANCH', 1),
     'trial_staff' => env('TRIAL_STAFF', 1),

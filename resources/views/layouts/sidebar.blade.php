@@ -125,7 +125,7 @@
 
     @role('vendor')
     @if (auth()->user()->free_forever == false)
-        <li class="@if(in_array(request()->path(),array('vendor/plan'))) mm-active @endif">
+        <li class="@if(in_array(request()->path(),array('subscription/plan'))) mm-active @endif">
             <a href="{{ route('admin.vendor.subscription') }}">
                 <i class="fas fa-gift font-size-18"></i>
                 <span data-key="t-{{ __('system.plans.menu') }}">{{ __('system.plans.subscription') }}</span>

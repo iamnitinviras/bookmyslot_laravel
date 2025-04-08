@@ -205,12 +205,12 @@
 
                                                                 @if($subscription==null)
                                                                     <div class="mt-4 pt-2">
-                                                                        <a href="{{ url('vendor/plan/' . $plan->plan_id) }}" class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
+                                                                        <a href="{{ url('subscription/plan/' . $plan->plan_id) }}" class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
                                                                     </div>
                                                                 @else
                                                                     @if (isset($subscription->plan_id) && $subscription->plan_id != $plan->plan_id)
                                                                         <div class="mt-4 pt-2">
-                                                                            <a href="{{ url('vendor/plan/' . $plan->plan_id) }}" class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
+                                                                            <a href="{{ url('subscription/plan/' . $plan->plan_id) }}" class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
                                                                         </div>
                                                                     @endif
                                                                 @endif

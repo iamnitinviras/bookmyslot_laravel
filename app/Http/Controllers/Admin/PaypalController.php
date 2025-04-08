@@ -23,7 +23,7 @@ class PaypalController extends Controller
         $credentials = ($paypal_data != null) ? json_decode($paypal_data->value) : array();
 
         if ($credentials == null) {
-            return redirect('vendor/plan')->with('Error', 'Paypal credentials not found.');
+            return redirect('subscription/plan')->with('Error', 'Paypal credentials not found.');
         }
         $currency = config('custom.currency');
 
@@ -142,7 +142,7 @@ class PaypalController extends Controller
                 }
             }
         } catch (\Exception $exception) {
-            return redirect('vendor/plan')->with('Error', $exception->getMessage());
+            return redirect('subscription/plan')->with('Error', $exception->getMessage());
         }
     }
 
@@ -161,7 +161,7 @@ class PaypalController extends Controller
         $credentials = ($paypal_data != null) ? json_decode($paypal_data->value) : array();
 
         if (!$credentials->paypal_client_id || !$credentials->paypal_secret_key) {
-            return redirect('vendor/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
+            return redirect('subscription/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
         }
 
         $currency = config('custom.currency');
@@ -193,7 +193,7 @@ class PaypalController extends Controller
         $user = $request->user;
 
         if (!$paymentId || !$user_plan_id || !$user) {
-            return redirect('vendor/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
+            return redirect('subscription/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
         }
 
         try {
@@ -202,7 +202,7 @@ class PaypalController extends Controller
             exit(1);
         }
 
-        if (!$payment) return redirect('vendor/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
+        if (!$payment) return redirect('subscription/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
 
         $url = $payment->getRedirectUrls();
         $parsed_url = parse_url($url->getReturnUrl());
@@ -210,13 +210,13 @@ class PaypalController extends Controller
         parse_str($query_string, $array_of_query_string);
 
         if ($array_of_query_string["plan"] != $user_plan_id || $array_of_query_string['sub'] != $sub || $array_of_query_string["user"] != $user || $array_of_query_string['paymentId'] != $paymentId) {
-            return redirect('vendor/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
+            return redirect('subscription/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
         }
 
         $userPlan = Subscriptions::where('id', $sub)->where('user_id', $user)->where('plan_id', $user_plan_id)->first();
 
         if (!$userPlan) {
-            return redirect('vendor/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
+            return redirect('subscription/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
         }
         Subscriptions::where(['user_id' => $user, 'is_current' => 'yes'])->update(['is_current' => 'no']);
 
@@ -233,12 +233,12 @@ class PaypalController extends Controller
             'payment_response' => json_encode($array_of_query_string),
         ]);
 
-        return redirect('vendor/plan')->with('Success', trans('system.plans.play_change_success'));
+        return redirect('subscription/plan')->with('Success', trans('system.plans.play_change_success'));
     }
 
     public function processCancelled()
     {
-        return redirect('vendor/plan')->withErrors(['msg' => "Payment has been cancelled"]);
+        return redirect('subscription/plan')->withErrors(['msg' => "Payment has been cancelled"]);
     }
 
     function paypalPayment($userPlan, $plan)

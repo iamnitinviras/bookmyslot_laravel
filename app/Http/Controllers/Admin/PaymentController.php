@@ -54,7 +54,7 @@ class PaymentController extends Controller
         }
 
         if ($current_plans == $plan->plan_id) {
-            return redirect('vendor/plan');
+            return redirect('subscription/plan');
         }
 
 
@@ -155,7 +155,7 @@ class PaymentController extends Controller
                 $userPlan->transaction_id = '0';
                 $userPlan->save();
 
-                return redirect('vendor/plan')->with('Success', trans('system.plans.play_change_success'));
+                return redirect('subscription/plan')->with('Success', trans('system.plans.play_change_success'));
             }
 
             $emailAttributes = ['vendor_name' => $authUser->name, 'payment_amount' => $plan->amount, 'payment_method' => '', 'payment_date' => now(), 'plan_name' => $plan->local_title, 'payment_type' => $plan->type];
@@ -167,7 +167,7 @@ class PaymentController extends Controller
                     if ($payment) {
                         return redirect()->to($payment->getApprovalLink());
                     } else {
-                        return redirect('vendor/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
+                        return redirect('subscription/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
                     }
                 } else {
                     return (new PaypalController())->process($request, $plan);
@@ -197,7 +197,7 @@ class PaymentController extends Controller
 
                     $adminUser->notify(new OfflineVendorSubscriptionNotification($paymentDetails));
                 }
-                return redirect('vendor/plan')->with('Success', trans('system.plans.request_received'));
+                return redirect('subscription/plan')->with('Success', trans('system.plans.request_received'));
             } else if ($request->payment_type == 'paytm') {
 
                 $paytmData = $this->payTmPayment($plan, $request, $userPlan);
@@ -205,7 +205,7 @@ class PaymentController extends Controller
             }
         } catch (\Exception $ex) {
             Log::error($ex);
-            return redirect('vendor/plan')->with(['Error' => $ex->getMessage()]);
+            return redirect('subscription/plan')->with(['Error' => $ex->getMessage()]);
         }
     }
 

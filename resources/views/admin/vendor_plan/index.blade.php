@@ -79,7 +79,7 @@
 
                                                     @if ($current_plans != $plan->plan_id)
                                                         <div class="mt-4 pt-2">
-                                                            <a href="{{ url('vendor/plan/' . $plan->plan_id) }}"
+                                                            <a href="{{ url('subscription/plan/' . $plan->plan_id) }}"
                                                                 class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
                                                         </div>
                                                     @endif
