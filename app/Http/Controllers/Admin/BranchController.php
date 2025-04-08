@@ -106,7 +106,7 @@ class BranchController extends Controller
         }
 
         $user = auth()->user();
-        $data = $request->only('title', 'user_id', 'phone', 'street_address', 'city', 'state', 'country', 'zip');
+        $data = $request->only('branch_title', 'user_id', 'branch_phone', 'street_address', 'city', 'state', 'country', 'zip');
 
 
         DB::beginTransaction();
@@ -190,7 +190,7 @@ class BranchController extends Controller
             return redirect($redirect);
         }
 
-        $data = $request->only('title', 'user_id', 'phone', 'street_address', 'city', 'state', 'country', 'zip');
+        $data = $request->only('branch_title', 'user_id', 'branch_phone', 'street_address', 'city', 'state', 'country', 'zip');
         $branch->fill($data)->save();
 
         $request->session()->flash('Success', __('system.messages.updated', ['model' => __('system.branch.title')]));

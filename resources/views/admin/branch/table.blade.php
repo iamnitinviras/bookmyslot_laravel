@@ -25,8 +25,8 @@
             @if(isset($branchs) && count($branchs)>0)
                 @foreach($branchs as $branch)
                     <tr>
-                        <td>{{ $branch->title }}</td>
-                        <td>{{ $branch->phone }}</td>
+                        <td>{{ $branch->branch_title }}</td>
+                        <td>{{ $branch->branch_phone }}</td>
                         <td>{{ $branch->zip }}</td>
                         <td>
                             @can('delete branch')
