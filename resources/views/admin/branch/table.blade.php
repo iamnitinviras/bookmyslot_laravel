@@ -35,7 +35,7 @@
                             ->attribute('autocomplete', 'off')
                             ->attribute('data-confirm-message', __('system.fields.are_you_sure'))
                             ->attribute('data-confirm-title', __('system.crud.delete'))
-                            ->id('delete-form_' . $branch->id) !!}
+                            ->id('delete-form_' . $branch->id)->open() !!}
                             @endif
 
                             <div class="btn-group btn-group-sm" role="group">
