@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('member_enquiries', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
+            $table->uuid('id')->primary();
             $table->unsignedBigInteger('branch_id')->index();
             $table->string('name',200)->nullable();
             $table->string('email',200)->nullable();

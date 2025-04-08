@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('member_payments', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
+            $table->uuid('id')->primary();
             $table->unsignedBigInteger('branch_id')->index();
             $table->unsignedBigInteger('member_pk_id')->nullable()->index();
             $table->unsignedBigInteger('package_id')->nullable()->index();

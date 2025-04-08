@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('gyms', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
+            $table->uuid('id')->primary();
             $table->unsignedBigInteger('user_id')->nullable()->index();
             $table->string('title', 190);
             $table->string('email', 190)->nullable();

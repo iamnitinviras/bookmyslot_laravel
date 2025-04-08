@@ -13,7 +13,8 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('packages', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
+            $table->uuid('id')->primary();
             $table->unsignedBigInteger('branch_id')->nullable()->index();
             $table->string('name', 150);
             $table->double('price')->default(0);

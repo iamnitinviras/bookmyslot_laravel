@@ -7,12 +7,29 @@ use Kyslik\ColumnSortable\Sortable;
 use Spatie\Searchable\SearchResult;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Str;
 
 class Package extends Model implements Searchable
 {
     use HasFactory, Sortable;
 
     public $table = 'packages';
+
+    public $incrementing = false; // Disable auto-increment
+    protected $keyType = 'string'; // Key type is string
+
+    protected static function boot()
+    {
+        parent::boot();
+
+        static::creating(function ($model)
+        {
+            if (empty($model->{$model->getKeyName()})) {
+                $model->{$model->getKeyName()} = (string) Str::uuid();
+            }
+        });
+    }
+
     protected $fillable = [
         'branch_id',
         'name',
@@ -64,7 +81,7 @@ class Package extends Model implements Searchable
 
     public function getSearchResult(): SearchResult
     {
-        $url = route('admin.packages.edit',  $this->id);
+        $url = route('admin.packages.edit', $this->id);
         return new \Spatie\Searchable\SearchResult(
             $this,
             $this->name,

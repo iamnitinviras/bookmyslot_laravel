@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('reminders', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
+            $table->uuid('id')->primary();
             $table->unsignedBigInteger('member_pk_id')->index();
             $table->date('reminder_date')->nullable();
             $table->enum('reminder_type',['expiration','payment_due'])->nullable();

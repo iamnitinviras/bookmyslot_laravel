@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('members', function (Blueprint $table) {
-            $table->id();
+            // $table->id();
+            $table->uuid('id')->primary();
             $table->unsignedBigInteger('gym_customer_id')->index();
             $table->string('name', 150);
             $table->string('email',190)->unique()->nullable();
