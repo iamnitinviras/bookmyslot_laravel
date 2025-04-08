@@ -18,12 +18,14 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class BranchController extends Controller
 {
-    public function __construct()
+    public static function middleware(): array
     {
-        $this->middleware('permission:show branch')->only('index', 'show');
-        $this->middleware('permission:add branch')->only('create', 'store');
-        $this->middleware('permission:edit branch')->only('edit', 'update');
-        $this->middleware('permission:delete branch')->only('destroy');
+        return [
+            'permission:show branch' => ['only' => ['index', 'show']],
+            'permission:add branch' => ['only' => ['create', 'store']],
+            'permission:edit branch' => ['only' => ['edit', 'update']],
+            'permission:delete branch' => ['only' => ['destroy']],
+        ];
     }
 
     public function index()
@@ -104,7 +106,7 @@ class BranchController extends Controller
         }
 
         $user = auth()->user();
-        $data = $request->only('title', 'user_id', 'phone','street_address','city', 'state','country','zip');
+        $data = $request->only('title', 'user_id', 'phone', 'street_address', 'city', 'state', 'country', 'zip');
 
 
         DB::beginTransaction();
@@ -121,8 +123,8 @@ class BranchController extends Controller
             'role' => User::USER_TYPE_VENDOR
         ]);
 
-        if ($user->branch_id==null){
-            $user->branch_id=$branch->id;
+        if ($user->branch_id == null) {
+            $user->branch_id = $branch->id;
             $user->save();
         }
 
@@ -136,9 +138,13 @@ class BranchController extends Controller
         if (($redirect = $this->checkIsValidBoard($branch)) != null) {
             return redirect($redirect);
         }
-        $branch->load(['created_user', 'users' => function ($q) {
-            $q->limit(5);
-        }]);
+        $branch->load([
+            'created_user',
+            'users' => function ($q)
+            {
+                $q->limit(5);
+            }
+        ]);
         return view('admin.branch.view', ['board' => $branch]);
     }
 
@@ -164,9 +170,12 @@ class BranchController extends Controller
         if ($user->user_type == User::USER_TYPE_ADMIN) {
             return;
         }
-        $branch->load(['users' => function ($q) use ($user) {
-            $q->where('user_id', $user->id);
-        }]);
+        $branch->load([
+            'users' => function ($q) use ($user)
+            {
+                $q->where('user_id', $user->id);
+            }
+        ]);
 
         if (count($branch->users) == 0) {
             $back = request()->get('back', route('admin.branch.index'));
@@ -181,7 +190,7 @@ class BranchController extends Controller
             return redirect($redirect);
         }
 
-        $data = $request->only('title', 'user_id', 'phone','street_address','city', 'state','country','zip');
+        $data = $request->only('title', 'user_id', 'phone', 'street_address', 'city', 'state', 'country', 'zip');
         $branch->fill($data)->save();
 
         $request->session()->flash('Success', __('system.messages.updated', ['model' => __('system.branch.title')]));
@@ -217,17 +226,23 @@ class BranchController extends Controller
             return redirect($redirect);
         }
 
-        $branch->load(['users' => function ($q) use ($branch) {
-            $q->where('users.branch_id', $branch->id);
-        }]);
+        $branch->load([
+            'users' => function ($q) use ($branch)
+            {
+                $q->where('users.branch_id', $branch->id);
+            }
+        ]);
 
         DB::beginTransaction();
 
         if (count($branch->users) > 0) {
             foreach ($branch->users as $restoUser) {
-                $restoUser->load(['branch' => function ($q) use ($branch) {
-                    $q->wherePivot('branch_id', '!=', $branch->id);
-                }]);
+                $restoUser->load([
+                    'branch' => function ($q) use ($branch)
+                    {
+                        $q->wherePivot('branch_id', '!=', $branch->id);
+                    }
+                ]);
                 if (count($restoUser->branchs) > 0) {
                     $restoUser->branch_id = $restoUser->branchs->first()->id;
                 } else {
@@ -252,9 +267,9 @@ class BranchController extends Controller
         if ($branch->id == $user->branch_id) {
             $branchUsers = BranchUser::where('branch_id', $branch->id)->get();
             if (count($branchUsers) > 0) {
-                $newBoardId=isset($latestBoard->id)?$latestBoard->id:null;
+                $newBoardId = isset($latestBoard->id) ? $latestBoard->id : null;
                 BranchUser::where('branch_id', $branch->id)->update([
-                    'branch_id'=>$newBoardId
+                    'branch_id' => $newBoardId
                 ]);
             }
         }
@@ -337,19 +352,30 @@ class BranchController extends Controller
         $QR = $QR->style($qr_style);
 
         if ($request->save == 1) {
-            $qr_details = ['size' => $size, 'logo' => $request->logo == true && isset($branch->qr_details['logo']) ? $branch->qr_details['logo'] : '',
+            $qr_details = [
+                'size' => $size,
+                'logo' => $request->logo == true && isset($branch->qr_details['logo']) ? $branch->qr_details['logo'] : '',
 
-                'is_logo_visible' => $request->is_logo_visible, 'logo_size' => $logo_size,
+                'is_logo_visible' => $request->is_logo_visible,
+                'logo_size' => $logo_size,
 
-                'color' => sprintf("#%02x%02x%02x", $cr ?? 0, $cg ?? 0, $cb ?? 0), 'color_transparent' => $color_transparent,
+                'color' => sprintf("#%02x%02x%02x", $cr ?? 0, $cg ?? 0, $cb ?? 0),
+                'color_transparent' => $color_transparent,
 
-                'back_color' => sprintf("#%02x%02x%02x", $br ?? 0, $bg ?? 0, $bb ?? 0), 'back_color_transparent' => $back_color_transparent,
+                'back_color' => sprintf("#%02x%02x%02x", $br ?? 0, $bg ?? 0, $bb ?? 0),
+                'back_color_transparent' => $back_color_transparent,
 
-                'gradient_method' => $request->gradient_method != null ? $gradient_method : '', 'gradient_color1' => sprintf("#%02x%02x%02x", $l1r ?? 0, $l1g ?? 0, $l1b ?? 0), 'gradient_color2' => sprintf("#%02x%02x%02x", $l2r ?? 0, $l2g ?? 0, $l2b ?? 0),
+                'gradient_method' => $request->gradient_method != null ? $gradient_method : '',
+                'gradient_color1' => sprintf("#%02x%02x%02x", $l1r ?? 0, $l1g ?? 0, $l1b ?? 0),
+                'gradient_color2' => sprintf("#%02x%02x%02x", $l2r ?? 0, $l2g ?? 0, $l2b ?? 0),
 
-                'qr_style' => $qr_style, 'qr_style_size' => $qr_style_size,
+                'qr_style' => $qr_style,
+                'qr_style_size' => $qr_style_size,
 
-                'eye_style' => $eye_style, 'eye_inner_color' => sprintf("#%02x%02x%02x", $eir ?? 0, $eig ?? 0, $eib ?? 0), 'eye_outer_color' => sprintf("#%02x%02x%02x", $eor ?? 0, $eog ?? 0, $eob ?? 0),];
+                'eye_style' => $eye_style,
+                'eye_inner_color' => sprintf("#%02x%02x%02x", $eir ?? 0, $eig ?? 0, $eib ?? 0),
+                'eye_outer_color' => sprintf("#%02x%02x%02x", $eor ?? 0, $eog ?? 0, $eob ?? 0),
+            ];
             if ($request->has('image')) {
                 $file = $request->image;
                 $qr_details['logo'] = uploadFile($file, 'qr_code_logo');
@@ -358,7 +384,7 @@ class BranchController extends Controller
             $request->session()->flash('Success', __('system.messages.updated', ['model' => __('system.qr_code.menu')]));
         }
 
-        $image = base64_encode($QR->generate(route('frontend.branch', ['branch' => $branch->slug])),);
+        $image = base64_encode($QR->generate(route('frontend.branch', ['branch' => $branch->slug])), );
         return view('admin.branch.genarteqr', ['image' => $image]);
     }
 }
