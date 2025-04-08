@@ -27,7 +27,11 @@
                     </div>
                 </div>
 
-                {{ Form::model($faqQuestion, ['route' => ['admin.faqs.update', $faqQuestion->id], 'method' => 'put', 'files' => true, 'id' => 'pristine-valid']) }}
+                {!! html()->modelForm($faqQuestion,'PUT',  route('admin.faqs.update', $faqQuestion->id))
+                 ->id('pristine-valid')
+                 ->attribute('enctype', 'multipart/form-data')
+                 ->open() !!}
+
                 @if (request()->query->has('back'))
                     <input type="hidden" name="back" value="{{ request()->query->get('back') }}">
                 @endif
@@ -46,8 +50,7 @@
                         </div>
                     </div>
                 </div>
-                {{ Form::close() }}
-
+                {!! html()->closeModelForm() !!}
             </div>
         </div>
     </div>

@@ -52,7 +52,8 @@ class FaqQuestionController extends Controller
             $request->session()->flash('Success', __('system.messages.saved', ['model' => __('system.faq.title')]));
         } catch (\Illuminate\Database\QueryException $ex) {
             DB::rollback();
-            $request->session()->flash('Error', __('system.messages.operation_rejected'));
+            // $request->session()->flash('Error', __('system.messages.operation_rejected'));
+            $request->session()->flash('Error', $ex->getMessage());
             return redirect()->back();
         }
         return redirect()->route('admin.faqs.index');

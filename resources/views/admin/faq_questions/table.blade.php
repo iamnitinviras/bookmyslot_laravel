@@ -23,17 +23,18 @@
                         <th scope="row" class="sorting_1">{{ $faqQuestion->id }}</th>
                         <td>{{ $faqQuestion->local_question }}</td>
                         <td>
-                            @if (auth()->user()->user_type == App\Models\User::USER_TYPE_ADMIN)
-                                {{ Form::open(['route' => ['admin.faqs.destroy', ['faq' => $faqQuestion->id]], 'autocomplete' => 'off', 'class' => 'data-confirm', 'data-confirm-message' => __('system.faq.are_you_sure'), 'data-confirm-title' => __('system.crud.delete'), 'id' => 'delete-form_' . $faqQuestion->id, 'method' => 'delete']) }}
-                            @endif
+                            {!! html()->form('delete', route('admin.faqs.destroy', ['faq' => $faqQuestion->id]))
+                            ->class('data-confirm')
+                            ->attribute('autocomplete', 'off')
+                            ->attribute('data-confirm-message', __('system.fields.are_you_sure'))
+                            ->attribute('data-confirm-title', __('system.crud.delete'))
+                            ->id('delete-form_' . $faqQuestion->id)->open() !!}
 
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                 <a role="button" href="{{ route('admin.faqs.edit', ['faq' => $faqQuestion->id]) }}" class="btn btn-success">{{ __('system.crud.edit') }}</a>
                                 <button type="submit" class="btn btn-danger">{{ __('system.crud.delete') }}</button>
                             </div>
-                            @if (auth()->user()->user_type == App\Models\User::USER_TYPE_ADMIN)
-                                {{ Form::close() }}
-                            @endif
+                            {!! html()->closeModelForm() !!}
                         </td>
                     </tr>
                 @empty

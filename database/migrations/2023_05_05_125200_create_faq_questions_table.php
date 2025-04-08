@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->longText('question');
             $table->longText('answer');
-            $table->longText('lang_question');
-            $table->longText('lang_answer');
+            $table->longText('lang_question')->nullable();
+            $table->longText('lang_answer')->nullable();
             $table->timestamps();
         });
     }
