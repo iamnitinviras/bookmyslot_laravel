@@ -59,7 +59,7 @@
             </div>
 
             <div class="mb-3 form-group">
-                <div class="form-floating form-floating-custom @error('first_name') has-danger @enderror">
+                <div class="form-floating form-floating-custom @error('last_name') has-danger @enderror">
                     @php($lbl_last_name = __('system.fields.last_name'))
 
                     <input type="text" autocomplete="off" class="form-control" id="input-last_name" placeholder="{{ $lbl_last_name }}" name="last_name" value="{{ old('last_name') }}" required maxlength="50" data-pristine-required-message="{{ __('validation.required', ['attribute' => strtolower($lbl_last_name)]) }}" data-pristine-pattern-message="{{ __('validation.custom.invalid', ['attribute' => strtolower($lbl_last_name)]) }}">
