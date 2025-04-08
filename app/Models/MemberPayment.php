@@ -28,21 +28,6 @@ class MemberPayment extends Model
         'discount'
     ];
 
-    public $incrementing = false; // Disable auto-increment
-    protected $keyType = 'string'; // Key type is string
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model)
-        {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
-        });
-    }
-
     public function member()
     {
         return $this->hasOne(Members::class, 'id', 'member_pk_id')->select('id','name','phone_number','email','gym_customer_id','join_date','package_end_date');

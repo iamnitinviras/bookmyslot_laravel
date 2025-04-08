@@ -27,21 +27,6 @@ class Branch extends Model implements Searchable
         'zip',
     ];
 
-    public $incrementing = false; // Disable auto-increment
-    protected $keyType = 'string'; // Key type is string
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model)
-        {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
-        });
-    }
-
     protected $casts = [
         'branch_title' => "string",
         'branch_phone' => "string",

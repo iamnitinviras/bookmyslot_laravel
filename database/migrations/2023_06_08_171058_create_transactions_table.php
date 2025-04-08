@@ -17,8 +17,8 @@ return new class extends Migration
             $table->id();
             $table->string('transaction_id',200)->nullable();
             $table->unsignedBigInteger('user_id')->nullable();
-            $table->unsignedBigInteger('plan_id')->nullable();
-            $table->unsignedBigInteger('subscription_id')->nullable();
+            $table->uuid('plan_id')->nullable();
+            $table->uuid('subscription_id')->nullable();
             $table->decimal('amount',18,2)->default(0);
             $table->longText('details')->nullable();
             $table->longText('payment_response')->nullable();

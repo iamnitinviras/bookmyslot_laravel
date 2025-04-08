@@ -31,21 +31,6 @@ class Language extends Model implements Searchable
         'created_at',
     ];
 
-    public $incrementing = false; // Disable auto-increment
-    protected $keyType = 'string'; // Key type is string
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model)
-        {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
-        });
-    }
-
     public function getNameAttribute()
     {
         return ucfirst($this->attributes['name']);

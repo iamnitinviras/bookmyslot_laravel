@@ -51,20 +51,6 @@ class Members extends Model
         'join_date'
     ];
 
-    public $incrementing = false; // Disable auto-increment
-    protected $keyType = 'string'; // Key type is string
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model)
-        {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
-        });
-    }
     public function users()
     {
         return $this->hasOne(User::class, 'id', 'created_by')->select('id','first_name','last_name');

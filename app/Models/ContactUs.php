@@ -13,20 +13,7 @@ class ContactUs extends Model
 
     public $table = 'contact_us';
     public $primaryKey = 'id';
-    public $incrementing = false; // Disable auto-increment
-    protected $keyType = 'string'; // Key type is string
 
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model)
-        {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
-        });
-    }
     protected $fillable = [
         'id',
         'name',

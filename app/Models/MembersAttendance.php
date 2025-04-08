@@ -25,18 +25,4 @@ class MembersAttendance extends Model
         'attendance_date',
         'check_in_time'
     ];
-    public $incrementing = false; // Disable auto-increment
-    protected $keyType = 'string'; // Key type is string
-
-    protected static function boot()
-    {
-        parent::boot();
-
-        static::creating(function ($model)
-        {
-            if (empty($model->{$model->getKeyName()})) {
-                $model->{$model->getKeyName()} = (string) Str::uuid();
-            }
-        });
-    }
 }
