@@ -33,7 +33,7 @@ class GymController extends Controller
                 return redirect('home');
             }
 
-            $branchData = $request->only('title', 'user_id', 'phone', 'street_address', 'city', 'state', 'country', 'zip');
+            $branchData = $request->only('branch_phone', 'user_id', 'branch_title', 'street_address', 'city', 'state', 'country', 'zip');
 
             DB::beginTransaction();
             Gym::updateOrCreate(['user_id' => $user->id], [
