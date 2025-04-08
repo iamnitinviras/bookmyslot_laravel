@@ -17,10 +17,8 @@ class Branch extends Model implements Searchable
     protected $table = 'branches';
     protected $fillable = [
         'user_id',
-        'title',
-        'lang_title',
-        'phone',
-        'language',
+        'branch_title',
+        'branch_phone',
         'street_address',
         'city',
         'state',
@@ -29,8 +27,8 @@ class Branch extends Model implements Searchable
     ];
 
     protected $casts = [
-        'title' => "string",
-        'description' => "string",
+        'branch_title' => "string",
+        'branch_phone' => "string",
         'slug' => "string",
         'qr_details' => "json"
     ];

@@ -5,11 +5,11 @@
     <input type="hidden" name="user_id" id="user_id" value="{{ $vendors->id }}"/>
     <div class="col-md-4">
         @php($lbl_branch_name = __('system.fields.branch_name'))
-        <div class="mb-3 form-group @error('title') has-danger @enderror">
+        <div class="mb-3 form-group @error('branch_title') has-danger @enderror">
             <label class="form-label" for="name">{{ $lbl_branch_name }} <span class="text-danger">*</span></label>
-            {!! html()->text('title', old('title'))
+            {!! html()->text('branch_title', old('branch_title'))
             ->class('form-control')
-            ->id('title')
+            ->id('branch_title')
             ->required()
             ->attribute('placeholder', $lbl_branch_name)
             ->attribute('maxlength', 255)
@@ -18,7 +18,7 @@
             ->attribute('onblur', 'createSlug(this)')
             ->attribute('data-pristine-required-message', __('validation.required', ['attribute' => strtolower($lbl_branch_name)]))
             ->attribute('data-pristine-minlength-message', __('validation.custom.invalid', ['attribute' => strtolower($lbl_branch_name)])) !!}
-            @error('title')
+            @error('branch_title')
             <div class="pristine-error text-help">{{ $message }}</div>
             @enderror
         </div>

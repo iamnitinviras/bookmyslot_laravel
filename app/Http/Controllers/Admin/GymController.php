@@ -16,7 +16,10 @@ class GymController extends Controller
         if ($user->user_type !== User::USER_TYPE_VENDOR) {
             return redirect('home');
         }
-        return view('admin.gym.create');
+
+        $vendor_id = ($user->user_type == User::USER_TYPE_STAFF) ? $user->created_by : $user->id;
+        $vendors = User::find($vendor_id);
+        return view('admin.gym.create',compact('vendors'));
     }
 
     public function store(GymRequest $request)
