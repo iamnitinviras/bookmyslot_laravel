@@ -66,14 +66,17 @@ class StripeController extends Controller
             $price = $stripe->prices->create($price_array);
 
             $checkout_session = \Stripe\Checkout\Session::create([
-                'line_items' => [[
-                    'price' => $price->id,
-                    'quantity' => 1
-                ]],
+                'line_items' => [
+                    [
+                        'price' => $price->id,
+                        'quantity' => 1
+                    ]
+                ],
                 'mode' => 'payment',
                 'success_url' => url('stripe/onetime-success?session_id={CHECKOUT_SESSION_ID}'),
                 'cancel_url' => url('stripe/onetime-cancelled?subscription=' . $userPlan->id),
                 'client_reference_id' => $userPlan->id,
+                'customer_email' => $authUser->email,
                 'metadata' => $metaDatas,
                 'payment_intent_data' => [
                     'metadata' => $metaDatas
@@ -105,6 +108,7 @@ class StripeController extends Controller
 
             $checkout_session = \Stripe\Checkout\Session::retrieve($session_id);
 
+
             $client_reference_id = ($checkout_session->client_reference_id);
             $subscription_id = ($checkout_session->subscription);
             $invoice = ($checkout_session->invoice);
@@ -115,13 +119,16 @@ class StripeController extends Controller
                 []
             );
 
-            $transaction_id = ($payment_intent_data->charges->data[0]->balance_transaction);
+            if (isset($payment_intent_data->charges) && isset($payment_intent_data->charges->data[0])) {
+                $transaction_id = ($payment_intent_data->charges->data[0]->balance_transaction);
+            } else {
+                $transaction_id = now();
+            }
 
             $plan_id = ($payment_intent_data->metadata->plan_id);
             $user_id = ($payment_intent_data->metadata->user_id);
             $amount = ($payment_intent_data->metadata->amount);
 
-            $userPlan = Subscriptions::find($client_reference_id);
             $plan = Plans::find($plan_id);
 
             //save stripe customer id in user table
@@ -250,14 +257,17 @@ class StripeController extends Controller
             $price = $stripe->prices->create($price_array);
 
             $checkout_session = \Stripe\Checkout\Session::create([
-                'line_items' => [[
-                    'price' => $price->id,
-                    'quantity' => 1
-                ]],
+                'line_items' => [
+                    [
+                        'price' => $price->id,
+                        'quantity' => 1
+                    ]
+                ],
                 'mode' => 'subscription',
                 'success_url' => url('stripe/success?session_id={CHECKOUT_SESSION_ID}'),
                 'cancel_url' => url('stripe/onetime-cancelled?subscription=' . $userPlan->id),
                 'client_reference_id' => $userPlan->id,
+                'customer_email' => $authUser->email,
                 'metadata' => $metaDatas,
                 'subscription_data' => [
                     'metadata' => $metaDatas

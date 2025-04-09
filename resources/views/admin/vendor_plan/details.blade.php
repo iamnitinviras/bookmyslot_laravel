@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', __('system.categories.menu'))
+@section('title', __('system.plans.menu'))
 @push('page_css')
     <style>
         .data-description {
