@@ -146,20 +146,27 @@
                             </a>
                             <div class="dropdown-divider"></div>
 
-
                             @role('vendor')
-                            <a class="dropdown-item" href="{{ route('admin.vendor.support') }}">
-                                <i class="fas fa-hands-helping font-size-16 align-middle me-1"></i>
-                                {{ __('system.fields.support') }}
-                            </a>
-                            <div class="dropdown-divider"></div>
+
                             @if (auth()->user()->free_forever == false)
+                                <a class="dropdown-item" href="{{ route('admin.vendor.payment.history') }}">
+                                    <i class="mdi mdi-card-account-details-star font-size-16 align-middle me-1"></i>
+                                    {{ __('system.plans.billing') }}
+                                </a>
+                                <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('admin.vendor.payment.history') }}">
                                     <i class="mdi mdi-format-list-checks font-size-16 align-middle me-1"></i>
                                     {{ __('system.payment_setting.payment_history') }}
                                 </a>
                                 <div class="dropdown-divider"></div>
                             @endif
+
+                            <a class="dropdown-item" href="{{ route('admin.vendor.support') }}">
+                                <i class="fas fa-hands-helping font-size-16 align-middle me-1"></i>
+                                {{ __('system.fields.support') }}
+                            </a>
+                            <div class="dropdown-divider"></div>
+
                             @endrole
 
                             <a class="dropdown-item" role="button" onclick="event.preventDefault(); document.getElementById('logout-form').click();"><i
