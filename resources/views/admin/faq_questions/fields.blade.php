@@ -36,7 +36,7 @@
                             autocomplete="off" placeholder="{{ $lbl_question }}" required
                             data-pristine-required-message="{{ __('validation.required', ['attribute' => strtolower($lbl_question)]) }}"
                             data-pristine-minlength-message="{{ __('validation.custom.invalid', ['attribute' => strtolower($lbl_question)]) }}"
-                            value="{{ old("lang_question.$key") }}">
+                            value="{{ old("lang_question.$key", $faqQuestion->lang_question[$key]??'') }}">
                         @error('lang_question.' . $key)
                             <div class="pristine-error text-help">{{ $message }}</div>
                         @enderror
@@ -51,7 +51,7 @@
                         <textarea name="lang_answer[{{ $key }}]" id="name{{ $key }}" class="form-control"
                             autocomplete="off" placeholder="{{ $lbl_answer }}" required rows="4"
                             data-pristine-required-message="{{ __('validation.required', ['attribute' => strtolower($lbl_answer)]) }}"
-                            data-pristine-minlength-message="{{ __('validation.custom.invalid', ['attribute' => strtolower($lbl_answer)]) }}">{{ old("lang_answer.$key") }}</textarea>
+                            data-pristine-minlength-message="{{ __('validation.custom.invalid', ['attribute' => strtolower($lbl_answer)]) }}">{{ old("lang_answer.$key", $faqQuestion->lang_answer[$key]??'') }}</textarea>
                         @error('lang_answer.' . $key)
                             <div class="pristine-error text-help">{{ $message }}</div>
                         @enderror

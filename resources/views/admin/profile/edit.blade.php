@@ -173,8 +173,8 @@
                     <div class="card-footer bg-transparent border-top text-muted">
                         <div class="row">
                             <div class="col-12">
-                                <button class="btn btn-primary" type="submit">{{ __('system.crud.save') }}</button>
-                                <a href="{{ route('admin.profile') }}"class="btn btn-outline-primary">{{ __('system.crud.back') }}</a>
+                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> {{ __('system.crud.save') }}</button>
+                                <a href="{{ route('admin.profile') }}"class="btn btn-outline-primary"><i class="fa fa-arrow-left"></i> {{ __('system.crud.back') }}</a>
                             </div>
                         </div>
                     </div>
