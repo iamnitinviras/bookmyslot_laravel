@@ -7,64 +7,64 @@
                 {{-- <div class="col-lg-6 mb-2">
                     <div class="form-group">
                         <label class="text-label">{{ trans('system.cms.slug') }}*</label>
-                        <input value="{{ old('slug') ? old('slug') : (isset($cmsPage) ? $cmsPage->slug : '') }}" type="text" name="slug" class="form-control" placeholder="{{ trans('system.cms.slug') }}" required>
+                        <input value="{{ old('slug') ? old('slug') : (isset($cmsPage) ? $cmsPage->slug : '') }}"
+                            type="text" name="slug" class="form-control" placeholder="{{ trans('system.cms.slug') }}"
+                            required>
                     </div>
                 </div> --}}
                 <div class="col-lg-6 mb-2">
                     <div class="form-group">
                         <label class="text-label">{{ trans('system.cms.title') }}*</label>
-                        <input value="{{ old('title') ? old('title') : (isset($cmsPage) ? $cmsPage->title : '') }}" type="text" name="title" class="form-control" placeholder="{{ trans('system.cms.title') }}" required>
+                        <input value="{{ old('title') ? old('title') : (isset($cmsPage) ? $cmsPage->title : '') }}"
+                            type="text" name="title" class="form-control" placeholder="{{ trans('system.cms.title') }}"
+                            required>
                     </div>
                 </div>
                 <div class="col-lg-12 mb-2">
                     <div class="form-group">
                         <label class="text-label">{{ trans('system.cms.description') }}*</label>
-                        {{-- <input value="{{ old('description') ? old('description') : (isset($cmsPage) ? $cmsPage->description : '') }}" type="text" name="description" class="form-control" placeholder="{{ trans('system.cms.description') }}" required> --}}
-                        <textarea class="form-control editor" name="description" cols="40" rows="10" required>{{ old('description') ? old('description') : (isset($cmsPage) ? $cmsPage->description : '') }}</textarea>
+                        {{-- <input
+                            value="{{ old('description') ? old('description') : (isset($cmsPage) ? $cmsPage->description : '') }}"
+                            type="text" name="description" class="form-control"
+                            placeholder="{{ trans('system.cms.description') }}" required> --}}
+                        <textarea class="form-control editor" name="description" cols="40" rows="10"
+                            required>{{ old('description') ? old('description') : (isset($cmsPage) ? $cmsPage->description : '') }}</textarea>
                     </div>
                 </div>
             </div>
             @foreach (getAllCurrentLanguages() as $key => $lang)
-                <div class="row mt-5">
-                    <div class="col-lg-6 mb-2">
-                        @php($lbl_title = __('system.cms.title') . ' ' . $lang)
+            <div class="row mt-5">
+                <div class="col-lg-6 mb-2">
+                    @php($lbl_title = __('system.cms.title') . ' ' . $lang)
 
-                        <div class="form-group @error('lang_title.' . $key) has-danger @enderror">
-                            <label class="form-label" for="name">{{ $lbl_title }} <span class="text-danger">*</span></label>
-                            {!! Form::text("lang_title[$key]", null, [
-                                'class' => 'form-control',
-                                'id' => 'name' . $key,
-                                'autocomplete' => 'off',
-                                'placeholder' => $lbl_title,
-                                'required' => 'true',
-                                'data-pristine-required-message' => __('validation.required', ['attribute' => strtolower($lbl_title)]),
-                                'data-pristine-minlength-message' => __('validation.custom.invalid', ['attribute' => strtolower($lbl_title)]),
-                            ]) !!}
-                            @error('lang_title.' . $key)
-                                <div class="pristine-error text-help">{{ $message }}</div>
-                            @enderror
-                        </div>
-                    </div>
-                    <div class="col-lg-12 mb-2">
-                        @php($lbl_description = __('system.cms.description') . ' ' . $lang)
-
-                        <div class="form-group @error('lang_description.' . $key) has-danger @enderror">
-                            <label class="form-label" for="name">{{ $lbl_description }} <span class="text-danger">*</span></label>
-                            {!! Form::textarea("lang_description[$key]", null, [
-                                'class' => 'form-control editor',
-                                'id' => 'name' . $key,
-                                'autocomplete' => 'off',
-                                'placeholder' => $lbl_description,
-                                'required' => 'true',
-                                'data-pristine-required-message' => __('validation.required', ['attribute' => strtolower($lbl_description)]),
-                                'data-pristine-minlength-message' => __('validation.custom.invalid', ['attribute' => strtolower($lbl_description)]),
-                            ]) !!}
-                            @error('lang_description.' . $key)
-                                <div class="pristine-error text-help">{{ $message }}</div>
-                            @enderror
-                        </div>
+                    <div class="form-group @error('lang_title.' . $key) has-danger @enderror">
+                        <label class="form-label" for="name">{{ $lbl_title }} <span class="text-danger">*</span></label>
+                        <input type="text" name="lang_title[{{ $key }}]" id="name{{ $key }}" class="form-control"
+                            autocomplete="off" placeholder="{{ $lbl_title }}" required
+                            data-pristine-required-message="{{ __('validation.required', ['attribute' => strtolower($lbl_title)]) }}"
+                            data-pristine-minlength-message="{{ __('validation.custom.invalid', ['attribute' => strtolower($lbl_title)]) }}"
+                            value="{{ old("lang_title.$key") }}">
+                        @error('lang_title.' . $key)
+                            <div class="pristine-error text-help">{{ $message }}</div>
+                        @enderror
                     </div>
                 </div>
+                <div class="col-lg-12 mb-2">
+                    @php($lbl_description = __('system.cms.description') . ' ' . $lang)
+
+                    <div class="form-group @error('lang_description.' . $key) has-danger @enderror">
+                        <label class="form-label" for="name">{{ $lbl_description }} <span
+                                class="text-danger">*</span></label>
+                        <textarea name="lang_description[{{ $key }}]" id="name{{ $key }}" class="form-control editor"
+                            autocomplete="off" placeholder="{{ $lbl_description }}" required
+                            data-pristine-required-message="{{ __('validation.required', ['attribute' => strtolower($lbl_description)]) }}"
+                            data-pristine-minlength-message="{{ __('validation.custom.invalid', ['attribute' => strtolower($lbl_description)]) }}">{{ old("lang_description.$key") }}</textarea>
+                        @error('lang_description.' . $key)
+                            <div class="pristine-error text-help">{{ $message }}</div>
+                        @enderror
+                    </div>
+                </div>
+            </div>
             @endforeach
 
 
@@ -73,18 +73,14 @@
                     @php($lbl_description = __('system.cms.description') . ' ' . $lang)
 
                     <div class="form-group @error('lang_description.' . $key) has-danger @enderror">
-                        <label class="form-label" for="name">{{ $lbl_description }} <span class="text-danger">*</span></label>
-                        {!! Form::textarea("lang_description[$key]", null, [
-                            'class' => 'form-control editor',
-                            'id' => 'name' . $key,
-                            'autocomplete' => 'off',
-                            'placeholder' => $lbl_description,
-                            'required' => 'true',
-                            'data-pristine-required-message' => __('validation.required', ['attribute' => strtolower($lbl_description)]),
-                            'data-pristine-minlength-message' => __('validation.custom.invalid', ['attribute' => strtolower($lbl_description)]),
-                        ]) !!}
+                        <label class="form-label" for="name">{{ $lbl_description }} <span
+                                class="text-danger">*</span></label>
+                        <textarea name="lang_description[{{ $key }}]" id="name{{ $key }}" class="form-control editor"
+                            autocomplete="off" placeholder="{{ $lbl_description }}" required
+                            data-pristine-required-message="{{ __('validation.required', ['attribute' => strtolower($lbl_description)]) }}"
+                            data-pristine-minlength-message="{{ __('validation.custom.invalid', ['attribute' => strtolower($lbl_description)]) }}">{{ old("lang_description.$key") }}</textarea>
                         @error('lang_description.' . $key)
-                            <div class="pristine-error text-help">{{ $message }}</div>
+                        <div class="pristine-error text-help">{{ $message }}</div>
                         @enderror
                     </div>
                 </div> --}}
@@ -105,8 +101,8 @@
 
     @push('page_scripts')
         <script>
-            $(document).ready(function() {
-                $('.isUnlimited').click(function() {
+            $(document).ready(function () {
+                $('.isUnlimited').click(function () {
                     console.log('hello');
                     let setter = false;
                     if ($(this).is(':checked')) {
@@ -115,12 +111,13 @@
                     $($(this).data('target')).attr('readonly', setter);
                 });
 
-                $('.isUnlimited:checked').each(function(key, element) {
+                $('.isUnlimited:checked').each(function (key, element) {
                     $($(element).data('target')).attr('readonly', true);
                 });
             });
         </script>
-        <script src="{{ asset('js/tinymce/tinymce.min.js', config('custom.redirect_https')) }}" referrerpolicy="origin"></script>
+        <script src="{{ asset('js/tinymce/tinymce.min.js', config('custom.redirect_https')) }}"
+            referrerpolicy="origin"></script>
 
         <script>
             tinymce.init({

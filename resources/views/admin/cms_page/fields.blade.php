@@ -58,32 +58,7 @@
                     </div>
                 </div>
             @endforeach
-
-
-            @foreach (getAllCurrentLanguages() as $key => $lang)
-                {{-- <div class="col-lg-6 mb-2">
-                    @php($lbl_description = __('system.cms.description') . ' ' . $lang)
-
-                    <div class="form-group @error('lang_description.' . $key) has-danger @enderror">
-                        <label class="form-label" for="name">{{ $lbl_description }} <span class="text-danger">*</span></label>
-                        {!! Form::textarea("lang_description[$key]", null, [
-                            'class' => 'form-control editor',
-                            'id' => 'name' . $key,
-                            'autocomplete' => 'off',
-                            'placeholder' => $lbl_description,
-                            'required' => 'true',
-                            'data-pristine-required-message' => __('validation.required', ['attribute' => strtolower($lbl_description)]),
-                            'data-pristine-minlength-message' => __('validation.custom.invalid', ['attribute' => strtolower($lbl_description)]),
-                        ]) !!}
-                        @error('lang_description.' . $key)
-                            <div class="pristine-error text-help">{{ $message }}</div>
-                        @enderror
-                    </div>
-                </div> --}}
-            @endforeach
-
     </section>
-
 </div>
 
 @once
