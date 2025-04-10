@@ -4,12 +4,6 @@
             <thead>
                 <tr role="row">
                     <th scope="col">
-                        <div class="d-flex justify-content-between w-50px">
-                            @sortablelink('testimonial_id', __('system.crud.id'), [], ['class' => 'w-100 text-gray'])
-                        </div>
-
-                    </th>
-                    <th scope="col">
                         <div class="d-flex justify-content-between w-260px">
                             @sortablelink('name', __('system.testimonial.name'), [], ['class' => 'w-100 text-gray'])
                         </div>
@@ -25,7 +19,6 @@
             <tbody>
                 @forelse ($testimonials as $testimonial)
                     <tr>
-                        <th scope="row" class="sorting_1">{{ $testimonial->testimonial_id }}</th>
                         <td>{{ $testimonial->name }}</td>
                         <td><a data-url="{{url('get-rightbar-content')}}" data-id="{{$testimonial->testimonial_id}}" data-action="testimonials"  onclick="show_rightbar_section(this)" href="javascript:void(0)">{{ __('system.fields.view') }}</a></td>
                         <td>
@@ -49,7 +42,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="4" class="text-center">
+                        <td colspan="3" class="text-center">
                             {{ __('system.crud.data_not_found', ['table' => __('system.dashboard.testimonials')]) }}
                         </td>
                     </tr>

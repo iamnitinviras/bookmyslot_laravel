@@ -53,16 +53,36 @@
                 <div class="col-sm-auto">
                     <div class="d-flex align-items-start justify-content-end gap-2 mb-2">
                         <div>
-                            {{ Form::open(['route' => ['admin.default.board', ['board' => $product->id]], 'method' => 'put', 'autocomplete' => 'off']) }}
+                            {!! html()->modelForm($branch,'PUT',  route('admin.default.board', $branch->id))
+                 ->id('pristine-valid')
+                 ->attribute('enctype', 'multipart/form-data')
+                 ->open() !!}
+                            <form
+                                action="{{ route('admin.default.board', ['board' => $product->id]) }}"
+                                method="POST"
+                                autocomplete="off"
+                            >
+                            @csrf
+                            @method('PUT')
                             <a href="{{ route('admin.boardes.index') }}" role="button" class="btn btn-secondary "><i class="me-1"></i>{{ __('system.crud.back') }}</a>
                             <input type="hidden" name='back' value="{{ request()->fullurl() }}">
                             <button type="submit" class="btn btn-primary {{ auth()->user()->branch_id == $product->id ? 'disabled' : '' }}"><i class="me-1"></i>{{ __('system.boardes.set_default') }}</button>
-                            {{ Form::close() }}
+                            {!! html()->closeModelForm() !!}
                         </div>
                         <div>
                             @if (auth()->user()->user_type == App\Models\User::USER_TYPE_ADMIN)
-                                {{ Form::open(['route' => ['admin.boardes.destroy', ['board' => $product->id]], 'class' => 'data-confirm', 'data-confirm-message' => __('system.boardes.are_you_sure', ['name' => $product->name]), 'data-confirm-title' => __('system.crud.delete'), 'id' => 'delete-form_' . $product->id, 'method' => 'delete', 'autocomplete' => 'off']) }}
-                                {{ Form::close() }}
+                            <form
+                            action="{{ route('admin.boardes.destroy', ['board' => $product->id]) }}"
+                            method="POST"
+                            class="data-confirm"
+                            data-confirm-message="{{ __('system.boardes.are_you_sure', ['name' => $product->name]) }}"
+                            data-confirm-title="{{ __('system.crud.delete') }}"
+                            id="delete-form_{{ $product->id }}"
+                            autocomplete="off"
+                        >
+                            @csrf
+                            @method('DELETE')
+                            {!! html()->closeModelForm() !!}
                             @endif
                             <div class="dropdown">
                                 <button class="btn btn-link font-size-16 shadow-none text-muted dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

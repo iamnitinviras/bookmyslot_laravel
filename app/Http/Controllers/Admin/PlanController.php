@@ -101,13 +101,6 @@ class PlanController extends Controller
             return redirect()->back();
         }
 
-        $subscription_count = Subscriptions::where('plan_id', $plan->plan_id)->whereIn('status', array('pending', 'approved'))->count();
-
-        if ($subscription_count > 0) {
-            request()->session()->flash('Error', __('system.plans.plan_already_subscribed'));
-            return redirect()->back();
-        }
-
         return view('admin.plans.edit', ['plan' => $plan]);
     }
 

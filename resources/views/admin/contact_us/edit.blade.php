@@ -46,7 +46,7 @@
                         </div>
                     </div>
                 </div>
-                {{ Form::close() }}
+                {!! html()->closeModelForm() !!}
 
             </div>
         </div>

@@ -33,7 +33,7 @@
                 <div class="card-body">
                     <div class="mb-4">
                         <div class="row">
-                            @if((isset($subscription) && $subscription!=null))
+                            @if((isset($subscription) && $subscription != null))
                                 <div class="col-md-6">
                                     <div class="card">
                                         <div class="card-header">
@@ -43,79 +43,86 @@
                                             <div class="table-responsive">
                                                 <table class="table mb-0 table-bordered">
                                                     <tbody>
-                                                    @if(isset($subscription->plan_id) && $subscription->plan_id==0)
-                                                        <tr>
-                                                            <td><b>{{ trans('system.plans.pay_plan_title') }}</b>:</td>
-                                                            <td><span class="badge bg-success p-1">{{ trans('system.plans.trial') }}</span></td>
-                                                        </tr>
-                                                        <tr>
-                                                            <td><b>{{ trans('system.plans.expiry_date') }}</b>:</td>
-                                                            <td>{{ formatDate($subscription->expiry_date) }}</td>
-                                                        </tr>
-                                                    @else
-                                                        @if(isset($subscription))
+                                                        @if(isset($subscription->plan_id) && $subscription->plan_id == 0)
                                                             <tr>
                                                                 <td><b>{{ trans('system.plans.pay_plan_title') }}</b>:</td>
-                                                                <td>{{ $subscription->plan->local_title }}</td>
+                                                                <td><span
+                                                                        class="badge bg-success p-1">{{ trans('system.plans.trial') }}</span>
+                                                                </td>
                                                             </tr>
                                                             <tr>
-                                                                <td><b>{{ trans('system.plans.type') }}</b>:</td>
-                                                                <td><span class="badge bg-primary">{{ trans('system.plans.' . $subscription->type) }}</span></td>
+                                                                <td><b>{{ trans('system.plans.expiry_date') }}</b>:</td>
+                                                                <td>{{ formatDate($subscription->expiry_date) }}</td>
                                                             </tr>
-
-                                                            @if (isset($subscription->start_date))
+                                                        @else
+                                                            @if(isset($subscription))
                                                                 <tr>
-                                                                    <td><b>{{ trans('system.plans.start_date') }}</b>: </td>
-                                                                    <td>{{ formatDate($subscription->start_date) }}</td>
+                                                                    <td><b>{{ trans('system.plans.pay_plan_title') }}</b>:</td>
+                                                                    <td>{{ $subscription->plan->local_title }}</td>
                                                                 </tr>
-                                                            @endif
-
-                                                            @if (isset($subscription->expiry_date))
                                                                 <tr>
-                                                                    <td><b>{{ trans('system.plans.expiry_date') }}</b>: </td>
-                                                                    <td>{{ formatDate($subscription->expiry_date) }}</td>
-                                                                </tr>
-                                                            @endif
-
-                                                            <tr>
-                                                                <th><b>{{ trans('system.plans.total_cost') }}</b>:</th>
-                                                                <th>{{ displayCurrency($subscription->amount) }}</th>
-                                                            </tr>
-                                                            <tr>
-                                                                <th><b>{{ trans('system.plans.payment_method') }}</b>:</th>
-                                                                <th><span class="badge bg-info">{{ trans('system.payment_setting.' . $subscription->payment_method) }}</span></th>
-                                                            </tr>
-                                                            @if (isset($subscription->status) && $subscription->status == 'canceled')
-                                                                <tr>
-                                                                    <td><b>{{ trans('system.payment_setting.status') }}</b>: </td>
-                                                                    <td><span class="badge bg-danger">{{ trans('system.plans.canceled') }}</span>
+                                                                    <td><b>{{ trans('system.plans.type') }}</b>:</td>
+                                                                    <td><span
+                                                                            class="badge bg-primary">{{ trans('system.plans.' . $subscription->type) }}</span>
                                                                     </td>
                                                                 </tr>
+
+                                                                @if (isset($subscription->start_date))
+                                                                    <tr>
+                                                                        <td><b>{{ trans('system.plans.start_date') }}</b>: </td>
+                                                                        <td>{{ formatDate($subscription->start_date) }}</td>
+                                                                    </tr>
+                                                                @endif
+
+                                                                @if (isset($subscription->expiry_date))
+                                                                    <tr>
+                                                                        <td><b>{{ trans('system.plans.expiry_date') }}</b>: </td>
+                                                                        <td>{{ formatDate($subscription->expiry_date) }}</td>
+                                                                    </tr>
+                                                                @endif
+
+                                                                <tr>
+                                                                    <th><b>{{ trans('system.plans.total_cost') }}</b>:</th>
+                                                                    <th>{{ displayCurrency($subscription->amount) }}</th>
+                                                                </tr>
+                                                                <tr>
+                                                                    <th><b>{{ trans('system.plans.payment_method') }}</b>:</th>
+                                                                    <th><span
+                                                                            class="badge bg-info">{{ trans('system.payment_setting.' . $subscription->payment_method) }}</span>
+                                                                    </th>
+                                                                </tr>
+                                                                @if (isset($subscription->status) && $subscription->status == 'canceled')
+                                                                    <tr>
+                                                                        <td><b>{{ trans('system.payment_setting.status') }}</b>: </td>
+                                                                        <td><span
+                                                                                class="badge bg-danger">{{ trans('system.plans.canceled') }}</span>
+                                                                        </td>
+                                                                    </tr>
+                                                                @endif
                                                             @endif
                                                         @endif
-                                                    @endif
 
-                                                    <tr>
-                                                        <td><b>{{ trans('system.plans.branch_limit') }}</b>:</td>
-                                                        <td>
-                                                            @if ($subscription->branch_unlimited == 'yes')
-                                                                {{ trans('system.plans.unlimited_board') }}
-                                                            @else
-                                                                {{ $subscription->branch_limit }}
-                                                            @endif
-                                                        </td>
-                                                    </tr>
+                                                        <tr>
+                                                            <td><b>{{ trans('system.plans.branch_limit') }}</b>:</td>
+                                                            <td>
+                                                                @if ($subscription->branch_unlimited == 'yes')
+                                                                    {{ trans('system.plans.unlimited_board') }}
+                                                                @else
+                                                                    {{ $subscription->branch_limit }}
+                                                                @endif
+                                                            </td>
+                                                        </tr>
 
-                                                    <tr>
-                                                        <td><b>{{ trans('system.plans.staff_limit') }}</b>:</td>
-                                                        <td>
-                                                            @if ($subscription->staff_unlimited == 'yes')
-                                                                {{ trans('system.plans.unlimited_staff') }}
-                                                            @else
-                                                                {{ $subscription->staff_limit }}
-                                                            @endif
-                                                        </td>
-                                                    </tr>
+                                                        <tr>
+                                                            <td><b>{{ trans('system.plans.staff_limit') }}</b>:</td>
+                                                            <td>
+                                                                @if ($subscription->staff_unlimited == 'yes')
+                                                                    {{ trans('system.plans.unlimited_staff') }}
+                                                                @else
+                                                                    {{ $subscription->staff_limit }}
+                                                                @endif
+                                                            </td>
+                                                        </tr>
 
                                                     </tbody>
                                                 </table>
@@ -125,11 +132,17 @@
                                         @if (isset($subscription->subscription_id) && $subscription->subscription_id != null)
                                             <div class="card-footer bg-transparent border-top text-muted">
                                                 <div class="d-flex flex-wrap gap-2">
-                                                    {{ Form::open(['route' => ['admin.vendor.subscription.cancel', ['subscription' => $subscription->id]], 'autocomplete' => 'off', 'class' => 'data-confirm', 'data-confirm-message' => __('system.plans.cancel_subscription_title'), 'data-confirm-title' => __('system.plans.cancel_subscription'), 'id' => 'cancel-form_' . $subscription->id, 'method' => 'post']) }}
-                                                    <button type="submit" class="btn btn-danger">
-                                                        {{ trans('system.plans.cancel_subscription') }}
-                                                    </button>
-                                                    {{ Form::close() }}
+                                                    <form
+                                                        action="{{ route('admin.vendor.subscription.cancel', ['subscription' => $subscription->id]) }}"
+                                                        method="POST" autocomplete="off" class="data-confirm"
+                                                        data-confirm-message="{{ __('system.plans.cancel_subscription_title') }}"
+                                                        data-confirm-title="{{ __('system.plans.cancel_subscription') }}"
+                                                        id="cancel-form_{{ $subscription->id }}">
+                                                        @csrf
+                                                        <button type="submit" class="btn btn-danger">
+                                                            {{ trans('system.plans.cancel_subscription') }}
+                                                        </button>
+                                                        {!! html()->closeModelForm() !!}
 
                                                 </div>
                                             </div>
@@ -203,14 +216,16 @@
                                                                     </p>
                                                                 </div>
 
-                                                                @if($subscription==null)
+                                                                @if($subscription == null)
                                                                     <div class="mt-4 pt-2">
-                                                                        <a href="{{ url('subscription/plan/' . $plan->plan_id) }}" class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
+                                                                        <a href="{{ url('subscription/plan/' . $plan->plan_id) }}"
+                                                                            class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
                                                                     </div>
                                                                 @else
                                                                     @if (isset($subscription->plan_id) && $subscription->plan_id != $plan->plan_id)
                                                                         <div class="mt-4 pt-2">
-                                                                            <a href="{{ url('subscription/plan/' . $plan->plan_id) }}" class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
+                                                                            <a href="{{ url('subscription/plan/' . $plan->plan_id) }}"
+                                                                                class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
                                                                         </div>
                                                                     @endif
                                                                 @endif

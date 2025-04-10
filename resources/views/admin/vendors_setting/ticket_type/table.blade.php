@@ -1,6 +1,7 @@
 <div class="row">
     <div class="col-sm-12">
-        <table class="table align-middle datatable dt-responsive table-check nowrap dataTable no-footer  table-bordered" id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+        <table class="table align-middle datatable dt-responsive table-check nowrap dataTable no-footer  table-bordered"
+            id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
             <thead>
                 <tr role="row">
                     <th scope="col">
@@ -16,12 +17,19 @@
                     <tr>
                         <td>{{ $type->local_lang_title }}</td>
                         <td>
-                            {{ Form::open(['route' => ['admin.ticket-types.destroy', ['ticket_type' => $type->id]], 'autocomplete' => 'off', 'class' => 'data-confirm', 'data-confirm-message' => __('system.fields.are_you_sure'), 'data-confirm-title' => __('system.crud.delete'), 'id' => 'delete-form_' . $type->id, 'method' => 'delete']) }}
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                <a role="button" href="{{ route('admin.ticket-types.edit', ['ticket_type' => $type->id]) }}" class="btn btn-success">{{ __('system.crud.edit') }}</a>
-                                <button type="submit" class="btn btn-danger">{{ __('system.crud.delete') }}</button>
-                            </div>
-                            {{ Form::close() }}
+                            <form action="{{ route('admin.ticket-types.destroy', ['ticket_type' => $type->id]) }}"
+                                method="POST" autocomplete="off" class="data-confirm"
+                                data-confirm-message="{{ __('system.fields.are_you_sure') }}"
+                                data-confirm-title="{{ __('system.crud.delete') }}" id="delete-form_{{ $type->id }}">
+                                @csrf
+                                @method('DELETE')
+                                <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
+                                    <a role="button"
+                                        href="{{ route('admin.ticket-types.edit', ['ticket_type' => $type->id]) }}"
+                                        class="btn btn-success">{{ __('system.crud.edit') }}</a>
+                                    <button type="submit" class="btn btn-danger">{{ __('system.crud.delete') }}</button>
+                                </div>
+                                {!! html()->closeModelForm() !!}
                         </td>
                     </tr>
                 @empty

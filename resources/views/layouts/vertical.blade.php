@@ -116,9 +116,17 @@
                                         </div>
                                     </a>
                                     @if (App::currentLocale() != $key)
-                                        {{ Form::open(['route' => ['admin.default.language', ['language' => $key]], 'method' => 'put', 'autocomplete' => 'off', 'class' => 'd-none', 'id' => 'user_set_default_language' . $key]) }}
-                                        <input type="hidden" name='back' value="{{ request()->fullurl() }}">
-                                        {{ Form::close() }}
+                                    <form
+                                        action="{{ route('admin.default.language', ['language' => $key]) }}"
+                                        method="POST"
+                                        autocomplete="off"
+                                        class="d-none"
+                                        id="user_set_default_language{{ $key }}"
+                                    >
+                                        @csrf
+                                        @method('PUT')
+                                    <input type="hidden" name='back' value="{{ request()->fullurl() }}">
+                                        {!! html()->closeModelForm() !!}
                                     @endif
                                 @endforeach
                             </div>
