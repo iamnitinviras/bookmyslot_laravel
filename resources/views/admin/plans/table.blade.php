@@ -5,11 +5,6 @@
             <thead>
                 <tr role="row">
                     <th scope="col">
-                        <div class="d-flex justify-content-between w-50px">
-                            @sortablelink('plan_id', __('system.crud.id'), [], ['class' => 'w-100 text-gray'])
-                        </div>
-                    </th>
-                    <th scope="col">
                         <div class="d-flex justify-content-between">
                             @sortablelink('title', __('system.fields.name'), [], ['class' => 'w-100 text-gray'])
                         </div>
@@ -30,7 +25,6 @@
             <tbody>
                 @forelse ($plans as $key => $plan)
                     <tr>
-                        <th scope="row" class="sorting_1">{{ $plan->plan_id }}</th>
                         <td>{{ $plan->local_title }}</td>
                         <td>{{ displayCurrency($plan->amount) }}</td>
                         <td>{{ trans('system.plans.' . $plan->type) }}</td>
@@ -57,7 +51,7 @@
                     </tr>
                 @empty
                     <tr>
-                        <td colspan="6" class="text-center">
+                        <td colspan="5" class="text-center">
                             {{ __('system.crud.data_not_found', ['table' => __('system.plans.menu')]) }}
                         </td>
                     </tr>
