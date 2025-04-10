@@ -62,7 +62,7 @@ class StaffController extends Controller
             return redirect()->route('admin.staffs.index')->with(['Error' => __('system.plans.staff_extends')]);
         }
 
-        $branches = Branch::select('id', 'title')->where('user_id', $owner_id)->orderBY('title', 'asc')->get();
+        $branches = Branch::select('id', 'branch_title')->where('user_id', $owner_id)->orderBY('branch_title', 'asc')->get();
         $staffBoard = array();
 
         return view('admin.staff.create', compact('branches', 'staffBoard'));
@@ -143,12 +143,12 @@ class StaffController extends Controller
 
         $staffBoard = BranchUser::where('user_id', $staff->id)->pluck('branch_id')->toArray();
 
-        $branches = Branch::select('id', 'title')->where('user_id', $owner_id)->when(isset($assigned_product), function ($query) use ($assigned_product)
+        $branches = Branch::select('id', 'branch_title')->where('user_id', $owner_id)->when(isset($assigned_product), function ($query) use ($assigned_product)
         {
             if (count($assigned_product) > 0) {
                 $query->whereIn('id', $assigned_product);
             }
-        })->orderBY('title', 'asc')->get();
+        })->orderBY('branch_title', 'asc')->get();
 
         return view('admin.staff.edit', ['user' => $staff, 'staffBoard' => $staffBoard, 'branches' => $branches]);
     }

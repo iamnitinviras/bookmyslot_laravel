@@ -28,4 +28,18 @@ class ExpenseCategory extends Model
             return $this->lang_name[app()->getLocale()] ?? $this->name;
         }
     }
+    public function getLocalLangDescriptionAttribute()
+    {
+        if (app()->getLocale() == 'en') {
+            return $this->description;
+        } else {
+            return $this->lang_description[app()->getLocale()] ?? $this->description;
+        }
+    }
+
+    protected $casts = [
+        'lang_name' => "array",
+        'lang_description' => "array",
+    ];
 }
+
