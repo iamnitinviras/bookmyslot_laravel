@@ -54,7 +54,7 @@ class HomeController extends Controller
     {
         $user = auth()->user();
         $branch = $user->branch;
-        $today=date('Y-m-d');
+        $today = date('Y-m-d');
         $params = [];
 
         if ($user->user_type == User::USER_TYPE_STAFF) {
@@ -70,7 +70,7 @@ class HomeController extends Controller
 
             $total_branch_count = Branch::where('user_id', $created_by)->count();
             $total_gyn_count = Gym::where('user_id', $created_by)->count();
-            if ($total_gyn_count==0){
+            if ($total_gyn_count == 0) {
                 return redirect()->route('admin.gym.index');
             }
             if ($total_branch_count == 0) {
@@ -79,18 +79,19 @@ class HomeController extends Controller
 
             $branch_id = isset($branch->id) ? $branch->id : 0;
 
-            $joined_today=Members::where('branch_id',$branch_id)->where('join_date',$today)->count();
-            $total_members=Members::where('branch_id',$branch_id)->count();
-            $present_member=MembersAttendance::where('branch_id',$branch_id)->where('attendance_date',$today)->count();
+            $joined_today = Members::where('branch_id', $branch_id)->where('join_date', $today)->count();
+            $total_members = Members::where('branch_id', $branch_id)->count();
+            $present_member = MembersAttendance::where('branch_id', $branch_id)->where('attendance_date', $today)->count();
 
-            $absent_member = Members::whereNotIn('id', function ($query) use ($today) {
+            $absent_member = Members::whereNotIn('id', function ($query) use ($today)
+            {
                 $query->select('member_pk_id')
                     ->from('members_attendances')
                     ->whereDate('attendance_date', $today);
             })->where('branch_id', $branch_id)->count();
 
-            $pending_payments=PendingPayments::with(['member','package'])->where('branch_id',$branch_id)->where('status','pending')->get();
-            $follow_up_today=MemberEnquiry::where('branch_id',$branch_id)->where('next_follow_up_date',$today)->get();
+            $pending_payments = PendingPayments::with(['member', 'package'])->where('branch_id', $branch_id)->where('status', 'pending')->get();
+            $follow_up_today = MemberEnquiry::where('branch_id', $branch_id)->where('next_follow_up_date', $today)->get();
 
             $count['pending_payments'] = $pending_payments;
             $count['total_members'] = $total_members;
@@ -100,7 +101,7 @@ class HomeController extends Controller
             $count['absent_member'] = $absent_member;
             $count['follow_up_today'] = $follow_up_today;
 
-//            $count['roadmap_report_list'] =  Branch::select('roadmaps.title as name', DB::raw('COUNT(feedbacks.roadmap_id) as y'))
+            //            $count['roadmap_report_list'] =  Branch::select('roadmaps.title as name', DB::raw('COUNT(feedbacks.roadmap_id) as y'))
 //                ->get();
 //
 //
@@ -158,9 +159,13 @@ class HomeController extends Controller
 
             $count['branches_count'] = 0;
             $count['users_count'] = User::where('user_type', User::USER_TYPE_STAFF)->count();
-            $count['subscriptions'] = Subscriptions::orderBy('created_at', 'desc')->where('status', "pending")->with(['user' => function ($thisUser) {
+            $count['subscriptions'] = Subscriptions::orderBy('created_at', 'desc')->where('status', "pending")->with([
+                'user' => function ($thisUser)
+                {
                     $thisUser->select('id', 'first_name', 'last_name', 'profile_image', 'email');
-                }, 'plan'])->select('id', 'user_id', 'plan_id', 'amount')->get();
+                },
+                'plan'
+            ])->select('id', 'user_id', 'plan_id', 'amount')->get();
             $count['pending_subscriptions'] = count($count['subscriptions']);
         }
 
@@ -179,7 +184,8 @@ class HomeController extends Controller
             $user_id = $user->id;
         }
 
-        return Branch::where('user_id', $user_id)->where(function ($query) use ($assigned_branch, $user) {
+        return Branch::where('user_id', $user_id)->where(function ($query) use ($assigned_branch, $user)
+        {
             if ($user->user_type == User::USER_TYPE_STAFF) {
                 $query->whereIn('id', $assigned_branch);
             }
@@ -189,18 +195,21 @@ class HomeController extends Controller
     public function getRightBarContent(Request $request)
     {
         $action = $request->action;
-        $id = (int)$request->id;
+
         if ($action == 'contact-us') {
+            $id = (int) $request->id;
             $contact_data = ContactUs::find($id);
             return view('admin.contact_us.sidebar', compact('contact_data'))->render();
         }
 
         if ($action == 'testimonials') {
+            $id = $request->id;
             $testimonial = Testimonial::find($id);
             return view('admin.testimonial.sidebar', compact('testimonial'))->render();
         }
 
         if ($action == 'subscription-history') {
+            $id = $request->id;
             $subscription = Subscriptions::where('id', $id)->with('plan')->first();
             return view('admin.vendors.sidebar', compact('subscription'))->render();
         }
