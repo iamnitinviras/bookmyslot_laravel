@@ -35,8 +35,8 @@
                 <div class="card-footer">
                     <div class="row">
                         <div class="col-md-12">
-                            <button class="btn btn-primary" type="submit">{{ __('system.crud.save') }}</button>
-                            <a href="{{ request()->query->get('back', null) ?? route('admin.branch.index') }}" class="btn btn-secondary">{{ __('system.crud.cancel') }}</a>
+                            <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> {{ __('system.crud.save') }}</button>
+                            <a href="{{ request()->query->get('back', null) ?? route('admin.branch.index') }}" class="btn btn-secondary"><i class="fa fa-arrow-left"></i> {{ __('system.crud.cancel') }}</a>
                         </div>
                     </div>
                 </div>
