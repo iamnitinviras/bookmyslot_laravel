@@ -63,29 +63,29 @@
                                             <div class="col-lg-3 mb-2">
                                                 <div class="form-group">
                                                     <label class="text-label">{{ trans('system.plans.trial_days') }}</label>
-                                                    <input min="1" max="60" value="{{ old('trial_days') ? old('trial_days') : (isset($trial_days) ? $trial_days : '') }}" type="number"  name="trial_days" class="form-control" required>
+                                                    <input min="0" max="60" value="{{ old('trial_days') ? old('trial_days') : (isset($trial_days) ? $trial_days : '') }}" type="number"  name="trial_days" class="form-control" required>
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 mb-2">
                                                 <div class="form-group">
                                                     <label class="text-label">{{ trans('system.plans.branch_limit') }}*</label>
-                                                    <input min="1" value="{{ old('branch_limit') ?? ($trial_branch ?? 0) }}" type="number" name="branch_limit" id="branch_limit" class="form-control">
+                                                    <input min="0" value="{{ old('branch_limit') ?? ($trial_branch ?? 0) }}" type="number" name="branch_limit" id="branch_limit" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 mb-2">
                                                 <div class="form-group">
                                                     <label class="text-label">{{ trans('system.plans.member_limit') }}*</label>
-                                                    <input min="1" value="{{ old('member_limit') ?? ($trial_member ?? 0) }}" type="number" name="member_limit" id="member_limit" class="form-control">
+                                                    <input min="0" value="{{ old('member_limit') ?? ($trial_member ?? 0) }}" type="number" name="member_limit" id="member_limit" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-lg-3 mb-2">
                                                 <div class="form-group">
                                                     <label class="text-label">{{ trans('system.plans.staff_limit') }}*</label>
-                                                    <input min="1" value="{{ old('staff_limit') ?? ($trial_staff ?? 0) }}" type="number" name="staff_limit" id="staff_limit" class="form-control">
+                                                    <input min="0" value="{{ old('staff_limit') ?? ($trial_staff ?? 0) }}" type="number" name="staff_limit" id="staff_limit" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="col-lg-12 mt-4 mb-2">
-                                                <button class="btn btn-primary" type="submit">{{ __('system.crud.save') }}</button>
+                                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> {{ __('system.crud.save') }}</button>
                                             </div>
                                         </div>
                                     </form>
