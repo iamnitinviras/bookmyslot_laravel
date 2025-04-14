@@ -21,7 +21,9 @@
                             <div class="page-title-box pb-0 d-sm-flex">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item active">{{ __('system.plans.details_about_your_active_subscription') }}</li>
+                                        <li class="breadcrumb-item active">
+                                            {{ __('system.plans.details_about_your_active_subscription') }}
+                                        </li>
                                     </ol>
                                 </div>
                             </div>
@@ -32,7 +34,7 @@
                     <div class="mb-4">
                         <div class="row">
                             @if((isset($subscription) && $subscription != null))
-                                <div class="col-md-6">
+                                <div class="col-md-12">
                                     <div class="card">
                                         <div class="card-header">
                                             <h4 class="card-title">{{ __('system.plans.summary') }}</h4>
@@ -149,90 +151,84 @@
                                     </div>
                                 </div>
                             @endif
+                        </div>
 
-                            <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-md-12">
                                 <div class="card">
                                     <div class="card-header">
                                         <h4 class="card-title">{{ __('system.plans.available_plans') }}</h4>
                                     </div><!-- end card header -->
 
                                     <div class="card-body">
+
                                         @if (isset($plans) && count($plans) > 0)
-                                            <div class="accordion" id="accordionExample">
-                                                @foreach ($plans as $key => $plan)
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingOne{{ $plan->plan_id }}">
-                                                            <button class="accordion-button fw-medium" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#collapseOne{{ $plan->plan_id }}"
-                                                                aria-expanded="true"
-                                                                aria-controls="collapseOne{{ $plan->plan_id }}">
-                                                                <div class="row w-100">
-                                                                    <div class="col-md-6">
-                                                                        @if (isset($subscription->plan_id) && $subscription->plan_id == $plan->plan_id)
-                                                                            <i class="fa fa-check-circle"></i>
-                                                                        @endif
-                                                                        {{ $plan->local_title }}
-                                                                    </div>
-                                                                    <div class="col-md-6" style="text-align: right">
-                                                                        {{ displayCurrency($plan->amount) }} /
-                                                                        {{ ucfirst($plan->type) }}</span>
-                                                                    </div>
-                                                                </div>
-                                                            </button>
-                                                        </h2>
-                                                        <div id="collapseOne{{ $plan->plan_id }}"
-                                                            class="accordion-collapse collapse @if (isset($subscription->plan_id) && $subscription->plan_id == $plan->plan_id) show @endif"
-                                                            aria-labelledby="headingOne{{ $plan->plan_id }}"
-                                                            data-bs-parent="#accordionExample{{ $plan->plan_id }}">
-                                                            <div class="accordion-body">
-                                                                <div class="text-muted">
+                                            <div class="row">
+                                                @foreach ($plans as $plan)
+                                                    <div class="col-md-4">
+                                                        <div class="card mb-xl-0">
+                                                            <div class="card-body">
+                                                                <div class="p-2">
 
-                                                                    @if ($plan->branch_unlimited == 'yes')
-                                                                        <p class="mb-3 font-size-15"><i
-                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.branch_unlimited') }}
-                                                                        </p>
-                                                                    @else
-                                                                        <p class="mb-3 font-size-15"><i
-                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i><strong>{{ $plan->branch_limit }}</strong>
-                                                                            {{ trans('system.plans.branch_limit') }}
-                                                                        </p>
-                                                                    @endif
-
-                                                                    @if ($plan->staff_unlimited == 'yes')
-                                                                        <p class="mb-3 font-size-15"><i
-                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_staff') }}
-                                                                        </p>
-                                                                    @else
-                                                                        <p class="mb-3 font-size-15"><i
-                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i><strong>{{ $plan->staff_limit }}</strong>
-                                                                            {{ trans('system.plans.staff_limit') }}</p>
-                                                                    @endif
-
-                                                                    <p class="mb-3 font-size-15"><i
-                                                                            class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_support') }}
-                                                                    </p>
-                                                                </div>
-
-                                                                @if($subscription == null)
-                                                                    <div class="mt-4 pt-2">
-                                                                        <a href="{{ url('subscription/plan/' . $plan->plan_id) }}"
-                                                                            class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
-                                                                    </div>
-                                                                @else
-                                                                    @if (isset($subscription->plan_id) && $subscription->plan_id != $plan->plan_id)
-                                                                        <div class="mt-4 pt-2">
-                                                                            <a href="{{ url('subscription/plan/' . $plan->plan_id) }}"
-                                                                                class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
+                                                                    @if (isset($subscription->plan_id) && $subscription->plan_id == $plan->plan_id)
+                                                                        <div class="pricing-badge">
+                                                                            <span class="badge"> <i
+                                                                                    data-feather="check-circle"></i></span>
                                                                         </div>
                                                                     @endif
-                                                                @endif
 
+                                                                    <h5 class="font-size-16">{{ $plan->local_title }}</h5>
+                                                                    <h1 class="mt-3">{{ displayCurrency($plan->amount) }} <span
+                                                                            class="text-muted font-size-16 fw-medium">/
+                                                                            {{ trans('system.plans.' . $plan->type) }}</span></h1>
+                                                                    <div class="mt-4 pt-2 text-muted">
+
+                                                                        @if ($plan->branch_unlimited == 'yes')
+                                                                            <p class="mb-3 font-size-15"><i
+                                                                                    class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.branch_unlimited') }}
+                                                                            </p>
+                                                                        @else
+                                                                            <p class="mb-3 font-size-15"><i
+                                                                                    class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i><strong>{{ $plan->branch_limit }}</strong>
+                                                                                {{ trans('system.plans.branch_limit') }}</p>
+                                                                        @endif
+
+                                                                        @if ($plan->staff_unlimited == 'yes')
+                                                                            <p class="mb-3 font-size-15"><i
+                                                                                    class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_staff') }}
+                                                                            </p>
+                                                                        @else
+                                                                            <p class="mb-3 font-size-15"><i
+                                                                                    class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i><strong>{{ $plan->staff_limit }}</strong>
+                                                                                {{ trans('system.plans.staff_limit') }}</p>
+                                                                        @endif
+
+                                                                        <p class="mb-3 font-size-15"><i
+                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_support') }}
+                                                                        </p>
+                                                                    </div>
+
+                                                                    @if ((isset($subscription->plan_id) && $subscription->plan_id != $plan->plan_id) || $subscription == null)
+                                                                        <div class="mt-4 pt-2">
+                                                                            <a href="{{ url('subscription/plan/' . $plan->plan_id) }}"
+                                                                                class="btn btn-outline-primary w-100">{{ __('system.plans.select_plan') }}</a>
+                                                                        </div>
+                                                                    @else
+
+                                                                        <div class="mt-4 pt-2">
+                                                                            <a href="{{ url('subscription/plan/' . $plan->plan_id) }}"
+                                                                                class="btn btn-primary w-100">{{ __('system.plans.current_plan') }}</a>
+                                                                        </div>
+                                                                    @endif
+
+                                                                </div>
                                                             </div>
+                                                            <!-- end card body -->
                                                         </div>
+                                                        <!-- end card -->
                                                     </div>
                                                 @endforeach
-                                            </div><!-- end accordion -->
+                                            </div>
                                         @else
                                             {{ __('system.crud.data_not_found', ['table' => __('system.plans.menu')]) }}
                                         @endif
@@ -240,6 +236,7 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
                 </div>
             </div>
