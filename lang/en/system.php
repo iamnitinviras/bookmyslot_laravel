@@ -507,7 +507,6 @@ return
             ),
         'payment_setting' =>
             array(
-                'available_plans' => 'Available Plans',
                 'payment_gateway' => 'Payment gateway',
                 'gateway_mode' => 'Mode',
                 'credit_and_debit' => 'Credit / Debit Card',
@@ -537,6 +536,7 @@ return
             ),
         'plans' =>
             array(
+                'available_plans' => 'Available Plans',
                 'next_billing_date' => 'Next billing date',
                 'your_current_subscription' => 'Your Current Subscription',
                 'details_about_your_active_subscription' => 'Details about your active subscription',

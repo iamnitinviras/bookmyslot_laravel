@@ -311,7 +311,7 @@ class VendorController extends Controller
         }
 
         $transactions = Transactions::where('user_id', $vendor->id)->orderBy('created_at', 'desc')->get();
-        return view("admin.vendor_plan.payment_history", compact('transactions'));
+        return view("admin.vendor_subscription.payment_history", compact('transactions'));
     }
 
     public function updatePassword(Request $request, User $vendor)
@@ -332,12 +332,12 @@ class VendorController extends Controller
 
     public function staffPlan()
     {
-        return view("admin.vendor_plan.staff");
+        return view("admin.vendor_subscription.staff");
     }
 
     public function support()
     {
-        return view("admin.vendor_plan.support");
+        return view("admin.vendor_subscription.support");
     }
 
     public function subscription(Request $request)
@@ -353,7 +353,7 @@ class VendorController extends Controller
         }
 
         $plans = Plans::where('status', 'active')->get();
-        return view("admin.vendor_plan.subscription", compact('plans', 'vendor', 'subscription'));
+        return view("admin.vendor_subscription.subscription", compact('plans', 'vendor', 'subscription'));
     }
 
     public function vendorSignin(User $vendor){

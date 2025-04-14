@@ -25,7 +25,7 @@ class PaymentController extends Controller
 
         $current_plans = $vendor->subscriptionData() ? $vendor->subscriptionData()->plan_id : 0;
         $plans = Plans::where('status', 'active')->get();
-        return view("admin.vendor_plan.index", compact('plans', 'current_plans'));
+        return view("admin.vendor_subscription.index", compact('plans', 'current_plans'));
     }
 
     public function planDetails(Plans $plan)
@@ -84,7 +84,7 @@ class PaymentController extends Controller
             }
         }
 
-        return view("admin.vendor_plan.details", compact('plan', 'offlinePayment', 'clientSecret', 'stripePayment', 'paypalPayment', 'paytmPayment', 'isAnyPaymentSystemEnabled'));
+        return view("admin.vendor_subscription.details", compact('plan', 'offlinePayment', 'clientSecret', 'stripePayment', 'paypalPayment', 'paytmPayment', 'isAnyPaymentSystemEnabled'));
     }
 
     public function process(Request $request, Plans $plan)

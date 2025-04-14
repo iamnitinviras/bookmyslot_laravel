@@ -17,13 +17,11 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-6 col-xl-6">
-                            <h4 class="card-title">{{ __('system.plans.subscription') }}</h4>
+                            <h4 class="card-title">{{ __('system.plans.your_current_subscription') }}</h4>
                             <div class="page-title-box pb-0 d-sm-flex">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('home') }}">{{ __('system.dashboard.menu') }}</a></li>
-                                        <li class="breadcrumb-item active">{{ __('system.plans.subscription') }}</li>
+                                        <li class="breadcrumb-item active">{{ __('system.plans.details_about_your_active_subscription') }}</li>
                                     </ol>
                                 </div>
                             </div>
@@ -155,7 +153,7 @@
                             <div class="col-md-6">
                                 <div class="card">
                                     <div class="card-header">
-                                        <h4 class="card-title">{{ __('system.plans.change_plan') }}</h4>
+                                        <h4 class="card-title">{{ __('system.plans.available_plans') }}</h4>
                                     </div><!-- end card header -->
 
                                     <div class="card-body">
