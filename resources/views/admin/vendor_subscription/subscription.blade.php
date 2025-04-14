@@ -104,7 +104,7 @@
                                                             <td><b>{{ trans('system.plans.branch_limit') }}</b>:</td>
                                                             <td>
                                                                 @if ($subscription->branch_unlimited == 'yes')
-                                                                    {{ trans('system.plans.unlimited_board') }}
+                                                                    {{ trans('system.plans.branch_unlimited') }}
                                                                 @else
                                                                     {{ $subscription->branch_limit }}
                                                                 @endif
@@ -190,7 +190,7 @@
 
                                                                     @if ($plan->branch_unlimited == 'yes')
                                                                         <p class="mb-3 font-size-15"><i
-                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_board') }}
+                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.branch_unlimited') }}
                                                                         </p>
                                                                     @else
                                                                         <p class="mb-3 font-size-15"><i

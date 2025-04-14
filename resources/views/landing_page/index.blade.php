@@ -214,7 +214,7 @@
                                                 <ul class="list-unstyled mb-0">
                                                     @if($plan->branch_unlimited=='yes')
                                                         <li><font
-                                                                style="vertical-align: inherit;">{{trans('system.plans.unlimited_board')}}</font>
+                                                                style="vertical-align: inherit;">{{trans('system.plans.branch_unlimited')}}</font>
                                                         </li>
                                                     @else
                                                         <li><font
@@ -254,7 +254,7 @@
                                                 <ul class="list-unstyled mb-0">
                                                     @if($plan->branch_unlimited=='yes')
                                                         <li><font
-                                                                style="vertical-align: inherit;">{{trans('system.plans.unlimited_board')}}</font>
+                                                                style="vertical-align: inherit;">{{trans('system.plans.branch_unlimited')}}</font>
                                                         </li>
                                                     @else
                                                         <li><font
