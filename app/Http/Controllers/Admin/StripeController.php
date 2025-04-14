@@ -359,7 +359,7 @@ class StripeController extends Controller
 
     public function processCancelled(Request $request)
     {
-        return redirect('vendor/subscription')->with('Error', trans('system.messages.operation_canceled'));
+        return redirect('subscription')->with('Error', trans('system.messages.operation_canceled'));
     }
 
     public function subscriptionCancel($userPlan)

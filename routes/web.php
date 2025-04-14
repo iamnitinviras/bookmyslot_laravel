@@ -179,8 +179,8 @@ Route::middleware(['preventBackHistory'])->group(function () {
 
         //Vendor Setting
         Route::controller(App\Http\Controllers\Admin\VendorController::class)->group(function () {
-            Route::get('vendor/subscription', 'subscription')->name('vendor.subscription')->withoutMiddleware(['default_product_exists']);
-            Route::get('vendor/payment/history', 'paymentHistory')->name('vendor.payment.history')->withoutMiddleware(['default_product_exists']);
+            Route::get('subscription', 'subscription')->name('vendor.subscription')->withoutMiddleware(['default_product_exists']);
+            Route::get('transactions', 'paymentHistory')->name('vendor.payment.history')->withoutMiddleware(['default_product_exists']);
             Route::get('vendor/support', 'support')->name('vendor.support')->withoutMiddleware(['default_product_exists']);
 
             Route::group(['middleware' => 'vendor_settings'], function () {

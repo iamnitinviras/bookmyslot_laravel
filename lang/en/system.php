@@ -507,13 +507,13 @@ return
             ),
         'payment_setting' =>
             array(
+                'available_plans' => 'Available Plans',
                 'payment_gateway' => 'Payment gateway',
                 'gateway_mode' => 'Mode',
                 'credit_and_debit' => 'Credit / Debit Card',
                 'sms_gateway' => 'Sms gateway',
                 'stripe' => 'Stripe',
                 'paypal' => 'PayPal',
-                'paytm' => 'Paytm',
                 'offline' => 'Offline',
                 'bank_name' => 'Bank name',
                 'bank_branch' => 'Bank Branch',
@@ -554,6 +554,7 @@ return
                 'select_plan' => 'Select Plan',
                 'create_new' => 'Create New Plan',
                 'menu' => 'Plans',
+                'transactions' => 'Transactions',
                 'canceled' => 'Canceled',
                 'price' => 'Price',
                 'summary' => 'Plan summary',

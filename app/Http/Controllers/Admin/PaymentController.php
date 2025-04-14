@@ -229,7 +229,7 @@ class PaymentController extends Controller
 
             return (new StripeController())->subscriptionCancel($userPlan);
         } catch (\Exception $exception) {
-            return redirect('vendor/subscription')->with(['Error' => $exception->getMessage()]);
+            return redirect('subscription')->with(['Error' => $exception->getMessage()]);
         }
     }
 
@@ -263,9 +263,9 @@ class PaymentController extends Controller
                 return redirect()->to($stripe_data->url);
             }
 
-            return redirect('vendor/subscription');
+            return redirect('subscription');
         } catch (\Exception $exception) {
-            return redirect('vendor/subscription')->with(['Error' => $exception->getMessage()]);
+            return redirect('subscription')->with(['Error' => $exception->getMessage()]);
         }
     }
 }
