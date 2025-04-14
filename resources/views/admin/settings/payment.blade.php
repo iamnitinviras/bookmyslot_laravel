@@ -214,7 +214,7 @@
                     <div class="card-footer bg-transparent border-top text-muted">
                         <div class="row">
                             <div class="col-12 mt-1">
-                                <button class="btn btn-primary" type="submit">{{ __('system.crud.save') }}</button>
+                                <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> {{ __('system.crud.save') }}</button>
                             </div>
                         </div>
                     </div>

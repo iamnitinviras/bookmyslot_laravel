@@ -55,7 +55,7 @@
                      <div class="row">
                          <div class="col-12 mt-3">
                              <div class="position-fixed languagedata-save-btns">
-                                 <button class="btn btn-primary" type="submit"><i class="fa fa-plus-circle"></i> {{ __('system.crud.save') }}</button>
+                                 <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> {{ __('system.crud.save') }}</button>
                                  <a href="{{ route('admin.languages.index') }}"class="btn btn-secondary"><i class="fa fa-arrow-left"></i> {{ __('system.crud.cancel') }}</a>
                              </div>
                          </div>
