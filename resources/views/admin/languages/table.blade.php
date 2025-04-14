@@ -45,7 +45,7 @@
                             ->attribute('autocomplete', 'off')
                             ->attribute('data-confirm-message', __('system.fields.are_you_sure'))
                             ->attribute('data-confirm-title', __('system.crud.delete'))
-                            ->id('delete-form_' . $language->id) !!}
+                            ->id('delete-form_' . $language->id)->open() !!}
 
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                 <a role="button" href="{{ route('admin.languages.edit', ['language' => $language->id]) }}" class="btn btn-dark">{{ __('system.languages_data.edit.menu') }}</a>
