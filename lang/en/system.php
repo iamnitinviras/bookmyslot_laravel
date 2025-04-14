@@ -537,6 +537,10 @@ return
             ),
         'plans' =>
             array(
+                'next_billing_date' => 'Next billing date',
+                'your_current_subscription' => 'Your Current Subscription',
+                'details_about_your_active_subscription' => 'Details about your active subscription',
+                'current_plan' => 'Current Plan',
                 'pricing_plan' => 'Pricing Plan',
                 'plan_frontend_title' => 'Simple & transparent pricing plan for your product.',
                 'plan_frontend_recommended' => 'recommended',
