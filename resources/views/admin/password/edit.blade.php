@@ -65,8 +65,8 @@
                                 </div>
                                 <div class="row">
                                     <div class="col-12 mt-3">
-                                        <button class="btn btn-primary" type="submit">{{ __('system.password.menu') }}</button>
-                                        <a href="{{ route('admin.profile') }}"class="btn btn-outline-primary">{{ __('system.crud.back') }}</a>
+                                        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> {{ __('system.password.menu') }}</button>
+                                        <a href="{{ route('admin.profile') }}"class="btn btn-outline-primary"><i class="fa fa-arrow-left"></i> {{ __('system.crud.back') }}</a>
                                     </div>
                                 </div>
 
