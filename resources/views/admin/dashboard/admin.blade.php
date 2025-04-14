@@ -24,7 +24,8 @@
                     <div class="row">
                         @if ($branches_count == 0)
                             <div class="col-md-6 mb-3">
-                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0" role="alert">
+                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0"
+                                    role="alert">
                                     <a href="{{ route('admin.branch.create') }}">
                                         <i class="mdi mdi-google-my-board label-icon"></i>
                                         {{ __('system.fields.atleast_one', ['name' => __('system.branch.title')]) }}
@@ -33,18 +34,21 @@
                             </div>
                         @endif
 
-                        @if (empty(auth()->user()->address) ||
-                                empty(auth()->user()->city) ||
-                                empty(auth()->user()->zip) ||
-                                empty(auth()->user()->country))
-                            <div class="col-md-6 mb-3">
-                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0" role="alert">
-                                    <a href="{{ route('admin.profile.edit') }}">
-                                        <i class="mdi mdi-account-edit-outline label-icon"></i>
-                                        {{ __('system.dashboard.missing_address') }}
-                                    </a>
-                                </div>
-                            </div>
+                        @if (
+                            empty(auth()->user()->address) ||
+                            empty(auth()->user()->city) ||
+                            empty(auth()->user()->zip) ||
+                            empty(auth()->user()->country)
+                        )
+                                            <div class="col-md-6 mb-3">
+                                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0"
+                                                    role="alert">
+                                                    <a href="{{ route('admin.profile.edit') }}">
+                                                        <i class="mdi mdi-account-edit-outline label-icon"></i>
+                                                        {{ __('system.dashboard.missing_address') }}
+                                                    </a>
+                                                </div>
+                                            </div>
                         @endif
                     </div>
                 </div>
@@ -70,7 +74,7 @@
             $show_system = true;
         }
 
-        if (!extension_loaded('imagick')){
+        if (!extension_loaded('imagick')) {
             $show_admin_boarding = true;
         }
 
@@ -89,7 +93,8 @@
 
                         @if (!extension_loaded('imagick'))
                             <div class="col-md-6 mb-3">
-                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0" role="alert">
+                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0"
+                                    role="alert">
                                     <a href="https://github.com/Imagick/imagick" target="_blank">
                                         <i class="mdi mdi-qrcode-scan label-icon"></i>
                                         {{ __('system.fields.imagick_install') }} Imagick PHP Extension
@@ -100,7 +105,8 @@
 
                         @if ($show_smtp)
                             <div class="col-md-6 mb-3">
-                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0" role="alert">
+                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0"
+                                    role="alert">
                                     <a href="{{ route('admin.environment.setting.email') }}">
                                         <i class="mdi mdi-email label-icon"></i>
                                         {{ __('system.dashboard.missing_smpt') }}
@@ -111,7 +117,8 @@
 
                         @if (isset($payment_setting_count) && $payment_setting_count == 0)
                             <div class="col-md-6 mb-3">
-                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0" role="alert">
+                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0"
+                                    role="alert">
                                     <a href="{{ route('admin.environment.payment') }}">
                                         <i class="mdi mdi-credit-card label-icon"></i>
                                         {{ __('system.dashboard.missing_payment_details') }}
@@ -122,7 +129,8 @@
 
                         @if ($show_system)
                             <div class="col-md-6 mb-3">
-                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0" role="alert">
+                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0"
+                                    role="alert">
                                     <a href="{{ route('admin.environment.setting') }}">
                                         <i class="mdi mdi-alert-circle-outline label-icon"></i>
                                         {{ __('system.dashboard.missing_system_details') }}
@@ -145,8 +153,8 @@
                     <a href="{{ route('admin.packages.index') }}">
                         <div class="d-flex align-items-center">
                             <div class="flex-grow-1">
-                                        <span
-                                            class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_categories') }}</span>
+                                <span
+                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_categories') }}</span>
                                 <h4 class="mb-3">
                                     <span class="counter-value" data-target="{{ $categories_count ?? 0 }}">0</span>
                                 </h4>
@@ -165,7 +173,8 @@
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1">
-                        <span class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_products') }}</span>
+                        <span
+                            class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_gyms') }}</span>
                         <h4 class="mb-3">
                             <span class="counter-value" data-target="{{ $products_count ?? 0 }}">0</span>
                         </h4>
@@ -180,7 +189,8 @@
                 <a href="{{ route('admin.vendors.index') }}">
                     <div class="d-flex align-items-center">
                         <div class="flex-grow-1">
-                            <span class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_vendors') }}</span>
+                            <span
+                                class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_vendors') }}</span>
                             <h4 class="mb-3">
                                 <span class="counter-value" data-target="{{ $vendors_count ?? 0 }}">0</span>
                             </h4>
@@ -197,8 +207,8 @@
                     <div class="d-flex align-items-center">
 
                         <div class="flex-grow-1">
-                                    <span
-                                        class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.pending_subscriptions') }}</span>
+                            <span
+                                class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.pending_subscriptions') }}</span>
                             <h4 class="mb-3">
                                 <span class="counter-value" data-target="{{ $pending_subscriptions ?? 0 }}">0</span>
                             </h4>
@@ -217,27 +227,27 @@
                 <div class="card-body">
                     @hasanyrole('Super-Admin')
                     <a href="javascript:void(0)">
-                        @else
-                            <a href="{{ route('admin.staffs.index') }}">
-                                @endhasanyrole
+    @else
+                        <a href="{{ route('admin.staffs.index') }}">
+                            @endhasanyrole
 
-                                <div class="d-flex align-items-center">
-                                    <div class="flex-grow-1">
-                            <span
-                                class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_users') }}</span>
-                                        <h4 class="mb-3">
-                                            <span class="counter-value" data-target="{{ $users_count ?? 0 }}">0</span>
-                                        </h4>
-                                    </div>
+                            <div class="d-flex align-items-center">
+                                <div class="flex-grow-1">
+                                    <span
+                                        class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_users') }}</span>
+                                    <h4 class="mb-3">
+                                        <span class="counter-value" data-target="{{ $users_count ?? 0 }}">0</span>
+                                    </h4>
                                 </div>
-                            </a>
+                            </div>
+                        </a>
                 </div>
             </div>
         </div>
     @endcan
 </div>
 
-@if((auth()->user()->product!= null) && auth()->user()->product->allow_feature_request==true)
+@if((auth()->user()->product != null) && auth()->user()->product->allow_feature_request == true)
     @hasanyrole('staff|vendor')
     <div class="row">
         <div class="col-md-6">
@@ -250,7 +260,7 @@
                 </div>
             </div>
         </div>
-        @if(isset($roadmap_report_list) && count($roadmap_report_list)>0)
+        @if(isset($roadmap_report_list) && count($roadmap_report_list) > 0)
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header">
@@ -264,11 +274,11 @@
     @endhasanyrole
 @endif
 @push('page_scripts')
-    @if((auth()->user()->product!= null) && auth()->user()->product->allow_feature_request==true)
+    @if((auth()->user()->product != null) && auth()->user()->product->allow_feature_request == true)
         <script src="https://code.highcharts.com/highcharts.js"></script>
-        @if(isset($monthlyCounts) && count($monthlyCounts)>0)
+        @if(isset($monthlyCounts) && count($monthlyCounts) > 0)
             <script type="text/javascript">
-                let mothly_feedback_list =<?php echo json_encode($monthlyCounts); ?>;
+                let mothly_feedback_list = <?php        echo json_encode($monthlyCounts); ?>;
                 Highcharts.chart('superadmin_monthly_feedback', {
                     chart: {
                         type: 'column'
@@ -316,9 +326,9 @@
             </script>
         @endif
 
-        @if(isset($roadmap_report_list) && count($roadmap_report_list)>0)
+        @if(isset($roadmap_report_list) && count($roadmap_report_list) > 0)
             <script>
-                let roadmap_report_list =<?php echo json_encode($roadmap_report_list); ?>;
+                let roadmap_report_list = <?php        echo json_encode($roadmap_report_list); ?>;
 
                 Highcharts.chart('roadmap_chart', {
                     chart: {
