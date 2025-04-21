@@ -532,7 +532,13 @@ return
                 'production' => 'Live',
                 'test' => 'Test Mode',
                 'Trial' => 'Trial',
-                'payment_history' => 'Payment History'
+                'payment_history' => 'Payment History',
+                'stripe_payments' => 'Stripe Payments',
+                'razorpay_payments' => 'Razorpay Payments',
+                'midtrans_payments' => 'Midtrans Payments',
+                'paystack_payments' => 'Paystack Payments',
+                'paypal_payments' => 'Paypal Payments',
+                'Offline_payments' => 'Offline Payments',
             ),
         'plans' =>
             array(
