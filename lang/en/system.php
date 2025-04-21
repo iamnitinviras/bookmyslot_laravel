@@ -539,6 +539,10 @@ return
                 'paystack_payments' => 'Paystack Payments',
                 'paypal_payments' => 'Paypal Payments',
                 'Offline_payments' => 'Offline Payments',
+                'razorpay_key_id' => 'Razorpay key ID',
+                'paystack_pubic_key' => 'Paystack Pubic Key',
+                'paystack_secret_key' => 'Paystack Secret Key',
+                'webhook_url' => 'Webhook URL',
             ),
         'plans' =>
             array(
