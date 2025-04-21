@@ -20,7 +20,8 @@ $host = $parsedUrl['host'];
 
 
 
-Route::middleware(['front_setting_middleware'])->group(function () {
+Route::middleware(['front_setting_middleware'])->group(function ()
+{
     Route::get('/', [\App\Http\Controllers\FrontController::class, 'index'])->name('/');
     Route::get('/contact-us', [\App\Http\Controllers\FrontController::class, 'contact_us'])->name('frontend.contact_us');
     Route::post('/contact-us', [\App\Http\Controllers\FrontController::class, 'contactUs'])->name('contactUs');
@@ -35,7 +36,8 @@ Route::middleware(['front_setting_middleware'])->group(function () {
     Route::post('/feedback/{feedback}/downvote', [\App\Http\Controllers\FrontController::class, 'downvote'])->name('feedback.downvote');
 });
 
-Route::middleware(['preventBackHistory'])->group(function () {
+Route::middleware(['preventBackHistory'])->group(function ()
+{
 
     Auth::routes(['verify' => true]);
     Route::post('slug-available-check', [\App\Http\Controllers\Auth\RegisterController::class, 'slugCheck'])->name('slug.check');
@@ -45,11 +47,13 @@ Route::middleware(['preventBackHistory'])->group(function () {
     Route::post('/editor/image-upload', [App\Http\Controllers\HomeController::class, 'editorImageUpload']);
     Route::post('theme_mode', [App\Http\Controllers\Controller::class, 'themeMode'])->name('theme.mode');
     Route::get('staff/plan', [App\Http\Controllers\Admin\VendorController::class, 'staffPlan']);
-    Route::group(['middleware' => ["auth", "default_product_exists"], 'as' => "admin."], function () {
+    Route::group(['middleware' => ["auth", "default_product_exists"], 'as' => "admin."], function ()
+    {
 
 
         //Vendor Module
-        Route::group(['middleware' => ['role:vendor|staff', 'vendor_settings']], function () {
+        Route::group(['middleware' => ['role:vendor|staff', 'vendor_settings']], function ()
+        {
             // vendor management
             Route::resource('staff', App\Http\Controllers\Admin\StaffController::class);
 
@@ -93,7 +97,8 @@ Route::middleware(['preventBackHistory'])->group(function () {
         Route::get('get-rightbar-content', [App\Http\Controllers\HomeController::class, 'getRightBarContent'])->name('getRightBarContent');
 
         //  Profile
-        Route::controller(App\Http\Controllers\Admin\ProfileController::class)->group(function () {
+        Route::controller(App\Http\Controllers\Admin\ProfileController::class)->group(function ()
+        {
             // profile
             Route::get('webhook-data', 'webhookData')->name('webhookData')->withoutMiddleware(['default_product_exists']);
             Route::get('webhook-data/{webhook}', 'webhookDetails')->name('webhookDetails')->withoutMiddleware(['default_product_exists']);
@@ -116,7 +121,8 @@ Route::middleware(['preventBackHistory'])->group(function () {
         Route::get('balance-report', [App\Http\Controllers\Admin\ReportController::class, 'balance_report'])->name('balance.report')->middleware('permission:show balance_report');
         Route::get('pending-report', [App\Http\Controllers\Admin\ReportController::class, 'pending_payments'])->name('pending.report')->middleware('permission:show pending_payments');
 
-        Route::group(['prefix' => 'vendors', 'controller' => App\Http\Controllers\Admin\VendorController::class, 'middleware' => 'role:Super-Admin'], function () {
+        Route::group(['prefix' => 'vendors', 'controller' => App\Http\Controllers\Admin\VendorController::class, 'middleware' => 'role:Super-Admin'], function ()
+        {
             Route::get('{vendor}/sign-in', 'vendorSignin')->name('vendors.vendorSignin');
             Route::get('{vendor}/payment-history', 'paymentTransactions')->name('vendors.paymentTransactions');
             Route::get('{vendor}/subscription-history', 'subscriptionHistory')->name('vendors.subscriptionHistory');
@@ -135,9 +141,11 @@ Route::middleware(['preventBackHistory'])->group(function () {
 
 
         //Super Admin Role Permission
-        Route::group(['middleware' => ['role:Super-Admin']], function () {
+        Route::group(['middleware' => ['role:Super-Admin']], function ()
+        {
 
-            Route::group(['prefix' => 'subscriptions', 'controller' => App\Http\Controllers\Admin\SubscriptionController::class, 'middleware' => 'role:Super-Admin', 'as' => 'subscriptions'], function () {
+            Route::group(['prefix' => 'subscriptions', 'controller' => App\Http\Controllers\Admin\SubscriptionController::class, 'middleware' => 'role:Super-Admin', 'as' => 'subscriptions'], function ()
+            {
                 Route::get('/', 'subscriptions');
                 Route::put('/approve/{subscription}', 'approve')->name('.approve');
                 Route::put('/reject/{subscription}', 'reject')->name('.reject');
@@ -148,7 +156,8 @@ Route::middleware(['preventBackHistory'])->group(function () {
             Route::get('frontend', [App\Http\Controllers\Admin\EnvSettingController::class, 'frontend'])->name('frontend.admin')->middleware('role:Super-Admin');
             Route::put('frontend-images', [App\Http\Controllers\Admin\EnvSettingController::class, 'frontendImages'])->name('frontendImages')->middleware('role:Super-Admin');
 
-            Route::controller(App\Http\Controllers\Admin\EnvSettingController::class)->group(function () {
+            Route::controller(App\Http\Controllers\Admin\EnvSettingController::class)->group(function ()
+            {
                 Route::get('environment/setting', 'show')->name('environment.setting');
                 Route::put('environment/setting', 'update')->name('environment.setting.update');
 
@@ -178,12 +187,14 @@ Route::middleware(['preventBackHistory'])->group(function () {
         });
 
         //Vendor Setting
-        Route::controller(App\Http\Controllers\Admin\VendorController::class)->group(function () {
+        Route::controller(App\Http\Controllers\Admin\VendorController::class)->group(function ()
+        {
             Route::get('subscription', 'subscription')->name('vendor.subscription')->withoutMiddleware(['default_product_exists']);
             Route::get('transactions', 'paymentHistory')->name('vendor.payment.history')->withoutMiddleware(['default_product_exists']);
             Route::get('vendor/support', 'support')->name('vendor.support')->withoutMiddleware(['default_product_exists']);
 
-            Route::group(['middleware' => 'vendor_settings'], function () {
+            Route::group(['middleware' => 'vendor_settings'], function ()
+            {
                 Route::get('vendor/setting', 'setting')->name('vendor.setting');
                 Route::put('vendor/setting', 'settingUpdate')->name('vendor.setting.update');
 
@@ -192,7 +203,8 @@ Route::middleware(['preventBackHistory'])->group(function () {
             });
         })->middleware('role:vendor')->withoutMiddleware(['default_product_exists']);
 
-        Route::controller(App\Http\Controllers\Admin\PaymentController::class)->group(function () {
+        Route::controller(App\Http\Controllers\Admin\PaymentController::class)->group(function ()
+        {
             Route::post('vendor/subscription/cancel/{subscription}', 'subscriptionCancel')->name('vendor.subscription.cancel')->withoutMiddleware(['default_product_exists']);
             Route::get('vendor/subscription/manage/{subscription}', 'subscriptionManage')->name('vendor.subscription.manage')->withoutMiddleware(['default_product_exists']);
             Route::get('subscription/plan', 'plan')->name('vendor.plan')->withoutMiddleware(['default_product_exists']);
@@ -200,9 +212,16 @@ Route::middleware(['preventBackHistory'])->group(function () {
             Route::post('subscription/plan/{plan}', 'process')->name('vendor.plan.payment')->withoutMiddleware(['default_product_exists']);
         })->middleware('role:vendor');
 
-        //Paypal success & cancel
-        Route::get('/paypal/success', [\App\Http\Controllers\Admin\PaypalController::class, 'processSuccess'])->name('paypal.success')->withoutMiddleware(['default_product_exists']);
-        Route::get('/paypal/cancelled', [\App\Http\Controllers\Admin\PaypalController::class, 'processCancelled'])->name('paypal.cancel')->withoutMiddleware(['default_product_exists']);
+        //Paypal Payment and Subscription
+        //Route::get('/paypal/success', [\App\Http\Controllers\Admin\PaypalController::class, 'processSuccess'])->name('paypal.success')->withoutMiddleware(['default_product_exists']);
+        //Route::get('/paypal/cancelled', [\App\Http\Controllers\Admin\PaypalController::class, 'processCancelled'])->name('paypal.cancel')->withoutMiddleware(['default_product_exists']);
+
+        Route::get('/paypal/create-plan', [\App\Http\Controllers\Admin\PayPalController::class, 'createPlan']);
+        Route::post('/paypal/create-subscription', [\App\Http\Controllers\Admin\PayPalController::class, 'createSubscription']);
+        Route::get('/paypal/success', [\App\Http\Controllers\Admin\PayPalController::class, 'success'])->name('paypal.success');
+        Route::get('/paypal/cancel', [\App\Http\Controllers\Admin\PayPalController::class, 'cancel'])->name('paypal.cancel');
+        Route::get('/paypal/subscription/{id}', [\App\Http\Controllers\Admin\PayPalController::class, 'getSubscription']);
+        Route::post('/paypal/cancel-subscription/{id}', [\App\Http\Controllers\Admin\PayPalController::class, 'cancelSubscription']);
 
 
         //Stripe subscription success & cancel
@@ -215,11 +234,10 @@ Route::middleware(['preventBackHistory'])->group(function () {
     });
 });
 
-// web hooks
-Route::group(['prefix' => '/webhook', 'controller' => \App\Http\Controllers\WebHookController::class], function () {
-    Route::post('/stripe', 'stripe');
-    Route::post('/paypal', 'paypal');
-});
+
+//Webhook Routes
+Route::get('/webhook/stripe', [\App\Http\Controllers\Webhook\StripeWebhookController::class, 'stripe'])->withoutMiddleware(['default_product_exists']);
+Route::get('/webhook/paypal', [\App\Http\Controllers\Webhook\PayPalWebhookController::class, 'paypal'])->withoutMiddleware(['default_product_exists']);
 
 Auth::routes();
 
