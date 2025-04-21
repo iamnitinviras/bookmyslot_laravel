@@ -543,6 +543,8 @@ return
                 'paystack_pubic_key' => 'Paystack Pubic Key',
                 'paystack_secret_key' => 'Paystack Secret Key',
                 'webhook_url' => 'Webhook URL',
+                'midtrans_payment_mode' => 'Midtrans Payment Mode',
+                'midtrans_server_key' => 'Midtrans Server Key',
             ),
         'plans' =>
             array(
