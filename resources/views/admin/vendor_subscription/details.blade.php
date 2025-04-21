@@ -60,7 +60,7 @@
                                                         </tr>
                                                         <tr>
                                                             <td><b>{{ trans('system.plans.start_date') }}</b>: </td>
-                                                            <td>{{ formatDate(now()) }}</td>
+                                                            <td>{{ (now()) }}</td>
                                                         </tr>
                                                         <tr>
                                                             <td><b>{{ trans('system.plans.expiry_date') }}</b>:</td>
@@ -68,13 +68,13 @@
                                                                 @if ($plan->type == 'onetime')
                                                                     {{ trans('system.plans.lifetime') }}
                                                                 @elseif($plan->type == 'weekly')
-                                                                    {{ formatDate(now()->addWeek()) }}
+                                                                    {{ (now()->addWeek()) }}
                                                                 @elseif($plan->type == 'monthly')
-                                                                    {{ formatDate(now()->addMonth()) }}
+                                                                    {{ (now()->addMonth()) }}
                                                                 @elseif($plan->type == 'yearly')
-                                                                    {{ formatDate(now()->addYear()) }}
+                                                                    {{ (now()->addYear()) }}
                                                                 @elseif($plan->type == 'day')
-                                                                    {{ formatDate(now()->addDay()) }}
+                                                                    {{ (now()->addDay()) }}
                                                                 @endif
                                                             </td>
                                                         </tr>
