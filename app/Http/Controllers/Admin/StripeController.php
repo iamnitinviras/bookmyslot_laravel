@@ -43,18 +43,10 @@ class StripeController extends Controller
             ];
 
             //Product
-            $stripe_branch_id = $plan->stripe_branch_id;
-
-            if ($plan->stripe_branch_id == null) {
-
-                $product = $stripe->products->create([
-                    'name' => $plan->local_title,
-                ]);
-
-                $stripe_branch_id = $product->id;
-                $plan->stripe_branch_id = $product->id;
-                $plan->save();
-            }
+            $product = $stripe->products->create([
+                'name' => $plan->local_title,
+            ]);
+            $stripe_branch_id = $product->id;
 
             //Price
             $price_array = [
