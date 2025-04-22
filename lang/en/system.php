@@ -520,7 +520,7 @@ return
                 'account_number' => 'Account Number',
                 'transaction_id' => 'Transaction ID',
                 'reference' => 'Reference',
-                'client_id_key' => 'ClientID key',
+                'client_id_key' => 'Client ID',
                 'client_secret_key' => 'Client Secret key',
                 'publish_key' => 'Publishable key',
                 'secret_key' => 'Secret key',
