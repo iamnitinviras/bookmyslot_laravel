@@ -46,7 +46,7 @@ class PaymentController extends Controller
         }
         $current_plans = auth()->user()->subscriptionData() ? auth()->user()->subscriptionData()->plan_id : 0;
 
-        $current_plan_data =  auth()->user()->subscriptionData();
+        $current_plan_data = auth()->user()->subscriptionData();
         if ($current_plan_data != null) {
             if ($current_plan_data->subscription_id != null && in_array($current_plan_data->type, array('monthly', 'weekly', 'yearly')) && $current_plan_data->status == 'approved' && $current_plan_data->expiry_date > date('Y-m-d H:i:s')) {
                 return redirect()->back()->with('Error', __('system.plans.active_subscription_exist'));
@@ -98,9 +98,12 @@ class PaymentController extends Controller
 
         $attributes = $request->validate(['payment_type' => 'in:stripe,paypal,offline',] + $extra_validate);
 
-        $checkExistingPlan = auth()->user()->load(['user_plans' => function ($userPlans) {
-            $userPlans->where('payment_method', 'offline')->where('status', 'pending');
-        }]);
+        $checkExistingPlan = auth()->user()->load([
+            'user_plans' => function ($userPlans)
+            {
+                $userPlans->where('payment_method', 'offline')->where('status', 'pending');
+            }
+        ]);
 
 
         if (auth()->user()->subscriptionData() && auth()->user()->subscriptionData()->plan_id == $plan->plan_id) {
@@ -161,16 +164,19 @@ class PaymentController extends Controller
             $emailAttributes = ['vendor_name' => $authUser->name, 'payment_amount' => $plan->amount, 'payment_method' => '', 'payment_date' => now(), 'plan_name' => $plan->local_title, 'payment_type' => $plan->type];
 
             if ($request->payment_type == 'paypal') {
-
                 if ($plan->type == "onetime") {
-                    $payment = (new PaypalController())->paypalPayment($userPlan, $plan);
+                    $payment = (new PaymentController())->paypalPayment($userPlan, $plan);
                     if ($payment) {
                         return redirect()->to($payment->getApprovalLink());
                     } else {
                         return redirect('subscription/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
                     }
                 } else {
-                    return (new PaypalController())->process($request, $plan);
+
+                    $product=(new PayPalController())->createProduct($plan->title,$plan->amount);
+                    dd($product['id']);
+                    return (new PayPalController())->createProduct($plan->title,$plan->amount);
+                    //return (new PayPalController())->createPlan($plan->title,$plan->amount);
                 }
 
                 // example  of payment

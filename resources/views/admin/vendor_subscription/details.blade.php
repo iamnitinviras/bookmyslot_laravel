@@ -100,7 +100,7 @@
                                                 <h4 class="card-title">{{ __('system.plans.payment_information') }}</h4>
                                                 <div class="row">
                                                     <div class="col-md-12">
-                                                        @if (isset($stripePayment->stripe_status) && $stripePayment->stripe_status == 'enable')
+                                                        @if (config('stripe.stripe_status') == 'enable')
                                                             <div class="form-check form-check-inline font-size-16">
                                                                 <input onclick="show_payment_section(this)" required
                                                                     class="form-check-input" type="radio"
@@ -112,7 +112,7 @@
                                                             </div>
                                                         @endif
 
-                                                        @if (isset($paypalPayment->paypal_status) && $paypalPayment->paypal_status == 'enable')
+                                                        @if (config('paypal.status') == 'enable')
                                                             <div class="form-check form-check-inline font-size-16">
                                                                 <input onclick="show_payment_section(this)" required
                                                                     class="form-check-input" type="radio"
@@ -124,7 +124,7 @@
                                                             </div>
                                                         @endif
 
-                                                        @if (isset($offlinePayment->offline_status) && $offlinePayment->offline_status == 'enable')
+                                                        @if (config('offline.offline_status') == 'enable')
                                                             <div class="form-check form-check-inline font-size-16">
                                                                 <input onclick="show_payment_section(this)" required
                                                                     class="form-check-input" type="radio"
