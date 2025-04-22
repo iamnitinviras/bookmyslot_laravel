@@ -11,17 +11,17 @@
                 <div class="form-group">
                     <label for="instruction">{{ trans('system.payment_setting.instruction') }}*</label>
                     <textarea required name="instructions" id="instruction" cols="30" class="form-control"
-                        rows="3">{!! isset($offline->instructions) ? $offline->instructions : '' !!}</textarea>
+                        rows="3">{!! config('offline.instructions') !!}</textarea>
                 </div>
             </div>
             <div class="col-md-12 mb-3">
                 <div class="form-group">
                     <label for="offline_status">{{ trans('system.payment_setting.status') }}</label>
                     <select id="offline_status" name="offline_status" required class="form-control">
-                        <option {{ $offline_payment_status == 'enable' ? 'selected' : '' }} value="enable">
+                        <option {{ config('offline.offline_status') == 'enable' ? 'selected' : '' }} value="enable">
                             {{ trans('system.payment_setting.enable') }}
                         </option>
-                        <option {{ $offline_payment_status == 'disable' ? 'selected' : '' }} value="disable">
+                        <option {{config('offline.offline_status') == 'disable' ? 'selected' : '' }} value="disable">
                             {{ trans('system.payment_setting.disable') }}
                         </option>
                     </select>

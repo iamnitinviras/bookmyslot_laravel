@@ -151,7 +151,6 @@ return
                 'address_details' => 'Address Details',
                 'select_Category' => 'Select Category',
                 'select_roadmap' => 'Select Roadmap',
-                'select_app_currency' => 'Select Currency',
                 'select_app_defult_language' => 'Select default language',
                 'about' => 'About',
                 'contact_details' => 'Contact Details',
@@ -507,6 +506,7 @@ return
             ),
         'payment_setting' =>
             array(
+                'select_app_currency' => 'Select Currency',
                 'payment_gateway' => 'Payment gateway',
                 'gateway_mode' => 'Mode',
                 'credit_and_debit' => 'Credit / Debit Card',

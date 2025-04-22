@@ -257,49 +257,66 @@ class EnvSettingController extends Controller
     public function paymentUpdate(Request $request)
     {
         try {
-
-            DB::beginTransaction();
-            $input = $request->only('stripe_publish_key', 'stripe_mode', 'gateway_type', 'stripe_secret_key', 'stripe_status', 'paypal_client_id', 'paypal_mode', 'paypal_secret_key', 'paypal_status', 'instructions', 'offline_status');
+            $input = $request->only(
+                'stripe_publish_key',
+                'stripe_mode',
+                'stripe_currency_code',
+                'gateway_type',
+                'stripe_secret_key',
+                'stripe_status',
+                'paypal_client_id',
+                'paypal_mode',
+                'paypal_secret_key',
+                'paypal_currency_code',
+                'paypal_status',
+                'instructions',
+                'offline_status'
+            );
 
             if (isset($input['gateway_type']) && in_array($input['gateway_type'], array('stripe', 'paypal', 'offline'))) {
-                //Stripe Payment Save
-                if (isset($input['gateway_type']) && $input['gateway_type'] == "stripe") {
-                    $stripe = array();
-                    $stripe['stripe_publish_key'] = $input['stripe_publish_key'];
-                    $stripe['stripe_secret_key'] = $input['stripe_secret_key'];
-                    $stripe['stripe_mode'] = $input['stripe_mode'];
-                    $stripe['stripe_status'] = $input['stripe_status'];
 
-                    Settings::updateOrCreate(['title' => 'stripe'], ['value' => json_encode($stripe)]);
-                    if (isset($request->hidden_stripe_mode) && ($request->hidden_stripe_mode != $input['stripe_mode'])) {
-                        Plans::where('plan_id', '>', 0)->update(['stripe_branch_id' => null]);
-                    }
-                }
+                //Stripe Payment Save
+                $stripe_data = [
+                    'STRIPE_CURRENCY_CODE' => $input['stripe_currency_code'],
+                    'STRIPE_PUBLISH_KEY' => $input['stripe_publish_key'],
+                    'STRIPE_SECRET_KEY' => $input['stripe_secret_key'],
+                    'STRIPE_MODE' => $input['stripe_mode'],
+                    'STRIPE_STATUS' => $input['stripe_status'],
+                ];
+                DotenvEditor::setKeys($stripe_data)->save();
+
 
                 //Save PayPal Details
-                if (isset($input['gateway_type']) && $input['gateway_type'] == "paypal") {
-                    $paypal = array();
-                    $paypal['paypal_client_id'] = $input['paypal_client_id'];
-                    $paypal['paypal_secret_key'] = $input['paypal_secret_key'];
-                    $paypal['paypal_mode'] = $input['paypal_mode'];
-                    $paypal['paypal_status'] = $input['paypal_status'];
-                    Settings::updateOrCreate(['title' => 'paypal'], ['value' => json_encode($paypal)]);
-                }
+                $paypal_data = [
+                    'PAYPAL_CURRENCY_CODE' => $input['paypal_currency_code'],
+                    'PAYPAL_CLIENT_ID' => $input['paypal_client_id'],
+                    'PAYPAL_SECRET_KEY' => $input['paypal_secret_key'],
+                    'PAYPAL_MODE' => $input['paypal_mode'],
+                    'PAYPAL_STATUS' => $input['paypal_status'],
+                ];
+
+                DotenvEditor::setKeys($paypal_data)->save();
+
 
                 //Save offline Details
-                if (isset($input['gateway_type']) && $input['gateway_type'] == "offline") {
-                    $offline = array();
-                    $offline['instructions'] = $input['instructions'];
-                    $offline['offline_status'] = $input['offline_status'];
-                    Settings::updateOrCreate(['title' => 'offline'], ['value' => json_encode($offline)]);
-                }
+                $offline_data = [
+                    'OFFLINE_INSTRUCTIONS' => $input['instructions'],
+                    'OFFLINE_STATUS' => $input['offline_status']
+                ];
+
+                DotenvEditor::setKeys($offline_data)->save();
+                Artisan::call('config:clear');
+
+
+                $request->session()->flash('Success', __('system.messages.saved', ['model' => __('system.payment_setting.payment_gateway')]));
+                return redirect()->back();
+            } else {
+
+                $request->session()->flash('Error', __('system.messages.saved', ['model' => __('system.payment_setting.payment_gateway')]));
+                return redirect()->back();
             }
 
-            DB::commit();
-            $request->session()->flash('Success', __('system.messages.saved', ['model' => __('system.payment_setting.payment_gateway')]));
-            return redirect()->back();
         } catch (\Illuminate\Database\QueryException $ex) {
-            DB::rollback();
             $request->session()->flash('Error', __('system.messages.operation_rejected'));
             return redirect()->back();
         }

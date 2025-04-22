@@ -23,7 +23,7 @@
             </div>
 
             <div class="col-md-3">
-                @php($lbl_app_currency = __('system.fields.select_app_currency'))
+                @php($lbl_app_currency = __('system.payment_setting.select_app_currency'))
                 <div class="mb-3 form-group @error('app_currency') has-danger @enderror">
                     <label class="form-label" for="input-app_currency">{{ $lbl_app_currency }} <span class="text-danger">*</span></label>
                     {!! html()->select('app_currency', getAllCurrencies(), config('custom.currency'))
