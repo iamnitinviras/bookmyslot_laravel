@@ -211,10 +211,7 @@ class PaymentController extends Controller
                 return redirect('home');
             }
 
-            $stripe_data = Settings::where('title', 'stripe')->first();
-            $stripePayment = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
-
-            $stripe_secret_key = isset($stripePayment->stripe_secret_key) ? $stripePayment->stripe_secret_key : '';
+            $stripe_secret_key = config('stripe.stripe_secret_key');
 
             if (!$stripe_secret_key || $stripe_secret_key == "") {
                 throw new \Exception(trans('system.plans.invalid_payment'));

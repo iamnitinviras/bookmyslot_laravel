@@ -80,9 +80,12 @@ class VendorController extends Controller
             return redirect('home');
         }
 
-        $transactions = Transactions::where('user_id', $vendor->id)->with(['subscription' => function ($subQuery) {
-            $subQuery->select('id','payment_method');
-        }])->orderBy('created_at', 'desc')->get();
+        $transactions = Transactions::where('user_id', $vendor->id)->with([
+            'subscription' => function ($subQuery)
+            {
+                $subQuery->select('id', 'payment_method');
+            }
+        ])->orderBy('created_at', 'desc')->get();
         return view('admin.vendors.payment-transaction', compact('vendor', 'transactions'));
     }
 
@@ -108,7 +111,7 @@ class VendorController extends Controller
         $vendor = auth()->user();
         $data = $request->all();
 
-        $plan_id = (int)request()->user_plan;
+        $plan_id = (int) request()->user_plan;
 
         $plan = Plans::find($plan_id);
 
@@ -234,9 +237,7 @@ class VendorController extends Controller
         //Get All Subscription
         if (isset($subscriptions) && count($subscriptions) > 0) {
 
-            $stripe_data = Settings::where('title', 'stripe')->first();
-            $stripePayment = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
-            $stripe_secret_key = isset($stripePayment->stripe_secret_key) ? $stripePayment->stripe_secret_key : '';
+            $stripe_secret_key = config('stripe.stripe_secret_key');
 
             if (isset($stripe_secret_key) && $stripe_secret_key != "") {
                 $stripe = new \Stripe\StripeClient($stripe_secret_key);
@@ -283,7 +284,8 @@ class VendorController extends Controller
             return redirect('home');
         }
 
-        $currency = Arr::where(getAllCurrencies(), function ($value, $key) {
+        $currency = Arr::where(getAllCurrencies(), function ($value, $key)
+        {
             if (request()->default_currency == $key) {
                 return $value;
             }
@@ -356,14 +358,15 @@ class VendorController extends Controller
         return view("admin.vendor_subscription.subscription", compact('plans', 'vendor', 'subscription'));
     }
 
-    public function vendorSignin(User $vendor){
+    public function vendorSignin(User $vendor)
+    {
         $user = auth()->user();
 
         if ($user->user_type != User::USER_TYPE_ADMIN) {
             return redirect()->back();
         }
 
-        if ($vendor->user_type!=User::USER_TYPE_VENDOR){
+        if ($vendor->user_type != User::USER_TYPE_VENDOR) {
             return redirect()->back();
         }
 
@@ -372,7 +375,8 @@ class VendorController extends Controller
         return redirect('home');
     }
 
-    public function vendorLogout(){
+    public function vendorLogout()
+    {
         $user = auth()->user();
         if (Session::get('super_admin_id') == null) {
             return redirect('home');

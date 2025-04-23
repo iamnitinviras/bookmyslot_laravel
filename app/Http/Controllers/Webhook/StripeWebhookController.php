@@ -9,6 +9,7 @@ use App\Models\Transactions;
 use App\Models\User;
 use App\Models\WebhookData;
 use App\Notifications\OnetimePaymentNotification;
+use App\Services\Subscription;
 use Illuminate\Http\Request;
 use App\Models\Subscriptions;
 use Illuminate\Support\Facades\Log;
@@ -16,12 +17,20 @@ use Illuminate\Support\Facades\Log;
 class StripeWebhookController extends Controller
 {
 
+
+    protected $subscriptionService;
+
+    public function __construct(Subscription $subscriptionService)
+    {
+        $this->subscriptionService = $subscriptionService;
+    }
+
     public function stripe()
     {
         $stripe_data = Settings::where('title', 'stripe')->first();
         $stripePayment = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
 
-        $stripe_secret_key = isset($stripePayment->stripe_secret_key) ? $stripePayment->stripe_secret_key : '';
+        $stripe_secret_key = config('stripe.stripe_secret_key');
 
         \Stripe\Stripe::setApiKey($stripe_secret_key);
 
@@ -57,51 +66,7 @@ class StripeWebhookController extends Controller
                     $user_plan = Subscriptions::find($user_plan_id);
 
                     if ($user_plan != null) {
-                        //Make current subscription active
-                        Subscriptions::where([
-                            'user_id' => $user_plan->user_id,
-                            'is_current' => 'yes'
-                        ])->update(['is_current' => 'no']);
-
-                        //Update Subscription
-                        Subscriptions::where('id', $user_plan->id)->update([
-                            'status' => 'approved',
-                            'is_current' => 'yes',
-                            'subscription_id' => $subscription_id,
-                            'json_response' => json_encode($event),
-                        ]);
-
-
-                        //Add Transaction
-                        $transaction_count = Transactions::where('user_id', $user_id)->where('plan_id', $plan_id)->where('subscription_id', $sub_id)->count();
-
-                        if ($transaction_count > 0) {
-
-                            $user_plan->transaction_id = $paymentId;
-
-                            if ($user_plan->type == 'weekly') {
-                                $user_plan->expiry_date = now()->addWeek();
-                                $user_plan->save();
-
-                            } else if ($user_plan->type == 'monthly') {
-                                $user_plan->expiry_date = now()->addMonth();
-                                $user_plan->save();
-
-                            } else if ($user_plan->type == 'yearly') {
-                                $user_plan->expiry_date = now()->addYear();
-                                $user_plan->save();
-
-                            } else if ($user_plan->type == 'day') {
-                                $user_plan->expiry_date = now()->addDay();
-                                $user_plan->save();
-
-                            }
-                        }
-
-                        $current_subscription = Subscriptions::find($user_plan->id);
-
-                        //Save Transaction
-                        $this->saveTransaction($current_subscription, $paymentId, $current_subscription->user, $current_subscription->plan, $event->type);
+                        $this->subscriptionService->invoicePaid($user_plan, $user_id, $subscription_id, $plan_id, $sub_id, $paymentId);
                     }
                     break;
                 case 'charge.succeeded':
@@ -115,38 +80,7 @@ class StripeWebhookController extends Controller
                     $sub_id = $event->data->object->metadata->sub_id;
 
                     if (isset($sub_id) && $sub_id != null) {
-
-                        $transaction_data = Transactions::where('transaction_id', $transaction_id)->first();
-
-                        if ($transaction_data == null) {
-
-                            $user_plan = Subscriptions::find($sub_id);
-
-                            if ($user_plan != null) {
-
-                                //Make current subscription active
-                                Subscriptions::where([
-                                    'user_id' => $user_plan->user_id,
-                                    'is_current' => 'yes'
-                                ])->update(['is_current' => 'no']);
-
-
-                                //Update Subscription
-                                Subscriptions::where('id', $user_plan->id)->update([
-                                    'status' => 'approved',
-                                    'is_current' => 'yes',
-                                    'transaction_id' => $transaction_id,
-                                    'subscription_id' => null,
-                                    'json_response' => json_encode($event),
-                                ]);
-
-                                $current_subscription = Subscriptions::find($user_plan->id);
-
-                                //Save Transaction
-                                $this->saveTransaction($current_subscription, $transaction_id, $user_plan->user, $user_plan->plan, $event->type);
-
-                            }
-                        }
+                        $this->subscriptionService->chargeSucceeded($transaction_id, $sub_id);
                     }
 
                     break;

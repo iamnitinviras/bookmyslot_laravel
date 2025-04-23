@@ -40,10 +40,10 @@ class ProfileController extends Controller
     {
         $user = auth()->user();
         $request = request();
-        $input = $request->only('first_name','email', 'last_name', 'phone_number', 'language', 'city', 'state', 'country', 'zip', 'address', 'profile_image');
+        $input = $request->only('first_name', 'email', 'last_name', 'phone_number', 'language', 'city', 'state', 'country', 'zip', 'address', 'profile_image');
         $request->validate([
             'first_name' => ['required', 'string', 'max:50'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.$user->id],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . $user->id],
             'last_name' => ['required', 'string', 'max:50'],
             'phone_number' => ['required', 'string', 'max:20'],
             'profile_image' => ['max:10000', "image", 'mimes:jpeg,png,jpg,gif,svg'],
@@ -82,11 +82,15 @@ class ProfileController extends Controller
         $request = request();
 
         $request->validate([
-            'current_password' => ['required', function ($attribute, $value, $fail) use ($user) {
-                if (!\Hash::check($value, $user->password)) {
-                    return $fail(__('validation.custom.currentpassword'));
+            'current_password' => [
+                'required',
+                function ($attribute, $value, $fail) use ($user)
+                {
+                    if (!\Hash::check($value, $user->password)) {
+                        return $fail(__('validation.custom.currentpassword'));
+                    }
                 }
-            }],
+            ],
             'password' => ['required', 'string', 'min:8', 'confirmed', 'different:current_password'],
 
         ], [
@@ -101,56 +105,55 @@ class ProfileController extends Controller
         return redirect(route('admin.profile'));
     }
 
-    public function delete(){
+    public function delete()
+    {
         $user = auth()->user();
-        if ($user->user_type==User::USER_TYPE_ADMIN){
+        if ($user->user_type == User::USER_TYPE_ADMIN) {
             return redirect('home');
         }
 
         //Delete Restro entry.
-        if ($user->user_type==User::USER_TYPE_STAFF){
-            ProductUser::where('user_id',$user->id)->delete();
+        if ($user->user_type == User::USER_TYPE_STAFF) {
+            ProductUser::where('user_id', $user->id)->delete();
         }
 
 
-        if ($user->user_type==User::USER_TYPE_VENDOR){
+        if ($user->user_type == User::USER_TYPE_VENDOR) {
 
-            $subscriptions=Subscriptions::where('user_id',$user->id)->whereNotNull('subscription_id')->get();
+            $subscriptions = Subscriptions::where('user_id', $user->id)->whereNotNull('subscription_id')->get();
 
             //Delete Vendor Associated Data.
-            ProductUser::where('user_id',$user->id)->delete();
-            VendorSetting::where('user_id',$user->id)->delete();
-            Transactions::where('user_id',$user->id)->delete();
-            User::where('created_by',$user->id)->where('user_type',User::USER_TYPE_STAFF)->delete();
+            ProductUser::where('user_id', $user->id)->delete();
+            VendorSetting::where('user_id', $user->id)->delete();
+            Transactions::where('user_id', $user->id)->delete();
+            User::where('created_by', $user->id)->where('user_type', User::USER_TYPE_STAFF)->delete();
 
             //Delete Restaurant
-            $vendor_products=Branch::where('user_id',$user->id)->get();
-            if (isset($vendor_products) && count($vendor_products)>0){
-                foreach ($vendor_products as $user_board){
-                    Feedback::where('branch_id',$user_board->id)->delete();
-                    FeedbackComments::where('branch_id',$user_board->id)->delete();
-                    Category::where('branch_id',$user_board->id)->delete();
-                    Roadmap::where('branch_id',$user_board->id)->delete();
+            $vendor_products = Branch::where('user_id', $user->id)->get();
+            if (isset($vendor_products) && count($vendor_products) > 0) {
+                foreach ($vendor_products as $user_board) {
+                    Feedback::where('branch_id', $user_board->id)->delete();
+                    FeedbackComments::where('branch_id', $user_board->id)->delete();
+                    Category::where('branch_id', $user_board->id)->delete();
+                    Roadmap::where('branch_id', $user_board->id)->delete();
                     $user_board->delete();
                 }
             }
 
             //Get All Subscription
-            if (isset($subscriptions) && count($subscriptions)>0){
+            if (isset($subscriptions) && count($subscriptions) > 0) {
 
-                $stripe_data = Settings::where('title', 'stripe')->first();
-                $stripePayment = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
-                $stripe_secret_key = isset($stripePayment->stripe_secret_key) ? $stripePayment->stripe_secret_key : '';
+                $stripe_secret_key = config('stripe.stripe_secret_key');
 
-                if (isset($stripe_secret_key) && $stripe_secret_key!=""){
+                if (isset($stripe_secret_key) && $stripe_secret_key != "") {
                     $stripe = new \Stripe\StripeClient($stripe_secret_key);
 
-                    foreach ($subscriptions as $subscription){
-                        $result=$stripe->subscriptions->cancel(
+                    foreach ($subscriptions as $subscription) {
+                        $result = $stripe->subscriptions->cancel(
                             $subscription->subscription_id,
                             []
                         );
-                        if(isset($result->status) && $result->status=='canceled'){
+                        if (isset($result->status) && $result->status == 'canceled') {
                             $subscription->delete();
                         }
                     }
@@ -160,16 +163,17 @@ class ProfileController extends Controller
         }
 
         $user->delete();
-        return redirect('login')->with('Success',trans('system.profile.delete_success'));
+        return redirect('login')->with('Success', trans('system.profile.delete_success'));
     }
 
-    public function webhookData(Request $request){
-        if (isset($request->subscription) && $request->subscription!=null){
-            $sub_data=Subscriptions::orderBy('id','desc')->get();
+    public function webhookData(Request $request)
+    {
+        if (isset($request->subscription) && $request->subscription != null) {
+            $sub_data = Subscriptions::orderBy('id', 'desc')->get();
         }
 
-        $webhook_data=WebhookData::orderBy('id','desc')->paginate(10);
-        return view('admin.settings.webhook_data',compact('webhook_data'));
+        $webhook_data = WebhookData::orderBy('id', 'desc')->paginate(10);
+        return view('admin.settings.webhook_data', compact('webhook_data'));
     }
 }
 
