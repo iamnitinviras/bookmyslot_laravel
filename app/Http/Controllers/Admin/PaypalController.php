@@ -91,8 +91,8 @@ class PayPalController extends Controller
             ]);
 
             $result = json_decode($response->getBody(), true);
-            $paypal_plan_id = $result['id'];
-            $plan->paypal_plan_id = $result['id'];
+            $paypal_plan_id = $result['id'] ?? null;
+            $plan->paypal_plan_id = $result['id'] ?? null;
             $plan->save();
         }
         return $paypal_plan_id;
