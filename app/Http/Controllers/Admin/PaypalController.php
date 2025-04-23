@@ -60,7 +60,7 @@ class PayPalController extends Controller
                     throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
                 }
 
-                $this->subscriptionService->invoicePaid($subscription, $result['id'], now());
+                $this->subscriptionService->invoicePaid($subscription, $result['id'], time());
                 return redirect('home')->with('Success', trans('system.plans.play_change_success'));
             } else {
                 throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
