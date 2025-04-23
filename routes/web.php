@@ -216,12 +216,12 @@ Route::middleware(['preventBackHistory'])->group(function ()
         //Route::get('/paypal/success', [\App\Http\Controllers\Admin\PaypalController::class, 'processSuccess'])->name('paypal.success')->withoutMiddleware(['default_product_exists']);
         //Route::get('/paypal/cancelled', [\App\Http\Controllers\Admin\PaypalController::class, 'processCancelled'])->name('paypal.cancel')->withoutMiddleware(['default_product_exists']);
 
-        Route::get('/paypal/create-plan', [\App\Http\Controllers\Admin\PayPalController::class, 'createPlan']);
-        Route::post('/paypal/create-subscription', [\App\Http\Controllers\Admin\PayPalController::class, 'createSubscription']);
-        Route::get('/paypal/success', [\App\Http\Controllers\Admin\PayPalController::class, 'success'])->name('paypal.success');
-        Route::get('/paypal/cancel', [\App\Http\Controllers\Admin\PayPalController::class, 'cancel'])->name('paypal.cancel');
-        Route::get('/paypal/subscription/{id}', [\App\Http\Controllers\Admin\PayPalController::class, 'getSubscription']);
-        Route::post('/paypal/cancel-subscription/{id}', [\App\Http\Controllers\Admin\PayPalController::class, 'cancelSubscription']);
+        Route::get('/paypal/create-plan', [\App\Http\Controllers\Admin\PayPalController::class, 'createPlan'])->withoutMiddleware(['default_product_exists']);
+        Route::post('/paypal/create-subscription', [\App\Http\Controllers\Admin\PayPalController::class, 'createSubscription'])->withoutMiddleware(['default_product_exists']);
+        Route::get('/paypal/success', [\App\Http\Controllers\Admin\PayPalController::class, 'success'])->name('paypal.success')->withoutMiddleware(['default_product_exists']);
+        Route::get('/paypal/cancel', [\App\Http\Controllers\Admin\PayPalController::class, 'cancel'])->name('paypal.cancel')->withoutMiddleware(['default_product_exists']);
+        Route::get('/paypal/subscription/{id}', [\App\Http\Controllers\Admin\PayPalController::class, 'getSubscription'])->withoutMiddleware(['default_product_exists']);
+        Route::post('/paypal/cancel-subscription/{id}', [\App\Http\Controllers\Admin\PayPalController::class, 'cancelSubscription'])->withoutMiddleware(['default_product_exists']);
 
 
         //Stripe subscription success & cancel

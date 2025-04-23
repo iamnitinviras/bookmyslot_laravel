@@ -3,19 +3,20 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subscriptions;
+use App\Services\Subscription;
 use Illuminate\Http\Request;
-use App\Services\PayPalService;
 use GuzzleHttp\Client;
 
 class PayPalController extends Controller
 {
-    protected $payPalService;
     private $client;
     private $baseUrl;
 
-
-    public function __construct()
+    protected $subscriptionService;
+    public function __construct(Subscription $subscriptionService)
     {
+        $this->subscriptionService = $subscriptionService;
         $this->client = new Client();
         $this->baseUrl = config('paypal.mode') === 'sandbox'
             ? 'https://api-m.sandbox.paypal.com'
@@ -50,9 +51,24 @@ class PayPalController extends Controller
     // Success Route
     public function success(Request $request)
     {
-        $result = $this->getSubscription($request->subscription_id);
-        dd($result);
-        return response()->json(['message' => 'Subscription successful!', 'data' => $request->all()]);
+        try {
+            $result = $this->getSubscription($request->subscription_id);
+            if (isset($result) && count($result) > 0) {
+
+                $subscription = Subscriptions::find($result['custom_id']);
+                if ($subscription == null) {
+                    throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
+                }
+
+                $this->subscriptionService->invoicePaid($subscription, $result['id'], now());
+                return redirect('home')->with('Success', trans('system.plans.play_change_success'));
+            } else {
+                throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
+            }
+        } catch (\Exception $exception) {
+            dd($exception);
+            return redirect('subscription')->with(['Error' => $exception->getMessage()]);
+        }
     }
 
     public function createPlan($paypal_plan_type, $plan)
@@ -130,7 +146,6 @@ class PayPalController extends Controller
             'headers' => ['Authorization' => "Bearer $accessToken", 'Content-Type' => 'application/json'],
             'json' => $payload
         ]);
-
         return json_decode($response->getBody(), true);
     }
 

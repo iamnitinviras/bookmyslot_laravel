@@ -140,14 +140,14 @@ class PaymentController extends Controller
 
             if ($payment_type == 'paypal') {
                 if ($plan->type == "onetime") {
-                    $payment = (new PaymentController())->paypalPayment($userPlan, $plan);
+                    $payment = (new PaymentController($this->subscriptionService))->paypalPayment($userPlan, $plan);
                     if ($payment) {
                         return redirect()->to($payment->getApprovalLink());
                     } else {
                         return redirect('subscription/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
                     }
                 } else {
-                    return (new PayPalController())->createPaypalSubscription($paypal_plan_type, $authUser, $plan, $userPlan->id);
+                    return (new PayPalController($this->subscriptionService))->createPaypalSubscription($paypal_plan_type, $authUser, $plan, $userPlan->id);
                 }
             } else if ($payment_type == 'stripe') {
 

@@ -38,7 +38,7 @@ class Subscription
         return $userPlan;
     }
 
-    protected function saveTransaction($user_plan, $transaction_id, $user_data, $plan_data, $event_type)
+    protected function saveTransaction($user_plan, $transaction_id, $user_data, $plan_data)
     {
 
         //Save transaction details
@@ -47,7 +47,6 @@ class Subscription
             'plan_id' => $user_plan->plan_id,
             'subscription_id' => $user_plan->id,
             'amount' => $user_plan->amount,
-            'details' => $event_type,
             'payment_response' => $user_plan->amount
         ]);
 
@@ -102,7 +101,7 @@ class Subscription
 
 
     // This function will check when invoice paid
-    public function invoicePaid($user_plan, $user_id, $subscription_id, $plan_id, $sub_id, $paymentId)
+    public function invoicePaid($user_plan, $subscription_id, $paymentId)
     {
         //Make current subscription active
         Subscriptions::where([
@@ -119,7 +118,7 @@ class Subscription
 
 
         //Add Transaction
-        $transaction_count = Transactions::where('user_id', $user_id)->where('plan_id', $plan_id)->where('subscription_id', $sub_id)->count();
+        $transaction_count = Transactions::where('user_id', $user_plan->user_id)->where('plan_id', $user_plan->plan_id)->where('subscription_id', $user_plan->id)->count();
 
         if ($transaction_count > 0) {
 
@@ -147,7 +146,7 @@ class Subscription
         $current_subscription = Subscriptions::find($user_plan->id);
 
         //Save Transaction
-        $this->saveTransaction($current_subscription, $paymentId, $current_subscription->user, $current_subscription->plan, $event->type);
+        $this->saveTransaction($current_subscription, $paymentId, $current_subscription->user, $current_subscription->plan);
     }
 
 }

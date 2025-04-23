@@ -66,7 +66,7 @@ class StripeWebhookController extends Controller
                     $user_plan = Subscriptions::find($user_plan_id);
 
                     if ($user_plan != null) {
-                        $this->subscriptionService->invoicePaid($user_plan, $user_id, $subscription_id, $plan_id, $sub_id, $paymentId);
+                        $this->subscriptionService->invoicePaid($user_plan, $subscription_id, $plan_id, $sub_id, $paymentId);
                     }
                     break;
                 case 'charge.succeeded':
