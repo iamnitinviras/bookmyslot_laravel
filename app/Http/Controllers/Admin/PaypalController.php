@@ -166,12 +166,12 @@ class PayPalController extends Controller
     {
         $accessToken = $this->getAccessToken();
 
-        $this->client->post("{$this->baseUrl}/v1/billing/subscriptions/$subscriptionId/cancel", [
+        $response = $this->client->post("{$this->baseUrl}/v1/billing/subscriptions/$subscriptionId/cancel", [
             'headers' => ['Authorization' => "Bearer $accessToken", 'Content-Type' => 'application/json'],
             'json' => ['reason' => 'User requested cancellation.']
         ]);
 
-        return "Subscription Canceled";
+        return json_decode($response->getBody(), true);
     }
 
     public function createProduct($name, $description = 'Subscription Product')
