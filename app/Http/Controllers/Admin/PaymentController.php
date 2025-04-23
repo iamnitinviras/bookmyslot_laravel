@@ -185,17 +185,22 @@ class PaymentController extends Controller
                 throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
             }
 
-            $plan_id = $subscription->plan_id;
-            $user_id = $subscription->user_id;
-            $subscription_id = $subscription->subscription_id;
-
             $userPlan = Subscriptions::where('id', $subscription->id)->where('is_current', 'yes')->first();
 
             if ($userPlan == null) {
                 throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
             }
 
-            return (new StripeController())->subscriptionCancel($userPlan);
+            //Cancel Subscription
+            if ($userPlan->payment_method == "paypal") {
+
+                $result=(new PayPalController($this->subscriptionService))->cancelSubscription($userPlan->subscription_id);
+                dd( $result);
+                return (new StripeController())->subscriptionCancel($userPlan);
+            } elseif ($userPlan->payment_method == "stripe") {
+                return (new StripeController())->subscriptionCancel($userPlan);
+            }
+
         } catch (\Exception $exception) {
             return redirect('subscription')->with(['Error' => $exception->getMessage()]);
         }
