@@ -21,10 +21,7 @@ class StripeController extends Controller
         try {
 
             $currency = config('custom.currency');
-            $stripe_data = Settings::where('title', 'stripe')->first();
-            $stripePayment = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
-
-            $stripe_secret_key = isset($stripePayment->stripe_secret_key) ? $stripePayment->stripe_secret_key : '';
+            $stripe_secret_key = config('stripe.stripe_secret_key');
 
             if (!$stripe_secret_key || $stripe_secret_key == "") {
                 throw new \Exception(trans('system.plans.invalid_payment'));
@@ -93,10 +90,7 @@ class StripeController extends Controller
         $session_id = ($request->session_id);
         try {
             $authUser = auth()->user();
-            $stripe_data = Settings::where('title', 'stripe')->first();
-            $stripePayment = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
-
-            $stripe_secret_key = isset($stripePayment->stripe_secret_key) ? $stripePayment->stripe_secret_key : '';
+            $stripe_secret_key = config('stripe.stripe_secret_key');
 
             if (!$stripe_secret_key || $stripe_secret_key == "") {
                 throw new \Exception(trans('system.plans.invalid_payment'));
@@ -188,14 +182,11 @@ class StripeController extends Controller
     public function subscriptionPayment($plan, $request, $userPlan)
     {
 
-        $currency = config('custom.currency');
+        $currency = config('stripe.currency');
         try {
 
             $authUser = auth()->user();
-            $stripe_data = Settings::where('title', 'stripe')->first();
-            $stripePayment = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
-
-            $stripe_secret_key = isset($stripePayment->stripe_secret_key) ? $stripePayment->stripe_secret_key : '';
+            $stripe_secret_key = config('stripe.stripe_secret_key');
 
             if (!$stripe_secret_key || $stripe_secret_key == "") {
                 throw new \Exception(trans('system.plans.invalid_payment'));
@@ -224,16 +215,16 @@ class StripeController extends Controller
             }
 
             //Product
-            $stripe_branch_id = $plan->stripe_branch_id;
+            $stripe_plan_id = $plan->stripe_plan_id;
 
-            if ($plan->stripe_branch_id == null) {
+            if ($plan->stripe_plan_id == null) {
 
                 $product = $stripe->products->create([
                     'name' => $plan->title,
                 ]);
 
-                $stripe_branch_id = $product->id;
-                $plan->stripe_branch_id = $product->id;
+                $stripe_plan_id = $product->id;
+                $plan->stripe_plan_id = $product->id;
                 $plan->save();
             }
 
@@ -242,7 +233,7 @@ class StripeController extends Controller
             $price_array = [
                 'unit_amount' => $plan->amount * 100,
                 'currency' => $currency,
-                'product' => $stripe_branch_id,
+                'product' => $stripe_plan_id,
             ];
 
             $metaDatas = [
@@ -285,10 +276,7 @@ class StripeController extends Controller
         $session_id = ($request->session_id);
         try {
             $authUser = auth()->user();
-            $stripe_data = Settings::where('title', 'stripe')->first();
-            $stripePayment = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
-
-            $stripe_secret_key = isset($stripePayment->stripe_secret_key) ? $stripePayment->stripe_secret_key : '';
+            $stripe_secret_key = config('stripe.stripe_secret_key');
 
             if (!$stripe_secret_key || $stripe_secret_key == "") {
                 throw new \Exception(trans('system.plans.invalid_payment'));
@@ -363,10 +351,7 @@ class StripeController extends Controller
 
     public function subscriptionCancel($userPlan)
     {
-        $stripe_data = Settings::where('title', 'stripe')->first();
-        $stripePayment = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
-
-        $stripe_secret_key = isset($stripePayment->stripe_secret_key) ? $stripePayment->stripe_secret_key : '';
+        $stripe_secret_key = config('stripe.stripe_secret_key');
 
         if (!$stripe_secret_key || $stripe_secret_key == "") {
             throw new \Exception(trans('system.plans.invalid_payment'));

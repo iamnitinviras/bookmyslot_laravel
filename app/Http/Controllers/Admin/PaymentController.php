@@ -57,34 +57,7 @@ class PaymentController extends Controller
             return redirect('subscription/plan');
         }
 
-
-        $isAnyPaymentSystemEnabled = false;
-        $stripe_data = Settings::where('title', 'stripe')->first();
-        $paypal_data = Settings::where('title', 'paypal')->first();
-        $offline_data = Settings::where('title', 'offline')->first();
-        $paytm_data = Settings::where('title', 'paytm')->first();
-
-
-        $stripePayment = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
-        $paypalPayment = ($paypal_data != null) ? json_decode($paypal_data->value) : array();
-        $offlinePayment = ($offline_data != null) ? json_decode($offline_data->value) : array();
-        $paytmPayment = ($paytm_data != null) ? json_decode($paytm_data->value) : array();
-        $clientSecret = "";
-
-        // show payment section
-        if (!empty($stripePayment)) {
-            if ($stripePayment->stripe_status == 'enable') {
-                $isAnyPaymentSystemEnabled = true;
-            }
-        }
-
-        if (!empty($offlinePayment)) {
-            if ($offlinePayment->offline_status == 'enable') {
-                $isAnyPaymentSystemEnabled = true;
-            }
-        }
-
-        return view("admin.vendor_subscription.details", compact('plan', 'offlinePayment', 'clientSecret', 'stripePayment', 'paypalPayment', 'paytmPayment', 'isAnyPaymentSystemEnabled'));
+        return view("admin.vendor_subscription.details", compact('plan'));
     }
 
     public function process(Request $request, Plans $plan)
@@ -172,17 +145,8 @@ class PaymentController extends Controller
                         return redirect('subscription/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
                     }
                 } else {
-
-                    $product=(new PayPalController())->createProduct($plan->title,$plan->amount);
-                    dd($product['id']);
-                    return (new PayPalController())->createProduct($plan->title,$plan->amount);
-                    //return (new PayPalController())->createPlan($plan->title,$plan->amount);
+                    return (new PayPalController())->createPaypalSubscription($authUser->email, $plan);
                 }
-
-                // example  of payment
-                $emailAttributes['payment_method'] = 'Paypal';
-                $emailAttributes['transaction_id'] = 'XYZ7748AF';
-                $authUser->notify(new OnetimePaymentNotification($emailAttributes));
             } else if ($request->payment_type == 'stripe') {
 
                 if ($userPlan->type == 'onetime') {
