@@ -33,11 +33,12 @@ class PayPalController extends Controller
     }
 
     // Create Subscription
-    public function createPaypalSubscription($email, $plan)
+    public function createPaypalSubscription($email, $plan, $subscriptionId)
     {
         $subscription = $this->createSubscription(
             $email,
             $plan,
+            $subscriptionId,
             route('admin.paypal.success'),
             route('admin.paypal.cancel')
         );
@@ -99,7 +100,7 @@ class PayPalController extends Controller
     }
 
     // Create a Subscription
-    public function createSubscription($email, $plan, $returnUrl, $cancelUrl)
+    public function createSubscription($email, $plan, $subscriptionId, $returnUrl, $cancelUrl)
     {
         $accessToken = $this->getAccessToken();
         $planId = $this->createPlan($plan);
@@ -108,7 +109,14 @@ class PayPalController extends Controller
             'headers' => ['Authorization' => "Bearer $accessToken", 'Content-Type' => 'application/json'],
             'json' => [
                 'plan_id' => $planId,
-                'subscriber' => ['email_address' => $email],
+                'subscriber' => [
+                    'name' => [
+                        'given_name' => $email,
+                        'surname' => $email
+                    ],
+                    'email_address' => $email,
+                    'custom_id' => $subscriptionId, // You can add user_id or order_id here
+                ],
                 'application_context' => [
                     'brand_name' => config('app.name'),
                     'return_url' => $returnUrl,

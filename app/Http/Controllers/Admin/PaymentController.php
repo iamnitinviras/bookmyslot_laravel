@@ -145,7 +145,7 @@ class PaymentController extends Controller
                         return redirect('subscription/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
                     }
                 } else {
-                    return (new PayPalController())->createPaypalSubscription($authUser->email, $plan);
+                    return (new PayPalController())->createPaypalSubscription($authUser->email, $plan, $userPlan->id);
                 }
             } else if ($request->payment_type == 'stripe') {
 
