@@ -8,14 +8,19 @@ use App\Models\Settings;
 use App\Models\Subscriptions;
 use App\Models\User;
 use App\Notifications\OfflineVendorSubscriptionNotification;
-use App\Notifications\OnetimePaymentNotification;
+use App\Services\Subscription;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Config;
-use PayPal\Api\Payment;
 use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
+    protected $subscriptionService;
+
+    public function __construct(Subscription $subscriptionService)
+    {
+        $this->subscriptionService = $subscriptionService;
+    }
+
     public function plan(Request $request)
     {
         $vendor = auth()->user();
@@ -64,6 +69,8 @@ class PaymentController extends Controller
     {
         $authUser = auth()->user();
 
+        $payment_type = $request->payment_type;
+
         $extra_validate = [];
         if ($request->show_address) {
             $extra_validate = ["city" => 'required', "state" => 'required', "country" => 'required', "zip" => 'required', "address" => 'required',];
@@ -83,21 +90,29 @@ class PaymentController extends Controller
             return back()->with('Error', trans('system.plans.already_registered_plan'));
         }
 
-        if (count($checkExistingPlan->user_plans) > 0 && request()->payment_type == 'offline') {
+        if (count($checkExistingPlan->user_plans) > 0 && $payment_type == 'offline') {
             return back()->with('Error', trans('system.plans.wait_until_approved_or_rejected'));
         }
 
         try {
 
             $expiredDate = null;
+            $paypal_plan_type = null;
             if ($plan->type == 'weekly') {
                 $expiredDate = now()->addWeek();
+                $paypal_plan_type = "WEEK";
+
             } else if ($plan->type == 'monthly') {
                 $expiredDate = now()->addMonth();
+                $paypal_plan_type = "MONTH";
+
             } else if ($plan->type == 'yearly') {
                 $expiredDate = now()->addYear();
+                $paypal_plan_type = "YEAR";
+
             } else if ($plan->type == 'day') {
                 $expiredDate = now()->addDay();
+                $paypal_plan_type = "DAY";
             }
 
             if ($request->show_address) {
@@ -105,21 +120,8 @@ class PaymentController extends Controller
                 $authUser->update($attributes);
             }
 
-            $userPlan = new Subscriptions();
-            $userPlan->user_id = auth()->id();
-            $userPlan->plan_id = $plan->plan_id;
-            $userPlan->start_date = now();
-            $userPlan->expiry_date = $expiredDate;
-            $userPlan->is_current = 'no';
-            $userPlan->payment_method = $request->payment_type;
-            $userPlan->amount = $plan->amount;
-            $userPlan->type = $plan->type;
-            $userPlan->branch_limit = $plan->branch_limit;
-            $userPlan->staff_limit = $plan->staff_limit;
-            $userPlan->staff_unlimited = $plan->staff_unlimited;
-            $userPlan->branch_unlimited = $plan->branch_unlimited;
-            $userPlan->status = 'pending';
-            $userPlan->save();
+            //Create initial subscription entry
+            $userPlan = $this->subscriptionService->createSubscription($plan, $expiredDate, $payment_type);
 
             if ($plan->amount <= 0) {
 
@@ -136,7 +138,7 @@ class PaymentController extends Controller
 
             $emailAttributes = ['vendor_name' => $authUser->name, 'payment_amount' => $plan->amount, 'payment_method' => '', 'payment_date' => now(), 'plan_name' => $plan->local_title, 'payment_type' => $plan->type];
 
-            if ($request->payment_type == 'paypal') {
+            if ($payment_type == 'paypal') {
                 if ($plan->type == "onetime") {
                     $payment = (new PaymentController())->paypalPayment($userPlan, $plan);
                     if ($payment) {
@@ -145,16 +147,16 @@ class PaymentController extends Controller
                         return redirect('subscription/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
                     }
                 } else {
-                    return (new PayPalController())->createPaypalSubscription($authUser->email, $plan, $userPlan->id);
+                    return (new PayPalController())->createPaypalSubscription($paypal_plan_type, $authUser, $plan, $userPlan->id);
                 }
-            } else if ($request->payment_type == 'stripe') {
+            } else if ($payment_type == 'stripe') {
 
                 if ($userPlan->type == 'onetime') {
                     return (new StripeController())->onetimePayment($plan, $request, $userPlan);
                 } else {
                     return (new StripeController())->subscriptionPayment($plan, $request, $userPlan);
                 }
-            } else if ($request->payment_type == 'offline') {
+            } else if ($payment_type == 'offline') {
 
                 $userPlan->transaction_id = $request->transaction_id;
                 $userPlan->details = $request->reference;
@@ -168,10 +170,6 @@ class PaymentController extends Controller
                     $adminUser->notify(new OfflineVendorSubscriptionNotification($paymentDetails));
                 }
                 return redirect('subscription/plan')->with('Success', trans('system.plans.request_received'));
-            } else if ($request->payment_type == 'paytm') {
-
-                $paytmData = $this->payTmPayment($plan, $request, $userPlan);
-                return view('payment.paytm', $paytmData);
             }
         } catch (\Exception $ex) {
             Log::error($ex);

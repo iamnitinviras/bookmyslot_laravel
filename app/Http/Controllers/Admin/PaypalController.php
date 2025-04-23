@@ -33,10 +33,11 @@ class PayPalController extends Controller
     }
 
     // Create Subscription
-    public function createPaypalSubscription($email, $plan, $subscriptionId)
+    public function createPaypalSubscription($paypal_plan_type, $user, $plan, $subscriptionId)
     {
         $subscription = $this->createSubscription(
-            $email,
+            $paypal_plan_type,
+            $user,
             $plan,
             $subscriptionId,
             route('admin.paypal.success'),
@@ -49,10 +50,12 @@ class PayPalController extends Controller
     // Success Route
     public function success(Request $request)
     {
+        $result = $this->getSubscription($request->subscription_id);
+        dd($result);
         return response()->json(['message' => 'Subscription successful!', 'data' => $request->all()]);
     }
 
-    public function createPlan($plan)
+    public function createPlan($paypal_plan_type, $plan)
     {
         $title = $plan->title;
         $amount = $plan->amount;
@@ -75,7 +78,7 @@ class PayPalController extends Controller
                     'status' => 'ACTIVE',
                     'billing_cycles' => [
                         [
-                            'frequency' => ['interval_unit' => 'MONTH', 'interval_count' => 1],
+                            'frequency' => ['interval_unit' => $paypal_plan_type, 'interval_count' => 1],
                             'tenure_type' => 'REGULAR',
                             'sequence' => 1,
                             'total_cycles' => 0,
@@ -100,29 +103,32 @@ class PayPalController extends Controller
     }
 
     // Create a Subscription
-    public function createSubscription($email, $plan, $subscriptionId, $returnUrl, $cancelUrl)
+    public function createSubscription($paypal_plan_type, $user, $plan, $subscriptionId, $returnUrl, $cancelUrl)
     {
         $accessToken = $this->getAccessToken();
-        $planId = $this->createPlan($plan);
+        $planId = $this->createPlan($paypal_plan_type, $plan);
 
+        $email = $user->email;
+
+        $payload = [
+            'plan_id' => $planId,
+            'custom_id' => $subscriptionId,
+            'subscriber' => [
+                'name' => [
+                    'given_name' => $user->first_name,
+                    'surname' => $user->last_name
+                ],
+                'email_address' => $email
+            ],
+            'application_context' => [
+                'brand_name' => config('app.name'),
+                'return_url' => $returnUrl,
+                'cancel_url' => $cancelUrl
+            ]
+        ];
         $response = $this->client->post("{$this->baseUrl}/v1/billing/subscriptions", [
             'headers' => ['Authorization' => "Bearer $accessToken", 'Content-Type' => 'application/json'],
-            'json' => [
-                'plan_id' => $planId,
-                'subscriber' => [
-                    'name' => [
-                        'given_name' => $email,
-                        'surname' => $email
-                    ],
-                    'email_address' => $email,
-                    'custom_id' => $subscriptionId, // You can add user_id or order_id here
-                ],
-                'application_context' => [
-                    'brand_name' => config('app.name'),
-                    'return_url' => $returnUrl,
-                    'cancel_url' => $cancelUrl
-                ]
-            ]
+            'json' => $payload
         ]);
 
         return json_decode($response->getBody(), true);
