@@ -24,7 +24,7 @@
                                     <li class="breadcrumb-item"><a
                                             href="{{ route('home') }}">{{ __('system.dashboard.menu') }}</a></li>
                                     <li class="breadcrumb-item"><a
-                                            href="{{ route('admin.vendor.plan') }}">{{ __('system.plans.menu') }}</a>
+                                            href="{{ route('admin.vendor.subscription') }}">{{ __('system.plans.menu') }}</a>
                                     </li>
                                     <li class="breadcrumb-item active">{{ $plan->local_title }}</li>
                                 </ol>

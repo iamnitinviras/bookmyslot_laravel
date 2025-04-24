@@ -163,7 +163,7 @@
                                                 @else
 
                                                     <div class="mt-4 pt-2">
-                                                        <a href="{{ url('subscription/plan/' . $plan->plan_id) }}"
+                                                        <a href="{{ url('subscription') }}"
                                                             class="btn btn-primary w-100">{{ __('system.plans.current_plan') }}</a>
                                                     </div>
                                                 @endif
