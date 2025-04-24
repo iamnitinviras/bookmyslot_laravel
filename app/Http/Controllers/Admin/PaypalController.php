@@ -299,7 +299,6 @@ class PayPalController extends Controller
             }
             return redirect('subscription')->with('Error', trans('system.plans.invalid_payment'));
         } catch (\Exception $ex) {
-            dd($ex);
             return redirect('subscription')->with('Error', $ex->getMessage());
         }
     }
