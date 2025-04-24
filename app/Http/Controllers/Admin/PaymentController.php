@@ -140,12 +140,13 @@ class PaymentController extends Controller
 
             if ($payment_type == 'paypal') {
                 if ($plan->type == "onetime") {
-                    $payment = (new PayPalController($this->subscriptionService))->createOrder(
+                    $order = (new PayPalController($this->subscriptionService))->createOrder(
                         $userPlan->amount,
                         route('admin.paypal.onetime.success'),
                         route('admin.paypal.onetime.cancel'),
                         $userPlan
                     );
+                    return redirect($order['links'][1]['href']); // approve link
                 } else {
                     return (new PayPalController($this->subscriptionService))->createPaypalSubscription($paypal_plan_type, $authUser, $plan, $userPlan->id);
                 }
