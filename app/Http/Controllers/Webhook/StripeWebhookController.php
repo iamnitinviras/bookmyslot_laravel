@@ -60,7 +60,7 @@ class StripeWebhookController extends Controller
 
                         $user_plan = Subscriptions::find($subscription_data->sub_id);
 
-                        if ($user_plan != null) {
+                        if (isset($user_plan) && $user_plan != null) {
                             $this->subscriptionService->invoicePaid($user_plan, $subscription_id, $paymentId);
                         }
                     }
@@ -71,7 +71,8 @@ class StripeWebhookController extends Controller
                     $sub_id = $event->data->object->metadata->sub_id;
 
                     if (isset($event->data->object->mode) && $event->data->object->mode == 'payment') {
-                        if (isset($sub_id) && $sub_id != null) {
+                        $user_plan = Subscriptions::find($sub_id);
+                        if (isset($user_plan) && $user_plan != null && $user_plan->is_processed == false) {
                             $this->subscriptionService->chargeSucceeded(time(), $sub_id);
                         }
                     }
@@ -83,31 +84,5 @@ class StripeWebhookController extends Controller
         } catch (\Exception $e) {
             Log::error($e->getMessage());
         }
-    }
-
-    protected function saveTransaction($user_plan, $transaction_id, $user_data, $plan_data, $event_type)
-    {
-
-        //Save transaction details
-        Transactions::updateOrCreate(['transaction_id' => $transaction_id], [
-            'user_id' => $user_plan->user_id,
-            'plan_id' => $user_plan->plan_id,
-            'subscription_id' => $user_plan->id,
-            'amount' => $user_plan->amount,
-            'details' => $event_type,
-            'payment_response' => $user_plan->amount
-        ]);
-
-        //Send email
-        $emailAttributes = [
-            'vendor_name' => $user_data->name,
-            'payment_amount' => $plan_data->amount,
-            'payment_method' => 'Stripe',
-            'payment_date' => now(),
-            'plan_name' => $plan_data->title,
-            'payment_type' => $plan_data->type,
-            'transaction_id' => $transaction_id,
-        ];
-        $user_data->notify(new OnetimePaymentNotification($emailAttributes));
     }
 }

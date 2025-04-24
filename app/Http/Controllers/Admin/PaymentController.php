@@ -84,9 +84,6 @@ class PaymentController extends Controller
 
     public function process(Request $request, Plans $plan)
     {
-        // $order = (new PayPalController($this->subscriptionService))->captureOrder('6JG66678VL357241U');
-        // dd($order);
-
         $authUser = auth()->user();
         $payment_type = $request->payment_type;
 
@@ -172,9 +169,9 @@ class PaymentController extends Controller
             } else if ($payment_type == 'stripe') {
 
                 if ($userPlan->type == 'onetime') {
-                    return (new StripeController())->onetimePayment($plan, $request, $userPlan);
+                    return (new StripeController($this->subscriptionService))->onetimePayment($plan, $request, $userPlan);
                 } else {
-                    return (new StripeController())->subscriptionPayment($plan, $request, $userPlan);
+                    return (new StripeController($this->subscriptionService))->subscriptionPayment($plan, $request, $userPlan);
                 }
 
             } else if ($payment_type == 'offline') {
@@ -215,11 +212,11 @@ class PaymentController extends Controller
 
             //Cancel Subscription
             if ($userPlan->payment_method == "paypal") {
-
                 return (new PayPalController($this->subscriptionService))->cancelSubscription($userPlan->subscription_id);
 
             } elseif ($userPlan->payment_method == "stripe") {
-                return (new StripeController())->subscriptionCancel($userPlan);
+                return (new StripeController($this->subscriptionService))->subscriptionCancel($userPlan);
+
             }
 
         } catch (\Exception $exception) {

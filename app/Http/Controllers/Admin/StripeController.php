@@ -4,17 +4,23 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Plans;
-use App\Models\Settings;
 use App\Models\Subscriptions;
 use App\Models\Transactions;
 use App\Notifications\OnetimePaymentNotification;
+use App\Services\Subscription;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class StripeController extends Controller
 {
-    public function onetimePayment($plan, $request, $userPlan)
+
+    protected $subscriptionService;
+
+    public function __construct(Subscription $subscriptionService)
+    {
+        $this->subscriptionService = $subscriptionService;
+    }
+    public function onetimePayment($plan, $userPlan)
     {
         $authUser = auth()->user();
 
@@ -103,8 +109,6 @@ class StripeController extends Controller
 
 
             $client_reference_id = ($checkout_session->client_reference_id);
-            $subscription_id = ($checkout_session->subscription);
-            $invoice = ($checkout_session->invoice);
             $payment_intent = ($checkout_session->payment_intent);
 
             $payment_intent_data = $stripe->paymentIntents->retrieve(
@@ -115,54 +119,18 @@ class StripeController extends Controller
             if (isset($payment_intent_data->charges) && isset($payment_intent_data->charges->data[0])) {
                 $transaction_id = ($payment_intent_data->charges->data[0]->balance_transaction);
             } else {
-                $transaction_id = now();
+                $transaction_id = time();
             }
-
-            $plan_id = ($payment_intent_data->metadata->plan_id);
-            $user_id = ($payment_intent_data->metadata->user_id);
-            $amount = ($payment_intent_data->metadata->amount);
-
-            $plan = Plans::find($plan_id);
 
             //save stripe customer id in user table
             $authUser->stripe_customer_id = $checkout_session->customer;
             $authUser->save();
 
             //Make current subscription active
-            Subscriptions::where([
-                'user_id' => $user_id,
-                'is_current' => 'yes'
-            ])->update(['is_current' => 'no']);
-
-
-            $current_subscription = Subscriptions::find($client_reference_id);
-            $current_subscription->status = 'approved';
-            $current_subscription->is_current = 'yes';
-            $current_subscription->transaction_id = $transaction_id;
-            $current_subscription->subscription_id = null;
-            $current_subscription->remark = json_encode($checkout_session);
-            $current_subscription->save();
-
-            //Save transaction
-            Transactions::updateOrCreate(['transaction_id' => $transaction_id], [
-                'user_id' => $user_id,
-                'plan_id' => $plan_id,
-                'subscription_id' => $current_subscription->id,
-                'amount' => $current_subscription->amount,
-                'payment_response' => json_encode($checkout_session)
-            ]);
-
-            $emailAttributes = [
-                'vendor_name' => $authUser->name,
-                'payment_amount' => $amount,
-                'payment_method' => 'Stripe',
-                'payment_date' => now(),
-                'plan_name' => $plan->title,
-                'payment_type' => $plan->type,
-                'transaction_id' => $subscription_id,
-            ];
-
-            $authUser->notify(new OnetimePaymentNotification($emailAttributes));
+            $user_plan = Subscriptions::find($client_reference_id);
+            if (isset($user_plan) && $user_plan != null && $user_plan->is_processed == false) {
+                $this->subscriptionService->chargeSucceeded($transaction_id, $user_plan->id);
+            }
 
             return redirect('home')->with('Success', trans('system.plans.play_change_success'));
         } catch (\Exception $exception) {
@@ -217,7 +185,6 @@ class StripeController extends Controller
             $stripe_plan_id = $plan->stripe_plan_id;
 
             if ($plan->stripe_plan_id == null) {
-
                 $product = $stripe->products->create([
                     'name' => $plan->title,
                 ]);
@@ -226,7 +193,6 @@ class StripeController extends Controller
                 $plan->stripe_plan_id = $product->id;
                 $plan->save();
             }
-
 
             //Price
             $price_array = [
@@ -287,55 +253,18 @@ class StripeController extends Controller
 
             $client_reference_id = ($checkout_session->client_reference_id);
             $subscription_id = ($checkout_session->subscription);
-            $invoice = ($checkout_session->invoice);
-
-            $plan_id = ($checkout_session->metadata->plan_id);
-            $user_id = ($checkout_session->metadata->user_id);
-            $amount = ($checkout_session->metadata->amount);
-
-            // $userPlan = Subscriptions::find($client_reference_id);
-            // dd($userPlan);
-
-            $plan = Plans::find($plan_id);
-
 
             //save stripe customer id in user table
             $authUser->stripe_customer_id = $checkout_session->customer;
             $authUser->save();
 
             //Make current subscription active
-            Subscriptions::where([
-                'user_id' => $user_id,
-                'is_current' => 'yes'
-            ])->update(['is_current' => 'no']);
+            $user_plan = Subscriptions::find($client_reference_id);
 
+            if (isset($user_plan) && $user_plan != null && $user_plan->is_processed == false) {
+                $this->subscriptionService->invoicePaid($user_plan, $subscription_id, time());
+            }
 
-            $current_subscription = Subscriptions::find($client_reference_id);
-            $current_subscription->status = 'approved';
-            $current_subscription->is_current = 'yes';
-            $current_subscription->subscription_id = $subscription_id;
-            $current_subscription->remark = json_encode($checkout_session);
-            $current_subscription->save();
-
-            //Save transaction
-            Transactions::updateOrCreate(['transaction_id' => $invoice], [
-                'user_id' => $current_subscription->user_id,
-                'plan_id' => $current_subscription->plan_id,
-                'subscription_id' => $current_subscription->id,
-                'amount' => $current_subscription->amount,
-                'payment_response' => json_encode($checkout_session)
-            ]);
-
-            $emailAttributes = [
-                'vendor_name' => $authUser->name,
-                'payment_amount' => $amount,
-                'payment_method' => 'Stripe',
-                'payment_date' => now(),
-                'plan_name' => $plan->title,
-                'payment_type' => $plan->type,
-                'transaction_id' => $subscription_id,
-            ];
-            $authUser->notify(new OnetimePaymentNotification($emailAttributes));
             return redirect('home')->with('Success', trans('system.plans.play_change_success'));
         } catch (\Exception $exception) {
             Log::error($exception->getMessage());
@@ -345,7 +274,10 @@ class StripeController extends Controller
 
     public function processCancelled(Request $request)
     {
-        return redirect('subscription')->with('Error', trans('system.messages.operation_canceled'));
+        $subscription = Subscriptions::find($request->subscription);
+        $subscription->delete();
+
+        return redirect('home')->with('Error', trans('system.messages.operation_canceled'));
     }
 
     public function subscriptionCancel($userPlan)
