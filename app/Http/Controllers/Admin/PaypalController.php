@@ -200,4 +200,50 @@ class PayPalController extends Controller
 
         return json_decode($response->getBody(), true);
     }
+
+    public function createOrder($amount, $returnUrl, $cancelUrl, $user_plan)
+    {
+        $accessToken = $this->getAccessToken();
+
+        $response = $this->client->post("{$this->baseUrl}/v2/checkout/orders", [
+            'headers' => [
+                'Authorization' => "Bearer $accessToken",
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'intent' => 'CAPTURE',
+                'purchase_units' => [
+                    [
+                        'amount' => [
+                            'currency_code' => config('paypal.currency'),
+                            'value' => $amount
+                        ],
+                        'custom_id' => $user_plan->user_id,
+                    ]
+                ],
+                'application_context' => [
+                    'return_url' => $returnUrl,
+                    'cancel_url' => $cancelUrl
+                ]
+            ]
+        ]);
+
+        return json_decode($response->getBody(), true);
+    }
+
+    public function captureOrder($orderId)
+    {
+        $accessToken = $this->getAccessToken();
+
+        $response = $this->client->post("{$this->baseUrl}/v2/checkout/orders/{$orderId}/capture", [
+            'headers' => [
+                'Authorization' => "Bearer $accessToken",
+                'Content-Type' => 'application/json',
+            ]
+        ]);
+
+        return json_decode($response->getBody(), true);
+    }
+
+
 }
