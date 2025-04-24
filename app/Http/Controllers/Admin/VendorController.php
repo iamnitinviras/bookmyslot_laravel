@@ -305,16 +305,6 @@ class VendorController extends Controller
         return redirect()->back();
     }
 
-    public function paymentHistory(Request $request)
-    {
-        $vendor = auth()->user();
-        if ($vendor->user_type != User::USER_TYPE_VENDOR) {
-            return redirect('home');
-        }
-
-        $transactions = Transactions::where('user_id', $vendor->id)->orderBy('created_at', 'desc')->get();
-        return view("admin.vendor_subscription.payment_history", compact('transactions'));
-    }
 
     public function updatePassword(Request $request, User $vendor)
     {
@@ -342,21 +332,7 @@ class VendorController extends Controller
         return view("admin.vendor_subscription.support");
     }
 
-    public function subscription(Request $request)
-    {
-        $vendor = auth()->user();
-        if ($vendor->user_type != User::USER_TYPE_VENDOR) {
-            return redirect('home');
-        }
-        $subscription = $vendor->subscriptionData();
 
-        if (isset($current_plans->plan_id) && $current_plans->plan_id == 0) {
-            $subscription = "trial";
-        }
-
-        $plans = Plans::where('status', 'active')->get();
-        return view("admin.vendor_subscription.subscription", compact('plans', 'vendor', 'subscription'));
-    }
 
     public function vendorSignin(User $vendor)
     {

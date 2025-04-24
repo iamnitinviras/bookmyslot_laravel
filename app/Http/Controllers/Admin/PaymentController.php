@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Plans;
 use App\Models\Settings;
 use App\Models\Subscriptions;
+use App\Models\Transactions;
 use App\Models\User;
 use App\Notifications\OfflineVendorSubscriptionNotification;
 use App\Services\Subscription;
@@ -21,16 +22,32 @@ class PaymentController extends Controller
         $this->subscriptionService = $subscriptionService;
     }
 
-    public function plan(Request $request)
+    public function subscription(Request $request)
+    {
+        $vendor = auth()->user();
+        if ($vendor->user_type != User::USER_TYPE_VENDOR) {
+            return redirect('home');
+        }
+        $subscription = $vendor->subscriptionData();
+
+        if (isset($current_plans->plan_id) && $current_plans->plan_id == 0) {
+            $subscription = "trial";
+        }
+
+        $plans = Plans::where('status', 'active')->get();
+        return view("admin.vendor_subscription.index", compact('plans', 'vendor', 'subscription'));
+    }
+
+
+    public function paymentHistory(Request $request)
     {
         $vendor = auth()->user();
         if ($vendor->user_type != User::USER_TYPE_VENDOR) {
             return redirect('home');
         }
 
-        $current_plans = $vendor->subscriptionData() ? $vendor->subscriptionData()->plan_id : 0;
-        $plans = Plans::where('status', 'active')->get();
-        return view("admin.vendor_subscription.index", compact('plans', 'current_plans'));
+        $transactions = Transactions::where('user_id', $vendor->id)->orderBy('created_at', 'desc')->get();
+        return view("admin.vendor_subscription.payment_history", compact('transactions'));
     }
 
     public function planDetails(Plans $plan)
@@ -59,7 +76,7 @@ class PaymentController extends Controller
         }
 
         if ($current_plans == $plan->plan_id) {
-            return redirect('subscription/plan');
+            return redirect('subscription');
         }
 
         return view("admin.vendor_subscription.details", compact('plan'));
@@ -134,7 +151,7 @@ class PaymentController extends Controller
                 $userPlan->transaction_id = '0';
                 $userPlan->save();
 
-                return redirect('subscription/plan')->with('Success', trans('system.plans.play_change_success'));
+                return redirect('subscription')->with('Success', trans('system.plans.play_change_success'));
             }
 
             $emailAttributes = ['vendor_name' => $authUser->name, 'payment_amount' => $plan->amount, 'payment_method' => '', 'payment_date' => now(), 'plan_name' => $plan->local_title, 'payment_type' => $plan->type];
@@ -173,12 +190,12 @@ class PaymentController extends Controller
 
                     $adminUser->notify(new OfflineVendorSubscriptionNotification($paymentDetails));
                 }
-                return redirect('subscription/plan')->with('Success', trans('system.plans.request_received'));
+                return redirect('subscription')->with('Success', trans('system.plans.request_received'));
 
             }
         } catch (\Exception $ex) {
             Log::error($ex);
-            return redirect('subscription/plan')->with(['Error' => $ex->getMessage()]);
+            return redirect('subscription')->with(['Error' => $ex->getMessage()]);
         }
     }
 

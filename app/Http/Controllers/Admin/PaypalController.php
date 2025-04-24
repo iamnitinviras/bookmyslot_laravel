@@ -277,7 +277,7 @@ class PayPalController extends Controller
             }
             return redirect('home')->with('Success', trans('system.plans.play_change_success'));
         } catch (\Exception $ex) {
-            return redirect('subscription/plan')->with(['Error' => $ex->getMessage()]);
+            return redirect('subscription')->with(['Error' => $ex->getMessage()]);
         }
     }
 

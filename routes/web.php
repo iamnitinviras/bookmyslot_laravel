@@ -189,8 +189,6 @@ Route::middleware(['preventBackHistory'])->group(function ()
         //Vendor Setting
         Route::controller(App\Http\Controllers\Admin\VendorController::class)->group(function ()
         {
-            Route::get('subscription', 'subscription')->name('vendor.subscription')->withoutMiddleware(['default_product_exists']);
-            Route::get('transactions', 'paymentHistory')->name('vendor.payment.history')->withoutMiddleware(['default_product_exists']);
             Route::get('vendor/support', 'support')->name('vendor.support')->withoutMiddleware(['default_product_exists']);
 
             Route::group(['middleware' => 'vendor_settings'], function ()
@@ -205,9 +203,11 @@ Route::middleware(['preventBackHistory'])->group(function ()
 
         Route::controller(App\Http\Controllers\Admin\PaymentController::class)->group(function ()
         {
+            Route::get('subscription', 'subscription')->name('vendor.subscription')->withoutMiddleware(['default_product_exists']);
+            Route::get('transactions', 'paymentHistory')->name('vendor.payment.history')->withoutMiddleware(['default_product_exists']);
+
             Route::post('vendor/subscription/cancel/{subscription}', 'subscriptionCancel')->name('vendor.subscription.cancel')->withoutMiddleware(['default_product_exists']);
             Route::get('vendor/subscription/manage/{subscription}', 'subscriptionManage')->name('vendor.subscription.manage')->withoutMiddleware(['default_product_exists']);
-            Route::get('subscription/plan', 'plan')->name('vendor.plan')->withoutMiddleware(['default_product_exists']);
             Route::get('subscription/plan/{plan}', 'planDetails')->name('vendor.plan.details')->withoutMiddleware(['default_product_exists']);
             Route::post('subscription/plan/{plan}', 'process')->name('vendor.plan.payment')->withoutMiddleware(['default_product_exists']);
         })->middleware('role:vendor');
