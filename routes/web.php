@@ -213,8 +213,8 @@ Route::middleware(['preventBackHistory'])->group(function ()
         })->middleware('role:vendor');
 
         //Paypal Payment and Subscription
-        //Route::get('/paypal/success', [\App\Http\Controllers\Admin\PaypalController::class, 'processSuccess'])->name('paypal.success')->withoutMiddleware(['default_product_exists']);
-        //Route::get('/paypal/cancelled', [\App\Http\Controllers\Admin\PaypalController::class, 'processCancelled'])->name('paypal.cancel')->withoutMiddleware(['default_product_exists']);
+        Route::get('/paypal/onetime-success', [\App\Http\Controllers\Admin\PayPalController::class, 'onetimeSuccess'])->name('paypal.onetime.success')->withoutMiddleware(['default_product_exists']);
+        Route::get('/paypal/onetime-cancelled', [\App\Http\Controllers\Admin\PayPalController::class, 'onetimeCancelled'])->name('paypal.onetime.cancel')->withoutMiddleware(['default_product_exists']);
 
         Route::get('/paypal/create-plan', [\App\Http\Controllers\Admin\PayPalController::class, 'createPlan'])->withoutMiddleware(['default_product_exists']);
         Route::post('/paypal/create-subscription', [\App\Http\Controllers\Admin\PayPalController::class, 'createSubscription'])->withoutMiddleware(['default_product_exists']);

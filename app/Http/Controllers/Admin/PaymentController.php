@@ -140,12 +140,12 @@ class PaymentController extends Controller
 
             if ($payment_type == 'paypal') {
                 if ($plan->type == "onetime") {
-                    $payment = (new PaymentController($this->subscriptionService))->paypalPayment($userPlan, $plan);
-                    if ($payment) {
-                        return redirect()->to($payment->getApprovalLink());
-                    } else {
-                        return redirect('subscription/plan')->withErrors(['msg' => trans('system.plans.invalid_payment')]);
-                    }
+                    $payment = (new PayPalController($this->subscriptionService))->createOrder(
+                        $userPlan->amount,
+                        route('admin.paypal.onetime.success'),
+                        route('admin.paypal.onetime.cancel'),
+                        $userPlan
+                    );
                 } else {
                     return (new PayPalController($this->subscriptionService))->createPaypalSubscription($paypal_plan_type, $authUser, $plan, $userPlan->id);
                 }
@@ -194,7 +194,7 @@ class PaymentController extends Controller
             //Cancel Subscription
             if ($userPlan->payment_method == "paypal") {
 
-               return (new PayPalController($this->subscriptionService))->cancelSubscription($userPlan->subscription_id);
+                return (new PayPalController($this->subscriptionService))->cancelSubscription($userPlan->subscription_id);
 
             } elseif ($userPlan->payment_method == "stripe") {
                 return (new StripeController())->subscriptionCancel($userPlan);

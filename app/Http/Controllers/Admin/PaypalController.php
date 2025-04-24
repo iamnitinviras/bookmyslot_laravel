@@ -245,5 +245,19 @@ class PayPalController extends Controller
         return json_decode($response->getBody(), true);
     }
 
+    public function onetimeSuccess(Request $request)
+    {
+        dd($request);
+        $orderId = $request->query('token'); // PayPal sends order ID in `token`
+        $result = $this->captureOrder($orderId);
+
+        // Store order in DB if needed
+        return response()->json(['status' => 'success', 'data' => $result]);
+    }
+
+    public function onetimeCancelled(Request $request)
+    {
+        return response()->json(['status' => 'cancelled']);
+    }
 
 }
