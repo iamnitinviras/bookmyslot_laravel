@@ -189,7 +189,6 @@ class PaymentController extends Controller
 
             }
         } catch (\Exception $ex) {
-            Log::error($ex);
             return redirect('subscription')->with(['Error' => $ex->getMessage()]);
         }
     }

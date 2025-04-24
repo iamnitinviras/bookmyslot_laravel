@@ -106,7 +106,7 @@ class StripeController extends Controller
             \Stripe\Stripe::setApiKey($stripe_secret_key);
 
             $checkout_session = \Stripe\Checkout\Session::retrieve($session_id);
-            dd($checkout_session);
+
 
             $client_reference_id = ($checkout_session->client_reference_id);
             $payment_intent = ($checkout_session->payment_intent);
@@ -128,6 +128,7 @@ class StripeController extends Controller
 
             //Make current subscription active
             $user_plan = Subscriptions::find($client_reference_id);
+
             if (isset($user_plan) && $user_plan != null && $user_plan->is_processed == false) {
                 $this->subscriptionService->chargeSucceeded($transaction_id, $user_plan->id);
             }

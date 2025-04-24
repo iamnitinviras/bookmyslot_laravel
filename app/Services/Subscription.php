@@ -89,6 +89,7 @@ class Subscription
         Subscriptions::where('id', $user_plan->id)->update([
             'status' => 'approved',
             'is_current' => 'yes',
+            'is_processed' => true,
             'subscription_id' => $subscription_id,
         ]);
 
