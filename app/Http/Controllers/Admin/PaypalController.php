@@ -66,7 +66,27 @@ class PayPalController extends Controller
                 throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
             }
         } catch (\Exception $exception) {
-            dd($exception);
+            return redirect('subscription')->with(['Error' => $exception->getMessage()]);
+        }
+    }
+
+    public function cancel(Request $request)
+    {
+        try {
+            $result = $this->getSubscription($request->subscription_id);
+            if (isset($result) && count($result) > 0) {
+                $subscription = Subscriptions::find($result['custom_id']);
+                if ($subscription == null) {
+                    throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
+                }
+
+                $subscription->delete();
+                return redirect('subscription')->with('Error', trans('system.plans.invalid_payment'));
+
+            } else {
+                throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
+            }
+        } catch (\Exception $exception) {
             return redirect('subscription')->with(['Error' => $exception->getMessage()]);
         }
     }
