@@ -31,14 +31,13 @@
                                             <tr role="row">
                                                 <th scope="col">{{__('system.fields.name')}}</th>
                                                 <th scope="col">
-                                                    <div class="d-flex justify-content-between">{{__('system.plans.amount')}}</div>
-                                                </th>
-
-                                                <th scope="col">
                                                     <div class="d-flex justify-content-between">{{__('system.plans.type')}}</div>
                                                 </th>
                                                 <th scope="col">
                                                     <div class="d-flex justify-content-between">{{__('system.plans.payment_method')}}</div>
+                                                </th>
+                                                <th scope="col">
+                                                    <div class="d-flex justify-content-between">{{__('system.plans.amount')}}</div>
                                                 </th>
                                                 <th scope="col">
                                                     <div class="d-flex justify-content-between">{{__('system.plans.payment_date')}}</div>
@@ -57,6 +56,13 @@
                                                             @endif
                                                         </td>
 
+
+                                                        <td><span class="badge bg-info p-1">{{ __('system.plans.'.$transaction->plan->type) }}</span></td>
+                                                        @if(isset($transaction->subscription) && $transaction->subscription!=null)
+                                                            <td><span class="badge bg-success p-1">{{ __('system.payment_setting.'.$transaction->subscription->payment_method) }}</span></td>
+                                                        @else
+                                                            <td>{{ __('system.payment_setting.offline') }}</td>
+                                                        @endif
                                                         <td>
                                                             @if(isset($transaction->plan->amount))
                                                                 {{ displayCurrency($transaction->plan->amount) }}
@@ -64,12 +70,6 @@
                                                                 {{ displayCurrency(0) }}
                                                             @endif
                                                         </td>
-                                                        <td>{{ __('system.plans.'.$transaction->plan->type) }}</td>
-                                                        @if(isset($transaction->subscription) && $transaction->subscription!=null)
-                                                            <td>{{ __('system.payment_setting.'.$transaction->subscription->payment_method) }}</td>
-                                                        @else
-                                                            <td>{{ __('system.payment_setting.offline') }}</td>
-                                                        @endif
                                                         <td>{{($transaction->created_at)}}</td>
                                                     </tr>
                                                 @empty

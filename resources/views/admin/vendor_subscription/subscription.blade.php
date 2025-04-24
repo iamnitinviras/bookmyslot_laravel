@@ -45,15 +45,13 @@
                                         {{ formatDate($subscription->start_date) }}
                                     @endif
                                 </div>
-                                <div class="col-md-4 py-2">
-                                    @if (isset($subscription->expiry_date))
+                                @if (isset($subscription->expiry_date))
+                                    <div class="col-md-4 py-2">
                                         <b>{{ trans('system.plans.expiry_date') }}</b>:
                                         {{ formatDate($subscription->expiry_date) }}
-                                    @endif
-                                </div>
-                                <div class="col-md-4 py-2"><b>{{ trans('system.plans.total_cost') }}</b>:
-                                    {{ displayCurrency($subscription->amount) }}
-                                </div>
+                                    </div>
+                                @endif
+
                                 <div class="col-md-4 py-2"><b>{{ trans('system.plans.payment_method') }}</b>: <span
                                         class="badge bg-info">{{ trans('system.payment_setting.' . $subscription->payment_method) }}</span>
                                 </div>
