@@ -172,7 +172,6 @@ class StripeController extends Controller
 
     public function onetimeCancelled(Request $request)
     {
-
         $subscription = Subscriptions::find($request->subscription);
         $subscription->delete();
 
@@ -266,7 +265,7 @@ class StripeController extends Controller
 
             return redirect()->to($checkout_session->url);
         } catch (\Stripe\Exception\ApiErrorException $e) {
-            throw new \Exception(trans('system.plans.invalid_payment'));
+            throw new \Exception($e->getMessage());
         }
     }
 

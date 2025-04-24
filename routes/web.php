@@ -236,8 +236,8 @@ Route::middleware(['preventBackHistory'])->group(function ()
 
 
 //Webhook Routes
-Route::get('/webhook/stripe', [\App\Http\Controllers\Webhook\StripeWebhookController::class, 'stripe'])->withoutMiddleware(['default_product_exists']);
-Route::get('/webhook/paypal', [\App\Http\Controllers\Webhook\PayPalWebhookController::class, 'paypal'])->withoutMiddleware(['default_product_exists']);
+Route::post('/webhook/stripe', [\App\Http\Controllers\Webhook\StripeWebhookController::class, 'stripe'])->withoutMiddleware(['default_product_exists']);
+Route::post('/webhook/paypal', [\App\Http\Controllers\Webhook\PayPalWebhookController::class, 'paypal'])->withoutMiddleware(['default_product_exists']);
 
 Auth::routes();
 

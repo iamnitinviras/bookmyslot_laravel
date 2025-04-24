@@ -14,6 +14,6 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         'theme_mode',
         'default/*',
-        'webhook*'
+        'webhook/*',
     ];
 }

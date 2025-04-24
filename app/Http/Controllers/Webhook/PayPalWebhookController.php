@@ -8,7 +8,7 @@ use Log;
 
 class PayPalWebhookController extends Controller
 {
-    public function handle(Request $request)
+    public function paypal(Request $request)
     {
         // Log the payload for debugging
         Log::info('PayPal Webhook Received:', $request->all());
