@@ -44,43 +44,36 @@ class StripeWebhookController extends Controller
                 json_decode($payload, true)
             );
 
+
             WebhookData::create([
                 'type' => $event->type,
                 'response' => $event,
             ]);
 
             switch ($event->type) {
-                case 'invoice.paid':
-                    //Log::info($event);
-
+                case 'invoice.payment_succeeded':
+                    // case 'invoice.paid':
                     $paymentId = $event->data->object->id;
-                    $subscription_id = $event->data->object->subscription;
-                    $subscription_details = $event->data->object->subscription_details;
-                    $subscription_data = $event->data->object->lines->data[0]->metadata;
+                    if (isset($event->data->object->lines->data[0])) {
+                        $subscription_data = $event->data->object->lines->data[0]->metadata;
+                        $subscription_id = $event->data->object->lines->data[0]->parent->subscription_item_details->subscription;
 
-                    $plan_id = $subscription_data->plan_id;
-                    $user_id = $subscription_data->user_id;
-                    $sub_id = $subscription_data->sub_id;
+                        $user_plan = Subscriptions::find($subscription_data->sub_id);
 
-                    $user_plan_id = $subscription_details->metadata->sub_id;
-                    $user_plan = Subscriptions::find($user_plan_id);
-
-                    if ($user_plan != null) {
-                        $this->subscriptionService->invoicePaid($user_plan, $subscription_id, $plan_id, $sub_id, $paymentId);
+                        if ($user_plan != null) {
+                            $this->subscriptionService->invoicePaid($user_plan, $subscription_id, $paymentId);
+                        }
                     }
+
                     break;
-                case 'charge.succeeded':
+                case 'checkout.session.completed':
 
-                    $transaction_id = $event->data->object->balance_transaction;
-
-                    $plan_id = $event->data->object->metadata->plan_id;
-                    $user_id = $event->data->object->metadata->user_id;
-                    $payment_type = $event->data->object->metadata->payment_type;
-                    $amount = $event->data->object->metadata->amount;
                     $sub_id = $event->data->object->metadata->sub_id;
 
-                    if (isset($sub_id) && $sub_id != null) {
-                        $this->subscriptionService->chargeSucceeded($transaction_id, $sub_id);
+                    if (isset($event->data->object->mode) && $event->data->object->mode == 'payment') {
+                        if (isset($sub_id) && $sub_id != null) {
+                            $this->subscriptionService->chargeSucceeded(time(), $sub_id);
+                        }
                     }
 
                     break;
