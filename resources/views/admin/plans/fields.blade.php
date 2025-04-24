@@ -35,11 +35,23 @@
                         name="recurring_type" class="form-control" required>
                         <option value="">{{trans('system.plans.recurring_type')}}</option>
                         <option {{ isset($plan) && $plan->type == 'onetime' ? 'selected' : '' }} value="onetime">
-                            {{ trans('system.plans.onetime') }}</option>
+                            {{ trans('system.plans.onetime') }}
+                        </option>
+                        <option {{ isset($plan) && $plan->type == 'day' ? 'selected' : '' }} value="day">
+                            {{ trans('system.plans.day') }}
+                        </option>
+                        <option {{ isset($plan) && $plan->type == 'weekly' ? 'selected' : '' }} value="weekly">
+                            {{ trans('system.plans.weekly') }}
+                        </option>
+                        <option {{ isset($plan) && $plan->type == 'onetime' ? 'selected' : '' }} value="onetime">
+                            {{ trans('system.plans.onetime') }}
+                        </option>
                         <option {{ isset($plan) && $plan->type == 'monthly' ? 'selected' : '' }} value="monthly">
-                            {{ trans('system.plans.monthly') }}</option>
+                            {{ trans('system.plans.monthly') }}
+                        </option>
                         <option {{ isset($plan) && $plan->type == 'yearly' ? 'selected' : '' }} value="yearly">
-                            {{ trans('system.plans.yearly') }}</option>
+                            {{ trans('system.plans.yearly') }}
+                        </option>
                     </select>
                 </div>
             </div>
@@ -110,9 +122,11 @@
                     <label class="text-label">{{ trans('system.plans.status') }}*</label>
                     <select name="status" class="form-control">
                         <option {{ isset($plan) && $plan->status == 'active' ? 'selected' : '' }} value="active">
-                            {{ trans('system.crud.active') }}</option>
+                            {{ trans('system.crud.active') }}
+                        </option>
                         <option {{ isset($plan) && $plan->status == 'inactive' ? 'selected' : '' }} value="inactive">
-                            {{ trans('system.crud.inactive') }}</option>
+                            {{ trans('system.crud.inactive') }}
+                        </option>
                     </select>
                 </div>
             </div>
