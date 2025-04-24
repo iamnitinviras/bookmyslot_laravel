@@ -151,8 +151,6 @@ class PaymentController extends Controller
                 return redirect('subscription')->with('Success', trans('system.plans.play_change_success'));
             }
 
-            $emailAttributes = ['vendor_name' => $authUser->name, 'payment_amount' => $plan->amount, 'payment_method' => '', 'payment_date' => now(), 'plan_name' => $plan->local_title, 'payment_type' => $plan->type];
-
             if ($payment_type == 'paypal') {
                 if ($plan->type == "onetime") {
                     $order = (new PayPalController($this->subscriptionService))->createOrder(
@@ -169,9 +167,9 @@ class PaymentController extends Controller
             } else if ($payment_type == 'stripe') {
 
                 if ($userPlan->type == 'onetime') {
-                    return (new StripeController($this->subscriptionService))->onetimePayment($plan, $request, $userPlan);
+                    return (new StripeController($this->subscriptionService))->onetimePayment($plan, $userPlan);
                 } else {
-                    return (new StripeController($this->subscriptionService))->subscriptionPayment($plan, $request, $userPlan);
+                    return (new StripeController($this->subscriptionService))->subscriptionPayment($plan, $userPlan);
                 }
 
             } else if ($payment_type == 'offline') {

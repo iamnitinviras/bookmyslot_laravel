@@ -106,7 +106,7 @@ class StripeController extends Controller
             \Stripe\Stripe::setApiKey($stripe_secret_key);
 
             $checkout_session = \Stripe\Checkout\Session::retrieve($session_id);
-
+            dd($checkout_session);
 
             $client_reference_id = ($checkout_session->client_reference_id);
             $payment_intent = ($checkout_session->payment_intent);
@@ -146,7 +146,7 @@ class StripeController extends Controller
         return redirect('home')->with('Error', trans('system.messages.operation_canceled'));
     }
 
-    public function subscriptionPayment($plan, $request, $userPlan)
+    public function subscriptionPayment($plan, $userPlan)
     {
 
         $currency = config('stripe.currency');
