@@ -38,30 +38,6 @@ class Subscription
         return $userPlan;
     }
 
-    protected function saveTransaction($user_plan, $transaction_id, $user_data, $plan_data)
-    {
-
-        //Save transaction details
-        Transactions::updateOrCreate(['transaction_id' => $transaction_id], [
-            'user_id' => $user_plan->user_id,
-            'plan_id' => $user_plan->plan_id,
-            'subscription_id' => $user_plan->id,
-            'amount' => $user_plan->amount,
-            'payment_response' => $user_plan->amount
-        ]);
-
-        //Send email
-        $emailAttributes = [
-            'vendor_name' => $user_data->name,
-            'payment_amount' => $plan_data->amount,
-            'payment_method' => 'Stripe',
-            'payment_date' => now(),
-            'plan_name' => $plan_data->title,
-            'payment_type' => $plan_data->type,
-            'transaction_id' => $transaction_id,
-        ];
-        $user_data->notify(new OnetimePaymentNotification($emailAttributes));
-    }
 
 
     public function chargeSucceeded($transaction_id, $sub_id)
@@ -85,6 +61,7 @@ class Subscription
                 Subscriptions::where('id', $user_plan->id)->update([
                     'status' => 'approved',
                     'is_current' => 'yes',
+                    'is_processed' => true,
                     'transaction_id' => $transaction_id,
                     'subscription_id' => null,
                 ]);
@@ -92,11 +69,10 @@ class Subscription
                 $current_subscription = Subscriptions::find($user_plan->id);
 
                 //Save Transaction
-                $this->saveTransaction($current_subscription, $transaction_id, $user_plan->user, $user_plan->plan, $event->type);
+                $this->saveTransaction($current_subscription, $transaction_id, $user_plan->user, $user_plan->plan);
 
             }
         }
-
     }
 
 
@@ -149,4 +125,29 @@ class Subscription
         $this->saveTransaction($current_subscription, $paymentId, $current_subscription->user, $current_subscription->plan);
     }
 
+
+    protected function saveTransaction($user_plan, $transaction_id, $user_data, $plan_data)
+    {
+
+        //Save transaction details
+        Transactions::updateOrCreate(['transaction_id' => $transaction_id], [
+            'user_id' => $user_plan->user_id,
+            'plan_id' => $user_plan->plan_id,
+            'subscription_id' => $user_plan->id,
+            'amount' => $user_plan->amount,
+            'payment_response' => $user_plan->amount
+        ]);
+
+        //Send email
+        $emailAttributes = [
+            'vendor_name' => $user_data->name,
+            'payment_amount' => $plan_data->amount,
+            'payment_method' => 'Stripe',
+            'payment_date' => now(),
+            'plan_name' => $plan_data->title,
+            'payment_type' => $plan_data->type,
+            'transaction_id' => $transaction_id,
+        ];
+        $user_data->notify(new OnetimePaymentNotification($emailAttributes));
+    }
 }

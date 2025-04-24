@@ -12,7 +12,8 @@ return new class extends Migration {
      */
     public function up()
     {
-        Schema::create('subscriptions', function (Blueprint $table) {
+        Schema::create('subscriptions', function (Blueprint $table)
+        {
             $table->uuid(column: 'id')->primary();
             $table->unsignedInteger('user_id');
             $table->uuid('plan_id');
@@ -41,6 +42,7 @@ return new class extends Migration {
             $table->string('transaction_id')->nullable();
             $table->longText('subscription_id')->nullable();
             $table->longText('json_response')->nullable();
+            $table->boolean('is_processed')->default(false);
 
             $table->timestamps();
         });

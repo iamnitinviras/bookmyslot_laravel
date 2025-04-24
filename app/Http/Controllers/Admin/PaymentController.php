@@ -67,8 +67,10 @@ class PaymentController extends Controller
 
     public function process(Request $request, Plans $plan)
     {
-        $authUser = auth()->user();
+        // $order = (new PayPalController($this->subscriptionService))->captureOrder('6JG66678VL357241U');
+        // dd($order);
 
+        $authUser = auth()->user();
         $payment_type = $request->payment_type;
 
         $extra_validate = [];
@@ -84,7 +86,6 @@ class PaymentController extends Controller
                 $userPlans->where('payment_method', 'offline')->where('status', 'pending');
             }
         ]);
-
 
         if (auth()->user()->subscriptionData() && auth()->user()->subscriptionData()->plan_id == $plan->plan_id) {
             return back()->with('Error', trans('system.plans.already_registered_plan'));
@@ -150,6 +151,7 @@ class PaymentController extends Controller
                 } else {
                     return (new PayPalController($this->subscriptionService))->createPaypalSubscription($paypal_plan_type, $authUser, $plan, $userPlan->id);
                 }
+
             } else if ($payment_type == 'stripe') {
 
                 if ($userPlan->type == 'onetime') {
@@ -157,6 +159,7 @@ class PaymentController extends Controller
                 } else {
                     return (new StripeController())->subscriptionPayment($plan, $request, $userPlan);
                 }
+
             } else if ($payment_type == 'offline') {
 
                 $userPlan->transaction_id = $request->transaction_id;
@@ -171,6 +174,7 @@ class PaymentController extends Controller
                     $adminUser->notify(new OfflineVendorSubscriptionNotification($paymentDetails));
                 }
                 return redirect('subscription/plan')->with('Success', trans('system.plans.request_received'));
+
             }
         } catch (\Exception $ex) {
             Log::error($ex);

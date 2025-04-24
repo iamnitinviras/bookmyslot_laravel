@@ -204,28 +204,28 @@ class PayPalController extends Controller
     public function createOrder($amount, $returnUrl, $cancelUrl, $user_plan)
     {
         $accessToken = $this->getAccessToken();
-
+        $payload = [
+            'intent' => 'CAPTURE',
+            'purchase_units' => [
+                [
+                    'amount' => [
+                        'currency_code' => config('paypal.currency'),
+                        'value' => $amount
+                    ],
+                    'custom_id' => $user_plan->id,
+                ]
+            ],
+            'application_context' => [
+                'return_url' => $returnUrl,
+                'cancel_url' => $cancelUrl
+            ]
+        ];
         $response = $this->client->post("{$this->baseUrl}/v2/checkout/orders", [
             'headers' => [
                 'Authorization' => "Bearer $accessToken",
                 'Content-Type' => 'application/json',
             ],
-            'json' => [
-                'intent' => 'CAPTURE',
-                'purchase_units' => [
-                    [
-                        'amount' => [
-                            'currency_code' => config('paypal.currency'),
-                            'value' => $amount
-                        ],
-                        'custom_id' => $user_plan->user_id,
-                    ]
-                ],
-                'application_context' => [
-                    'return_url' => $returnUrl,
-                    'cancel_url' => $cancelUrl
-                ]
-            ]
+            'json' => $payload
         ]);
 
         return json_decode($response->getBody(), true);
@@ -245,19 +245,63 @@ class PayPalController extends Controller
         return json_decode($response->getBody(), true);
     }
 
+    public function getOrderDetails($orderId)
+    {
+        $accessToken = $this->getAccessToken();
+
+        $response = $this->client->get("{$this->baseUrl}/v2/checkout/orders/{$orderId}", [
+            'headers' => [
+                'Authorization' => "Bearer $accessToken",
+                'Content-Type' => 'application/json',
+            ]
+        ]);
+
+        return json_decode($response->getBody(), true);
+    }
     public function onetimeSuccess(Request $request)
     {
-        dd($request);
-        $orderId = $request->query('token'); // PayPal sends order ID in `token`
-        $result = $this->captureOrder($orderId);
+        try {
+            $orderId = $request->query('token'); // PayPal sends order ID in `token`
 
-        // Store order in DB if needed
-        return response()->json(['status' => 'success', 'data' => $result]);
+            if ($orderId == null) {
+                throw new \Exception(trans('system.plans.invalid_payment'));
+            }
+
+            $result = $this->captureOrder($orderId);
+            $captures_id = $result['purchase_units'][0]['payments']['captures'][0]['id'];
+            $subscription_id = $result['purchase_units'][0]['payments']['captures'][0]['custom_id'];
+
+            $user_plan = Subscriptions::find($subscription_id);
+            if (isset($user_plan) && $user_plan != null && $user_plan->is_processed == false) {
+                $this->subscriptionService->chargeSucceeded($captures_id, $subscription_id);
+            }
+            return redirect('home')->with('Success', trans('system.plans.play_change_success'));
+        } catch (\Exception $ex) {
+            return redirect('subscription/plan')->with(['Error' => $ex->getMessage()]);
+        }
     }
 
     public function onetimeCancelled(Request $request)
     {
-        return response()->json(['status' => 'cancelled']);
+        try {
+            $orderId = $request->query('token'); // PayPal sends order ID in `token`
+
+            if ($orderId == null) {
+                throw new \Exception(trans('system.plans.invalid_payment'));
+            }
+
+            $result = $this->getOrderDetails($orderId);
+            $subscription_id = $result['purchase_units'][0]['custom_id'];
+
+            $user_plan = Subscriptions::where('id', $subscription_id)->where('status', 'pending')->first();
+            if (isset($user_plan) && $user_plan != null) {
+                Subscriptions::where('id', $subscription_id)->delete();
+            }
+            return redirect('subscription')->with('Error', trans('system.plans.invalid_payment'));
+        } catch (\Exception $ex) {
+            dd($ex);
+            return redirect('subscription')->with('Error', $ex->getMessage());
+        }
     }
 
 }
