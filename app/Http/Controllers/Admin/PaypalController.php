@@ -55,7 +55,10 @@ class PayPalController extends Controller
             $result = $this->getSubscription($request->subscription_id);
             if (isset($result) && count($result) > 0) {
 
-                $subscription = Subscriptions::find($result['custom_id']);
+                $custom = json_decode($result['custom_id'], true);
+                $subscription_id = $custom['subscription_id'] ?? null;
+
+                $subscription = Subscriptions::find($subscription_id);
                 if ($subscription == null) {
                     throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
                 }
@@ -148,7 +151,10 @@ class PayPalController extends Controller
 
         $payload = [
             'plan_id' => $planId,
-            'custom_id' => $subscriptionId,
+            'custom_id' => json_encode([
+                'subscription_id' => $subscriptionId,
+                'type' => 'subscription'
+            ]),
             'subscriber' => [
                 'name' => [
                     'given_name' => $user->first_name,
@@ -232,7 +238,10 @@ class PayPalController extends Controller
                         'currency_code' => config('paypal.currency'),
                         'value' => $amount
                     ],
-                    'custom_id' => $user_plan->id,
+                    'custom_id' => json_encode([
+                        'subscription_id' => $user_plan->id,
+                        'type' => 'onetime'
+                    ]),
                 ]
             ],
             'application_context' => [
@@ -289,7 +298,9 @@ class PayPalController extends Controller
 
             $result = $this->captureOrder($orderId);
             $captures_id = $result['purchase_units'][0]['payments']['captures'][0]['id'];
-            $subscription_id = $result['purchase_units'][0]['payments']['captures'][0]['custom_id'];
+
+            $custom = json_decode($result['purchase_units'][0]['payments']['captures'][0]['custom_id'], true);
+            $subscription_id = $custom['subscription_id'] ?? null;
 
             $user_plan = Subscriptions::find($subscription_id);
             if (isset($user_plan) && $user_plan != null && $user_plan->is_processed == false) {
@@ -311,7 +322,8 @@ class PayPalController extends Controller
             }
 
             $result = $this->getOrderDetails($orderId);
-            $subscription_id = $result['purchase_units'][0]['custom_id'];
+            $custom = json_decode($result['purchase_units'][0]['custom_id'], true);
+            $subscription_id = $custom['subscription_id'] ?? null;
 
             $user_plan = Subscriptions::where('id', $subscription_id)->where('status', 'pending')->first();
             if (isset($user_plan) && $user_plan != null) {

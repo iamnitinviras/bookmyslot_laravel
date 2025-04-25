@@ -3,11 +3,19 @@
 namespace App\Http\Controllers\Webhook;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subscriptions;
+use App\Services\Subscription;
 use Illuminate\Http\Request;
 use Log;
 
 class PayPalWebhookController extends Controller
 {
+    protected $subscriptionService;
+
+    public function __construct(Subscription $subscriptionService)
+    {
+        $this->subscriptionService = $subscriptionService;
+    }
     public function paypal(Request $request)
     {
         // Log the payload for debugging
@@ -17,15 +25,28 @@ class PayPalWebhookController extends Controller
         $resource = $request->get('resource');
 
         switch ($eventType) {
-            case 'BILLING.SUBSCRIPTION.CREATED':
-                // Handle subscription created
-                Log::info('Subscription Created: ' . $resource['id']);
-                // Store in DB if needed
+            case 'CHECKOUT.ORDER.APPROVED':
+                $custom = json_decode($resource['purchase_units'][0]['custom_id'], true);
+                $captures_id = $resource['purchase_units'][0]['payments']['captures'][0]['id'];
+                $subscription_id = $custom['subscription_id'] ?? null;
+
+                $user_plan = Subscriptions::find($subscription_id);
+                if (isset($user_plan) && $user_plan != null && $user_plan->is_processed == false) {
+                    $this->subscriptionService->chargeSucceeded($captures_id, $subscription_id);
+                }
                 break;
 
             case 'BILLING.SUBSCRIPTION.ACTIVATED':
-                // Handle subscription activated
-                Log::info('Subscription Activated: ' . $resource['id']);
+
+                $custom = json_decode($resource['custom_id'], true);
+                $subscription_id = $custom['subscription_id'] ?? null;
+                $paypal_subscription_id = $resource['id'];
+
+                $user_plan = Subscriptions::find($subscription_id);
+
+                if (isset($user_plan) && $user_plan != null) {
+                    $this->subscriptionService->invoicePaid($user_plan, $paypal_subscription_id, time());
+                }
                 break;
 
             case 'BILLING.SUBSCRIPTION.CANCELLED':
