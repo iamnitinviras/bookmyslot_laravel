@@ -56,7 +56,15 @@ class PayPalWebhookController extends Controller
                 break;
 
             case 'PAYMENT.SALE.COMPLETED':
-                // Payment was successful
+                $custom = json_decode($resource['custom_id'], true);
+                $subscription_id = $custom['subscription_id'] ?? null;
+                $paypal_subscription_id = $resource['id'];
+
+                $user_plan = Subscriptions::find($subscription_id);
+
+                if (isset($user_plan) && $user_plan != null) {
+                    $this->subscriptionService->invoicePaid($user_plan, $paypal_subscription_id, time());
+                }
                 Log::info('Payment Completed for Subscription: ' . $resource['billing_agreement_id']);
                 break;
 
