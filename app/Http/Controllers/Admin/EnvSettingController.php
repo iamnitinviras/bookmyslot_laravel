@@ -270,10 +270,15 @@ class EnvSettingController extends Controller
                 'paypal_currency_code',
                 'paypal_status',
                 'instructions',
-                'offline_status'
+                'offline_status',
+                'razorpay_currency_code',
+                'razorpay_key_id',
+                'razorpay_secret_key',
+                'razorpay_mode',
+                'razorpay_status'
             );
 
-            if (isset($input['gateway_type']) && in_array($input['gateway_type'], array('stripe', 'paypal', 'offline'))) {
+            if (isset($input['gateway_type']) && in_array($input['gateway_type'], array('stripe', 'paypal', 'razorpay', 'offline'))) {
 
                 //Stripe Payment Save
                 $stripe_data = [
@@ -305,14 +310,24 @@ class EnvSettingController extends Controller
                 ];
 
                 DotenvEditor::setKeys($offline_data)->save();
-                Artisan::call('config:clear');
 
+
+                //Save razorpay Details
+                $offline_data = [
+                    'RAZORPAY_CURRENCY_CODE' => $input['razorpay_currency_code'],
+                    'RAZORPAY_KEY_ID' => $input['razorpay_key_id'],
+                    'RAZORPAY_SECRET_KEY' => $input['razorpay_secret_key'],
+                    'RAZORPAY_MODE' => $input['razorpay_mode'],
+                    'RAZORPAY_STATUS' => $input['razorpay_status'],
+                ];
+
+                DotenvEditor::setKeys($offline_data)->save();
+                Artisan::call('config:clear');
 
                 $request->session()->flash('Success', __('system.messages.saved', ['model' => __('system.payment_setting.payment_gateway')]));
                 return redirect()->back();
             } else {
-
-                $request->session()->flash('Error', __('system.messages.saved', ['model' => __('system.payment_setting.payment_gateway')]));
+                $request->session()->flash('Error', __('system.messages.operation_rejected'));
                 return redirect()->back();
             }
 

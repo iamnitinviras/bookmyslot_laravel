@@ -83,6 +83,10 @@
                                     <div class="col-xl-4">
                                         @include('admin.settings.payment.paypal')
                                     </div>
+
+                                    <div class="col-xl-4">
+                                        @include('admin.settings.payment.razorpay')
+                                    </div>
                                 </div>
                             </div>
                         </div>
