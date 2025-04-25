@@ -19,7 +19,7 @@ class RazorpayController extends Controller
     }
 
     // Create Subscription
-    public function createPaypalSubscription($razorpay_plan_type, $user, $plan, $subscriptionId)
+    public function createRazorpaySubscription($razorpay_plan_type, $user, $plan, $subscriptionId)
     {
         $subscription = $this->createSubscription(
             $razorpay_plan_type,
@@ -30,7 +30,7 @@ class RazorpayController extends Controller
             route('admin.razorpay.cancel')
         );
 
-        return redirect($subscription['links'][0]['href']);
+        return redirect($subscription->short_url);
     }
 
     // Success Route
@@ -87,6 +87,7 @@ class RazorpayController extends Controller
 
         //Get ProductID
         $razorpay_plan_id = $plan->razorpay_plan_id;
+        // dd($razorpay_plan_type);
 
         if ($plan->razorpay_plan_id == null) {
 
@@ -101,11 +102,9 @@ class RazorpayController extends Controller
                     'currency' => config('razorpay.currency')
                 )
             ));
-            dd($response);
 
-            $result = json_decode($response->getBody(), true);
-            $razorpay_plan_id = $result['id'] ?? null;
-            $plan->razorpay_plan_id = $result['id'] ?? null;
+            $razorpay_plan_id = $response->id ?? null;
+            $plan->razorpay_plan_id = $razorpay_plan_id;
             $plan->save();
         }
         return $razorpay_plan_id;
@@ -115,33 +114,22 @@ class RazorpayController extends Controller
     public function createSubscription($razorpay_plan_type, $user, $plan, $subscriptionId, $returnUrl, $cancelUrl)
     {
         $planId = $this->createPlan($razorpay_plan_type, $plan);
-
-        $email = $user->email;
-
-        $payload = [
-            'plan_id' => $planId,
-            'custom_id' => json_encode([
-                'subscription_id' => $subscriptionId,
-                'type' => 'subscription'
-            ]),
-            'subscriber' => [
-                'name' => [
-                    'given_name' => $user->first_name,
-                    'surname' => $user->last_name
-                ],
-                'email_address' => $email
-            ],
-            'application_context' => [
-                'brand_name' => config('app.name'),
-                'return_url' => $returnUrl,
-                'cancel_url' => $cancelUrl
-            ]
-        ];
-        $response = $this->client->post("{$this->baseUrl}/v1/billing/subscriptions", [
-            'headers' => ['Authorization' => "Bearer $accessToken", 'Content-Type' => 'application/json'],
-            'json' => $payload
-        ]);
-        return json_decode($response->getBody(), true);
+        $api = new Api(config('razorpay.key_id'), config('razorpay.secret'));
+        $response = $api->subscription->create(
+            array(
+                "plan_id" => $planId,
+                "total_count" => 500,
+                "quantity" => 1,
+                //"start_at" => strtotime(now()),
+                //"expire_by" => strtotime(date('Y-m-d H:i:s', strtotime('+1 month'))),
+                "customer_notify" => 1,
+                "notify_info" => array(
+                    "notify_phone" => $user->phone_number,
+                    "notify_email" => $user->email
+                )
+            )
+        );
+        return $response; // approve link
     }
 
     // Get Subscription Details

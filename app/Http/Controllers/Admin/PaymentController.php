@@ -171,15 +171,15 @@ class PaymentController extends Controller
 
             } else if ($payment_type == 'razorpay') {
                 if ($plan->type == "onetime") {
-                    $order = (new PayPalController($this->subscriptionService))->createOrder(
+                    $order = (new RazorpayController($this->subscriptionService))->createOrder(
                         $userPlan->amount,
                         route('admin.paypal.onetime.success'),
                         route('admin.paypal.onetime.cancel'),
                         $userPlan
                     );
-                    return redirect($order['links'][1]['href']); // approve link
+                    return redirect($order['short_url'][1]['href']); // approve link
                 } else {
-                    return (new PayPalController($this->subscriptionService))->createPaypalSubscription($paypal_plan_type, $authUser, $plan, $userPlan->id);
+                    return (new RazorpayController($this->subscriptionService))->createRazorpaySubscription($razorpay_plan_type, $authUser, $plan, $userPlan->id);
                 }
 
             } else if ($payment_type == 'stripe') {
