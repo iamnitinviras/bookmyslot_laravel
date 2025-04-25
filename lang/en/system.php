@@ -512,6 +512,7 @@ return
                 'credit_and_debit' => 'Credit / Debit Card',
                 'sms_gateway' => 'Sms gateway',
                 'stripe' => 'Stripe',
+                'razorpay' => 'Razorpay',
                 'paypal' => 'PayPal',
                 'offline' => 'Offline',
                 'bank_name' => 'Bank name',

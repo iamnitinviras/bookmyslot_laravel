@@ -123,18 +123,6 @@ function show_payment_section($element) {
         $("#reference").attr('required', true);
         $("#offline_payment_section").removeClass("d-none");
 
-    } else if (value == "paypal") {
-
-        $("#paypal_payment_section").removeClass("d-none");
-
-    } else if (value == "stripe") {
-
-        $("#stripe_payment_section").removeClass("d-none");
-
-    } else if (value == "paytm") {
-
-        $("#paytm_payment_section").removeClass("d-none");
-
     }
 }
 

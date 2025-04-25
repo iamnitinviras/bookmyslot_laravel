@@ -136,6 +136,18 @@
                                                         </div>
                                                     @endif
 
+                                                    @if (config('razorpay.status') == 'enable')
+                                                        <div class="form-check form-check-inline font-size-16">
+                                                            <input onclick="show_payment_section(this)" required
+                                                                class="form-check-input" type="radio" name="payment_type"
+                                                                id="razorpay_payment" value="razorpay">
+                                                            <label class="form-check-label font-size-13"
+                                                                for="razorpay_payment"><i
+                                                                    class="far fa-money-bill-alt me-1 font-size-20 align-top"></i>
+                                                                {{ __('system.payment_setting.razorpay') }}</label>
+                                                        </div>
+                                                    @endif
+
                                                 </div>
                                             </div>
 

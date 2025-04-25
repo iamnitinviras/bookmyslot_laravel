@@ -92,7 +92,7 @@ class PaymentController extends Controller
             $extra_validate = ["city" => 'required', "state" => 'required', "country" => 'required', "zip" => 'required', "address" => 'required',];
         }
 
-        $attributes = $request->validate(['payment_type' => 'in:stripe,paypal,offline',] + $extra_validate);
+        $attributes = $request->validate(['payment_type' => 'in:stripe,paypal,offline,razorpay',] + $extra_validate);
 
         $checkExistingPlan = auth()->user()->load([
             'user_plans' => function ($userPlans)
@@ -113,21 +113,26 @@ class PaymentController extends Controller
 
             $expiredDate = null;
             $paypal_plan_type = null;
+            $razorpay_plan_type = null;
             if ($plan->type == 'weekly') {
                 $expiredDate = now()->addWeek();
                 $paypal_plan_type = "WEEK";
+                $razorpay_plan_type = "weekly";
 
             } else if ($plan->type == 'monthly') {
                 $expiredDate = now()->addMonth();
                 $paypal_plan_type = "MONTH";
+                $razorpay_plan_type = "monthly";
 
             } else if ($plan->type == 'yearly') {
                 $expiredDate = now()->addYear();
                 $paypal_plan_type = "YEAR";
+                $razorpay_plan_type = "yearly";
 
             } else if ($plan->type == 'day') {
                 $expiredDate = now()->addDay();
                 $paypal_plan_type = "DAY";
+                $razorpay_plan_type = "daily";
             }
 
             if ($request->show_address) {
@@ -152,6 +157,19 @@ class PaymentController extends Controller
             }
 
             if ($payment_type == 'paypal') {
+                if ($plan->type == "onetime") {
+                    $order = (new PayPalController($this->subscriptionService))->createOrder(
+                        $userPlan->amount,
+                        route('admin.paypal.onetime.success'),
+                        route('admin.paypal.onetime.cancel'),
+                        $userPlan
+                    );
+                    return redirect($order['links'][1]['href']); // approve link
+                } else {
+                    return (new PayPalController($this->subscriptionService))->createPaypalSubscription($paypal_plan_type, $authUser, $plan, $userPlan->id);
+                }
+
+            } else if ($payment_type == 'razorpay') {
                 if ($plan->type == "onetime") {
                     $order = (new PayPalController($this->subscriptionService))->createOrder(
                         $userPlan->amount,
