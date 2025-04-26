@@ -100,13 +100,14 @@ class RazorpayController extends Controller
         $response = $api->subscription->create(
             array(
                 "plan_id" => $planId,
-                "total_count" => $plan->amount,
+                "total_count" => 1000,
                 "quantity" => 1,
+                "notes" => array("notes_key_1" => $subscriptionId),
                 "customer_notify" => 1,
-                // "notify_info" => array(
-                //     "notify_phone" => $user->phone_number,
-                //     "notify_email" => $user->email
-                // )
+                "notify_info" => array(
+                    "notify_phone" => $user->phone_number,
+                    "notify_email" => $user->email
+                )
             )
         );
         return $response;
@@ -139,7 +140,7 @@ class RazorpayController extends Controller
             'currency' => config('razorpay.currency'),
             'accept_partial' => false,
             'reference_id' => $user_plan->id,
-            'description' => 'For XYZ purpose',
+            "notes" => array("notes_key_1" => $user_plan->id),
             'customer' => array(
                 'name' => $authUser->first_name . " " . $authUser->last_name,
                 'email' => $authUser->email,

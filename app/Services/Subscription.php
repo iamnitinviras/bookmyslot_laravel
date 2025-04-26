@@ -42,36 +42,31 @@ class Subscription
 
     public function chargeSucceeded($transaction_id, $sub_id)
     {
-        $transaction_data = Transactions::where('transaction_id', $transaction_id)->first();
+        $user_plan = Subscriptions::find($sub_id);
 
-        if ($transaction_data == null) {
+        if ($user_plan != null) {
 
-            $user_plan = Subscriptions::find($sub_id);
-
-            if ($user_plan != null) {
-
-                //Make current subscription active
-                Subscriptions::where([
-                    'user_id' => $user_plan->user_id,
-                    'is_current' => 'yes'
-                ])->update(['is_current' => 'no']);
+            //Make current subscription active
+            Subscriptions::where([
+                'user_id' => $user_plan->user_id,
+                'is_current' => 'yes'
+            ])->update(['is_current' => 'no']);
 
 
-                //Update Subscription
-                Subscriptions::where('id', $user_plan->id)->update([
-                    'status' => 'approved',
-                    'is_current' => 'yes',
-                    'is_processed' => true,
-                    'transaction_id' => $transaction_id,
-                    'subscription_id' => null,
-                ]);
+            //Update Subscription
+            Subscriptions::where('id', $user_plan->id)->update([
+                'status' => 'approved',
+                'is_current' => 'yes',
+                'is_processed' => true,
+                'transaction_id' => $transaction_id,
+                'subscription_id' => null,
+            ]);
 
-                $current_subscription = Subscriptions::find($user_plan->id);
+            $current_subscription = Subscriptions::find($user_plan->id);
 
-                //Save Transaction
-                $this->saveTransaction($current_subscription, $transaction_id, $user_plan->user, $user_plan->plan);
+            //Save Transaction
+            $this->saveTransaction($current_subscription, $transaction_id, $user_plan->user, $user_plan->plan);
 
-            }
         }
     }
 

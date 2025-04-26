@@ -20,73 +20,56 @@ class RazorpayController extends Controller
     public function index(Request $request)
     {
         // Log the payload for debugging
-        Log::info('PayPal Webhook Received:', $request->all());
+        Log::info('Razorpay Webhook Received:', $request->all());
 
-        $eventType = $request->get('event_type');
-        $resource = $request->get('resource');
-
-        WebhookData::create([
-            'type' => $eventType,
-            'response' => $resource,
-            'webhook_from' => 'razorpay'
-        ]);
+        $eventType = $request->get('event');
+        $resource = $request->get('payload');
 
         switch ($eventType) {
-            case 'CHECKOUT.ORDER.APPROVED':
-                $custom = json_decode($resource['purchase_units'][0]['custom_id'], true);
-                $captures_id = $resource['purchase_units'][0]['payments']['captures'][0]['id'];
-                $subscription_id = $custom['subscription_id'] ?? null;
+            case 'subscription.activated':
+                if (isset($resource['subscription']['entity'])) {
 
-                $user_plan = Subscriptions::find($subscription_id);
-                if (isset($user_plan) && $user_plan != null && $user_plan->is_processed == false) {
-                    $this->subscriptionService->chargeSucceeded($captures_id, $subscription_id);
+                    $id = $resource['subscription']['entity']['notes']['notes_key_1'];
+                    $razorpay_subscription_id = $resource['subscription']['entity']['id'];
+                    $payment_id = $resource['payment']['entity']['id'];
+
+                    $user_plan = Subscriptions::find($id);
+
+                    if (isset($user_plan) && $user_plan != null) {
+                        $this->subscriptionService->invoicePaid($user_plan, $razorpay_subscription_id, $payment_id);
+                    }
+                }
+
+                break;
+
+            case 'order.paid':
+                if (isset($resource['order']['entity'])) {
+                    $subscription_id = $resource['order']['entity']['receipt'];
+                    $payment_id = $resource['payment']['entity']['id'];
+                    $user_plan = Subscriptions::find($subscription_id);
+
+                    if (isset($user_plan) && $user_plan != null && $user_plan->is_processed == false) {
+                        $this->subscriptionService->chargeSucceeded($payment_id, $subscription_id);
+                    }
                 }
                 break;
+            case 'subscription.charged':
+                if (isset($resource['subscription']['entity'])) {
 
-            case 'BILLING.SUBSCRIPTION.ACTIVATED':
+                    $id = $resource['subscription']['entity']['notes']['notes_key_1'];
 
-                $custom = json_decode($resource['custom_id'], true);
-                $subscription_id = $custom['subscription_id'] ?? null;
-                $paypal_subscription_id = $resource['id'];
+                    $razorpay_subscription_id = $resource['subscription']['entity']['id'];
+                    $payment_id = $resource['payment']['entity']['id'];
 
-                $user_plan = Subscriptions::find($subscription_id);
-
-                if (isset($user_plan) && $user_plan != null) {
-                    $this->subscriptionService->invoicePaid($user_plan, $paypal_subscription_id, time());
+                    $user_plan = Subscriptions::find($id);
+                    if (isset($user_plan) && $user_plan != null) {
+                        $this->subscriptionService->invoicePaid($user_plan, $razorpay_subscription_id, $payment_id);
+                    }
                 }
-                break;
-
-            case 'BILLING.SUBSCRIPTION.CANCELLED':
-                // Handle subscription canceled
-                Log::info('Subscription Cancelled: ' . $resource['id']);
-                // Mark subscription as cancelled in DB
-                break;
-
-            case 'PAYMENT.SALE.COMPLETED':
-                $custom = json_decode($resource['custom_id'], true);
-                $subscription_id = $custom['subscription_id'] ?? null;
-                $paypal_subscription_id = $resource['id'];
-
-                $user_plan = Subscriptions::find($subscription_id);
-
-                if (isset($user_plan) && $user_plan != null) {
-                    $this->subscriptionService->invoicePaid($user_plan, $paypal_subscription_id, time());
-                }
-                Log::info('Payment Completed for Subscription: ' . $resource['billing_agreement_id']);
-                break;
-
-            case 'BILLING.SUBSCRIPTION.SUSPENDED':
-                // Handle suspension
-                Log::info('Subscription Suspended: ' . $resource['id']);
-                break;
-
-            case 'BILLING.SUBSCRIPTION.EXPIRED':
-                // Handle expiration
-                Log::info('Subscription Expired: ' . $resource['id']);
                 break;
 
             default:
-                Log::warning('Unhandled PayPal Webhook Event: ' . $eventType);
+                Log::warning('Razorpay PayPal Webhook Event: ' . $eventType);
         }
 
         return response()->json(['status' => 'received'], 200);
