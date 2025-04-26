@@ -67,6 +67,21 @@ class RazorpayController extends Controller
                     }
                 }
                 break;
+            case 'subscription.cancelled':
+
+                if (isset($resource['subscription']['entity'])) {
+
+                    $id = $resource['subscription']['entity']['notes']['notes_key_1'];
+                    $subscription_id = $resource['subscription']['entity']['id'];
+
+                    $user_plan = Subscriptions::where('id', $id)->where('subscription_id', $subscription_id)->first();
+                    if (isset($user_plan) && $user_plan != null) {
+                        $user_plan->subscription_id = null;
+                        $user_plan->status = 'canceled';
+                        $user_plan->save();
+                    }
+                }
+                break;
 
             default:
                 Log::warning('Razorpay PayPal Webhook Event: ' . $eventType);
