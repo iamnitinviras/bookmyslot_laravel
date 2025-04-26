@@ -25,52 +25,36 @@ class RazorpayController extends Controller
             $razorpay_plan_type,
             $user,
             $plan,
-            $subscriptionId,
-            route('admin.razorpay.success'),
-            route('admin.razorpay.cancel')
+            $subscriptionId
         );
 
-        return redirect($subscription->short_url);
+        return redirect("razor-pay/create-subscription?subscription_id=" . $subscription->id . "&id=" . $subscriptionId);
+    }
+
+    public function process_subscription(Request $request)
+    {
+        $subscription_id = $request->subscription_id;
+        $id = $request->id;
+        return view("admin.vendor_subscription.razorpay_script", compact('subscription_id', 'id'));
     }
 
     // Success Route
     public function success(Request $request)
     {
+        $payment_id = $request->payment_id;
+        $subscription_id = $request->subscription_id;
+        $id = $request->id;
         try {
-            $result = $this->getSubscription($request->subscription_id);
-            if (isset($result) && count($result) > 0) {
 
-                $custom = json_decode($result['custom_id'], true);
-                $subscription_id = $custom['subscription_id'] ?? null;
+            if (isset($subscription_id) && $subscription_id != null) {
 
-                $subscription = Subscriptions::find($subscription_id);
+                $subscription = Subscriptions::find($id);
                 if ($subscription == null) {
                     throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
                 }
 
-                $this->subscriptionService->invoicePaid($subscription, $result['id'], time());
+                $this->subscriptionService->invoicePaid($subscription, $subscription_id, $payment_id);
                 return redirect('home')->with('Success', trans('system.plans.play_change_success'));
-            } else {
-                throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
-            }
-        } catch (\Exception $exception) {
-            return redirect('subscription')->with(['Error' => $exception->getMessage()]);
-        }
-    }
-
-    public function cancel(Request $request)
-    {
-        try {
-            $result = $this->getSubscription($request->subscription_id);
-            if (isset($result) && count($result) > 0) {
-                $subscription = Subscriptions::find($result['custom_id']);
-                if ($subscription == null) {
-                    throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
-                }
-
-                $subscription->delete();
-                return redirect('subscription')->with('Error', trans('system.plans.invalid_payment'));
-
             } else {
                 throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
             }
@@ -84,10 +68,7 @@ class RazorpayController extends Controller
         $title = $plan->title;
         $amount = $plan->amount;
         $description = $plan->description;
-
-        //Get ProductID
         $razorpay_plan_id = $plan->razorpay_plan_id;
-        // dd($razorpay_plan_type);
 
         if ($plan->razorpay_plan_id == null) {
 
@@ -111,23 +92,29 @@ class RazorpayController extends Controller
     }
 
     // Create a Subscription
-    public function createSubscription($razorpay_plan_type, $user, $plan, $subscriptionId, $returnUrl, $cancelUrl)
+    public function createSubscription($razorpay_plan_type, $user, $plan, $subscriptionId)
     {
         $planId = $this->createPlan($razorpay_plan_type, $plan);
         $api = new Api(config('razorpay.key_id'), config('razorpay.secret'));
+
         $response = $api->subscription->create(
             array(
                 "plan_id" => $planId,
                 "total_count" => $plan->amount,
                 "quantity" => 1,
                 "customer_notify" => 1,
-                "notify_info" => array(
-                    "notify_phone" => $user->phone_number,
-                    "notify_email" => $user->email
-                )
+                // "notify_info" => array(
+                //     "notify_phone" => $user->phone_number,
+                //     "notify_email" => $user->email
+                // )
             )
         );
-        return $response; // approve link
+        // return response()->json([
+        //     'subscription_id' => $response->id,
+        //     'key_id' => config('razorpay.key_id'),
+        //     'custom_id' => $subscriptionId
+        // ]);
+        return $response;
     }
 
     // Cancel Subscription

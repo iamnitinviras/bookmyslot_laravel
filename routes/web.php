@@ -228,6 +228,7 @@ Route::middleware(['preventBackHistory'])->group(function ()
 
 
         //Razorpay Payment and Subscription
+        Route::get('/razor-pay/create-subscription', [\App\Http\Controllers\Admin\RazorpayController::class, 'process_subscription'])->name('razorpay.onetime.success')->withoutMiddleware(['default_product_exists']);
         Route::get('/razor-pay/onetime-success', [\App\Http\Controllers\Admin\RazorpayController::class, 'onetimeSuccess'])->name('razorpay.onetime.success')->withoutMiddleware(['default_product_exists']);
         Route::get('/razor-pay/onetime-cancelled', [\App\Http\Controllers\Admin\RazorpayController::class, 'onetimeCancelled'])->name('razorpay.onetime.cancel')->withoutMiddleware(['default_product_exists']);
         Route::get('/razor-pay/success', [\App\Http\Controllers\Admin\RazorpayController::class, 'success'])->name('razorpay.success')->withoutMiddleware(['default_product_exists']);

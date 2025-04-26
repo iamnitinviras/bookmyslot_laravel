@@ -229,6 +229,9 @@ class PaymentController extends Controller
             if ($userPlan->payment_method == "paypal") {
                 return (new PayPalController($this->subscriptionService))->cancelSubscription($userPlan->subscription_id);
 
+            } elseif ($userPlan->payment_method == "razorpay") {
+                return (new RazorpayController($this->subscriptionService))->cancelSubscription($userPlan->subscription_id);
+
             } elseif ($userPlan->payment_method == "stripe") {
                 return (new StripeController($this->subscriptionService))->subscriptionCancel($userPlan);
 
