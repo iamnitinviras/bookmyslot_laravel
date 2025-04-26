@@ -109,11 +109,6 @@ class RazorpayController extends Controller
                 // )
             )
         );
-        // return response()->json([
-        //     'subscription_id' => $response->id,
-        //     'key_id' => config('razorpay.key_id'),
-        //     'custom_id' => $subscriptionId
-        // ]);
         return $response;
     }
 
@@ -169,6 +164,27 @@ class RazorpayController extends Controller
                 $this->subscriptionService->chargeSucceeded($razorpay_payment_id, $reference_id);
             }
             return redirect('home')->with('Success', trans('system.plans.play_change_success'));
+        } catch (\Exception $ex) {
+            return redirect('subscription')->with(['Error' => $ex->getMessage()]);
+        }
+    }
+
+    public function cancel(Request $request)
+    {
+        $id = $request->id;
+        $subscription_id = $request->subscription_id ?? null;
+        try {
+            $user_plan = Subscriptions::find($id);
+            if (isset($user_plan) && $user_plan != null) {
+                $user_plan->delete();
+
+                if (isset($subscription_id) && $subscription_id != null) {
+                    $api = new Api(config('razorpay.key_id'), config('razorpay.secret'));
+                    $api->subscription->fetch($subscription_id);
+                }
+
+            }
+            return redirect('home')->with('Success', trans('system.plans.cancel_subscription_success'));
         } catch (\Exception $ex) {
             return redirect('subscription')->with(['Error' => $ex->getMessage()]);
         }
