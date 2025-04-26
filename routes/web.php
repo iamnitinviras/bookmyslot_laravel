@@ -238,8 +238,9 @@ Route::middleware(['preventBackHistory'])->group(function ()
 
 
 //Webhook Routes
-Route::post('/webhook/stripe', [\App\Http\Controllers\Webhook\StripeWebhookController::class, 'stripe'])->withoutMiddleware(['default_product_exists']);
-Route::post('/webhook/paypal', [\App\Http\Controllers\Webhook\PayPalWebhookController::class, 'paypal'])->withoutMiddleware(['default_product_exists']);
+Route::post('/webhook/stripe', [\App\Http\Controllers\Webhook\StripeWebhookController::class, 'index'])->withoutMiddleware(['default_product_exists']);
+Route::post('/webhook/paypal', [\App\Http\Controllers\Webhook\PayPalWebhookController::class, 'index'])->withoutMiddleware(['default_product_exists']);
+Route::post('/webhook/razorpay', [\App\Http\Controllers\Webhook\RazorpayController::class, 'index'])->withoutMiddleware(['default_product_exists']);
 
 Auth::routes();
 

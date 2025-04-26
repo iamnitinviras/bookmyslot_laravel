@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Webhook;
 
 use App\Http\Controllers\Controller;
 use App\Models\Subscriptions;
+use App\Models\WebhookData;
 use App\Services\Subscription;
 use Illuminate\Http\Request;
 use Log;
@@ -16,13 +17,19 @@ class RazorpayController extends Controller
     {
         $this->subscriptionService = $subscriptionService;
     }
-    public function paypal(Request $request)
+    public function index(Request $request)
     {
         // Log the payload for debugging
         Log::info('PayPal Webhook Received:', $request->all());
 
         $eventType = $request->get('event_type');
         $resource = $request->get('resource');
+
+        WebhookData::create([
+            'type' => $eventType,
+            'response' => $resource,
+            'webhook_from' => 'razorpay'
+        ]);
 
         switch ($eventType) {
             case 'CHECKOUT.ORDER.APPROVED':

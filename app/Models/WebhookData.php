@@ -27,6 +27,7 @@ class WebhookData extends Model
     protected $fillable = [
         'id',
         'response',
-        'type'
+        'type',
+        'webhook_from'
     ];
 }

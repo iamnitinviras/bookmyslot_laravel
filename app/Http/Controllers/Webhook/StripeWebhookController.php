@@ -25,15 +25,11 @@ class StripeWebhookController extends Controller
         $this->subscriptionService = $subscriptionService;
     }
 
-    public function stripe()
+    public function index()
     {
-        $stripe_data = Settings::where('title', 'stripe')->first();
-        $stripePayment = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
 
         $stripe_secret_key = config('stripe.stripe_secret_key');
-
         \Stripe\Stripe::setApiKey($stripe_secret_key);
-
 
         $payload = @file_get_contents('php://input');
         $event = null;
@@ -44,10 +40,10 @@ class StripeWebhookController extends Controller
                 json_decode($payload, true)
             );
 
-
             WebhookData::create([
                 'type' => $event->type,
                 'response' => $event,
+                'webhook_from' => 'stripe'
             ]);
 
             switch ($event->type) {
