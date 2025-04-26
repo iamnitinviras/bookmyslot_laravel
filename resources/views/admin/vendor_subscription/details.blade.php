@@ -316,7 +316,7 @@
 
                                         <div class="row mt-4">
                                             <div class="col-md-12 text-md-end">
-                                                <button type="submit" id="paynow" class="btn btn-primary">
+                                                <button type="submit" id="paynow" class="btn w-100 btn-primary">
                                                     <div class="spinner-border text-primary d-none" role="status">
                                                     </div>
                                                     {{ trans('system.plans.pay_now') }}

@@ -122,7 +122,6 @@ class RazorpayController extends Controller
     {
         $api = new Api(config('razorpay.key_id'), config('razorpay.secret'));
         $options = array(
-            'subscriptionId' => $subscriptionId,
             'cancel_at_cycle_end' => true,
         );
         $api->subscription->fetch($subscriptionId)->cancel($options);
