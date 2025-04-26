@@ -241,17 +241,7 @@ class EnvSettingController extends Controller
     //Email Setting
     public function paymentShow()
     {
-        $stripe_data = Settings::where('title', 'stripe')->first();
-        $paypal_data = Settings::where('title', 'paypal')->first();
-        $offline_data = Settings::where('title', 'offline')->first();
-        $paytm_data = Settings::where('title', 'paytm')->first();
-
-        $stripe = ($stripe_data != null) ? json_decode($stripe_data->value) : array();
-        $paypal = ($paypal_data != null) ? json_decode($paypal_data->value) : array();
-        $offline = ($offline_data != null) ? json_decode($offline_data->value) : array();
-        $paytm = ($paytm_data != null) ? json_decode($paytm_data->value) : array();
-
-        return view('admin.settings.payment', compact('stripe', 'paypal', 'offline', 'paytm'));
+        return view('admin.settings.payment');
     }
 
     public function paymentUpdate(Request $request)
@@ -275,10 +265,15 @@ class EnvSettingController extends Controller
                 'razorpay_key_id',
                 'razorpay_secret_key',
                 'razorpay_mode',
-                'razorpay_status'
+                'razorpay_status',
+                'paystack_currency_code',
+                'paystack_public_key',
+                'paystack_secret_key',
+                'paystack_mode',
+                'paystack_status'
             );
 
-            if (isset($input['gateway_type']) && in_array($input['gateway_type'], array('stripe', 'paypal', 'razorpay', 'offline'))) {
+            if (isset($input['gateway_type']) && in_array($input['gateway_type'], array('stripe', 'paypal', 'paystack', 'razorpay', 'offline'))) {
 
                 //Stripe Payment Save
                 $stripe_data = [
@@ -320,8 +315,19 @@ class EnvSettingController extends Controller
                     'RAZORPAY_MODE' => $input['razorpay_mode'],
                     'RAZORPAY_STATUS' => $input['razorpay_status'],
                 ];
-
                 DotenvEditor::setKeys($offline_data)->save();
+
+
+                //Save paystack Details
+                $paystack_data = [
+                    'PAYSTACK_PUBLIC_KEY' => $input['paystack_public_key'],
+                    'PAYSTACK_SECRET_KEY' => $input['paystack_secret_key'],
+                    'PAYSTACK_CURRENCY_CODE' => $input['paystack_currency_code'],
+                    'PAYSTACK_STATUS' => $input['paystack_status'],
+                    'PAYSTACK_MODE' => $input['paystack_mode'],
+                ];
+
+                DotenvEditor::setKeys($paystack_data)->save();
                 Artisan::call('config:clear');
 
                 $request->session()->flash('Success', __('system.messages.saved', ['model' => __('system.payment_setting.payment_gateway')]));

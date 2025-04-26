@@ -87,6 +87,9 @@
                                     <div class="col-xl-4">
                                         @include('admin.settings.payment.razorpay')
                                     </div>
+                                    <div class="col-xl-4">
+                                        @include('admin.settings.payment.paystack')
+                                    </div>
                                 </div>
                             </div>
                         </div>
