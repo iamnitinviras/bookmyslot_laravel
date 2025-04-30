@@ -9,9 +9,11 @@
                     <select name="paystack_currency_code" id="paystack_currency_code" required="required"
                         class="form-control form-select">
                         <option value="">{{trans('system.payment_setting.select_app_currency')}}</option>
-                        <option {{ config('paystack.currency') == 'INR' ? 'selected' : '' }} value="INR"> Indian rupee
-                        </option>
-
+                        <option {{ config('paystack.currency') == 'XOF' ? 'selected' : '' }} value="XOF"> Côte d’Ivoire</option>
+                        <option {{ config('paystack.currency') == 'GHS' ? 'selected' : '' }} value="GHS"> Ghana</option>
+                        <option {{ config('paystack.currency') == 'KES' ? 'selected' : '' }} value="KES"> Kenya</option>
+                        <option {{ config('paystack.currency') == 'NGN' ? 'selected' : '' }} value="NGN"> Nigeria</option>
+                        <option {{ config('paystack.currency') == 'ZAR' ? 'selected' : '' }} value="ZAR"> South Africa</option>
                     </select>
                 </div>
             </div>
