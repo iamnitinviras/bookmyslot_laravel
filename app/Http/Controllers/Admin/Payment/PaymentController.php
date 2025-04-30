@@ -92,7 +92,7 @@ class PaymentController extends Controller
             $extra_validate = ["city" => 'required', "state" => 'required', "country" => 'required', "zip" => 'required', "address" => 'required',];
         }
 
-        $attributes = $request->validate(['payment_type' => 'in:stripe,paypal,offline,razorpay',] + $extra_validate);
+        $attributes = $request->validate(['payment_type' => 'in:stripe,paypal,offline,razorpay,paystack',] + $extra_validate);
 
         $checkExistingPlan = auth()->user()->load([
             'user_plans' => function ($userPlans)
@@ -180,6 +180,14 @@ class PaymentController extends Controller
                     return redirect($order->short_url);
                 } else {
                     return (new RazorpayController($this->subscriptionService))->createRazorpaySubscription($razorpay_plan_type, $authUser, $plan, $userPlan->id);
+                }
+
+            } else if ($payment_type == 'paystack') {
+
+                if ($userPlan->type == 'onetime') {
+                    return (new PaystackController($this->subscriptionService))->onetimePayment($plan, $userPlan);
+                } else {
+                    return (new PaystackController($this->subscriptionService))->subscriptionPayment($plan, $userPlan);
                 }
 
             } else if ($payment_type == 'stripe') {

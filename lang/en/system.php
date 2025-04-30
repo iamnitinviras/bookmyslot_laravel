@@ -514,6 +514,7 @@ return
                 'stripe' => 'Stripe',
                 'razorpay' => 'Razorpay',
                 'paypal' => 'PayPal',
+                'paystack' => 'Paystack',
                 'offline' => 'Offline',
                 'bank_name' => 'Bank name',
                 'bank_branch' => 'Bank Branch',
