@@ -576,6 +576,7 @@ return
                 'recurring_type' => 'Recurring Type',
                 'status' => 'Status',
                 'amount' => 'Amount',
+                'unlimited' => 'Unlimited',
                 'unlimited_support' => 'Unlimited Support',
                 'is_unlimited' => 'Is Unlimited',
 
