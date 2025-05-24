@@ -29,46 +29,6 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                <ul class="nav nav-tabs" role="tablist">
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ url('environment/setting') }}">
-                                            <span class="d-block d-sm-none"><i class="fas fa-home"></i></span>
-                                            <span class="d-none d-sm-block">{{ __('system.environment.application') }}
-                                                {{ __('system.environment.title') }}</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ url('environment/setting/email') }}">
-                                            <span class="d-block d-sm-none"><i class="far fa-envelope"></i></span>
-                                            <span class="d-none d-sm-block">{{ __('system.environment.email') }}</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link active" href="{{ url('environment/setting/payment') }}">
-                                            <span class="d-block d-sm-none"><i class="far fa-credit-card"></i></span>
-                                            <span class="d-none d-sm-block">{{ __('system.environment.payment') }}</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('admin.frontend.admin') }}">
-                                            <span class="d-block d-sm-none"><i class="fa fa-globe"></i></span>
-                                            <span class="d-none d-sm-block">{{ __('system.dashboard.frontend') }}</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link @if(request()->route()->getName() == 'admin.environment.recaptcha') active @endif"
-                                            href="{{ url('environment/setting/recaptcha') }}">
-                                            <span class="d-block d-sm-none"><i class="fa fa-code"></i></span>
-                                            <span class="d-none d-sm-block">{{ __('system.environment.recaptcha') }}</span>
-                                        </a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ url('environment/setting/seo') }}">
-                                            <span class="d-block d-sm-none"><i class="fa fa-code"></i></span>
-                                            <span class="d-none d-sm-block">{{ __('system.environment.seo') }}</span>
-                                        </a>
-                                    </li>
-                                </ul>
                                 @method('put')
                                 @csrf
                                 <div class="row mt-3">

@@ -156,30 +156,31 @@ Route::middleware(['preventBackHistory'])->group(function ()
 
             Route::controller(App\Http\Controllers\Admin\EnvSettingController::class)->group(function ()
             {
-                Route::get('environment/setting', 'show')->name('environment.setting');
+                Route::get('setting', 'index')->name('environment.setting');
+                Route::get('setting/application', 'application_show')->name('environment.application.setting');
                 Route::put('environment/setting', 'update')->name('environment.setting.update');
 
-                Route::get('environment/setting/recaptcha', 'showRecaptcha')->name('environment.recaptcha');
+                Route::get('setting/recaptcha', 'showRecaptcha')->name('environment.recaptcha');
                 Route::put('environment/setting/recaptcha', 'updateRecaptcha')->name('environment.recaptcha.update');
 
                 //Display Setting
-                Route::get('environment/setting/display', 'displaySetting')->name('environment.setting.display');
+                Route::get('setting/display', 'displaySetting')->name('environment.setting.display');
                 Route::put('environment/setting/display/save', 'displaySave')->name('environment.setting.display.update');
 
                 //Email Setting
-                Route::get('environment/setting/email', 'emailSetting')->name('environment.setting.email');
+                Route::get('setting/email', 'emailSetting')->name('environment.setting.email');
                 Route::put('environment/setting/email/save', 'emailSave')->name('environment.setting.email.update');
                 Route::put('environment/setting/email/test', 'emailTest')->name('environment.setting.email.test');
 
                 //SEO Setting
-                Route::get('environment/setting/seo', 'seoSetting')->name('environment.setting.seo');
+                Route::get('setting/seo', 'seoSetting')->name('environment.setting.seo');
                 Route::put('environment/setting/seo/save', 'seoSave')->name('environment.setting.seo.update');
 
                 //Analytics code
-                Route::get('environment/setting/analytics', 'analyticsSetting')->name('environment.setting.analytics');
+                Route::get('setting/analytics', 'analyticsSetting')->name('environment.setting.analytics');
                 Route::put('environment/setting/analytics/save', 'analyticsSave')->name('environment.setting.analytics.update');
 
-                Route::get('environment/setting/payment', 'paymentShow')->name('environment.payment');
+                Route::get('setting/payment', 'paymentShow')->name('environment.payment');
                 Route::put('environment/setting/payment', 'paymentUpdate')->name('environment.payment.update');
             });
         });

@@ -36,9 +36,14 @@ class EnvSettingController extends Controller
         'd F Y, h:i:s A' => ['date' => "d F Y", 'time' => 'h:i:s A', 'value' => 'd F Y, h:i:s A (EX: 13 September 2018, 11:05:00 AM)',],
     ];
 
-    public function show()
+    public function index()
     {
-        return view('admin.settings.create');
+        return view('admin.settings.index');
+    }
+
+    public function application_show()
+    {
+        return view('admin.settings.application');
     }
 
     public function update()
