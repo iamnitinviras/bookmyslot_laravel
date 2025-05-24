@@ -4,7 +4,7 @@
 
         <div class="row">
             <div class="row">
-                <div class="col-lg-5 mb-2">
+                <div class="col-lg-6 mb-2">
                     <div class="form-group">
                         <label class="text-label">{{ trans('system.faq.question') }}*</label>
                         <input
@@ -13,7 +13,7 @@
                             class="form-control" placeholder="{{ trans('system.faq.question') }}" required>
                     </div>
                 </div>
-                <div class="col-lg-5 mb-2">
+                <div class="col-lg-6 mb-2">
                     <div class="form-group">
                         <label class="text-label">{{ trans('system.faq.answer') }}*</label>
                         <textarea
@@ -26,7 +26,7 @@
             </div>
             @foreach (getAllCurrentLanguages() as $key => $lang)
             <div class="row mt-5">
-                <div class="col-lg-5 mb-2">
+                <div class="col-lg-6 mb-2">
                     @php($lbl_question = __('system.faq.question') . ' ' . $lang)
 
                     <div class="form-group @error('lang_question.' . $key) has-danger @enderror">
@@ -42,7 +42,7 @@
                         @enderror
                     </div>
                 </div>
-                <div class="col-lg-5 mb-2">
+                <div class="col-lg-6 mb-2">
                     @php($lbl_answer = __('system.faq.answer') . ' ' . $lang)
 
                     <div class="form-group @error('lang_answer.' . $key) has-danger @enderror">
