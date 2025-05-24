@@ -32,9 +32,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer p-2">
+                                <div class="card-footer py-2 text-end">
                                     <a class="text-decoration-none" href="{{ url('setting/application') }}">
-                                        <i class="fas fa-arrow-alt-circle-right fa-2x"></i>
+                                        <i class="fas fa-arrow-right font-size-16"></i>
                                     </a>
                                 </div>
                             </div>
@@ -57,9 +57,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer p-2">
+                                <div class="card-footer py-2 text-end">
                                     <a class="text-decoration-none" href="{{ url('setting/email') }}">
-                                        <i class="fas fa-arrow-alt-circle-right fa-2x"></i>
+                                        <i class="fas fa-arrow-right font-size-16"></i>
                                     </a>
                                 </div>
                             </div>
@@ -83,9 +83,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer p-2">
+                                <div class="card-footer py-2 text-end">
                                     <a class="text-decoration-none" href="{{ url('setting/payment') }}">
-                                        <i class="fas fa-arrow-alt-circle-right fa-2x"></i>
+                                        <i class="fas fa-arrow-right  font-size-16"></i>
                                     </a>
                                 </div>
                             </div>
@@ -109,9 +109,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer p-2">
+                                <div class="card-footer py-2 text-end">
                                     <a class="text-decoration-none" href="{{ route('admin.environment.frontend') }}">
-                                        <i class="fas fa-arrow-alt-circle-right fa-2x"></i>
+                                        <i class="fas fa-arrow-right font-size-16"></i>
                                     </a>
                                 </div>
                             </div>
@@ -134,9 +134,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer p-2">
+                                <div class="card-footer py-2 text-end">
                                     <a class="text-decoration-none" href="{{ url('setting/recaptcha') }}">
-                                        <i class="fas fa-arrow-alt-circle-right fa-2x"></i>
+                                        <i class="fas fa-arrow-right font-size-16"></i>
                                     </a>
                                 </div>
                             </div>
@@ -159,9 +159,9 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="card-footer p-2">
+                                <div class="card-footer py-2 text-end">
                                     <a class="text-decoration-none" href="{{ url('setting/seo') }}">
-                                        <i class="fas fa-arrow-circle-right fa-2x"></i>
+                                        <i class="fas fa-arrow-right font-size-16"></i>
                                     </a>
                                 </div>
                             </div>

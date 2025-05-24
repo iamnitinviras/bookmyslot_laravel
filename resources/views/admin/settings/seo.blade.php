@@ -32,38 +32,31 @@
                             <div class="col-md-12">
                                 @method('put')
                                 @csrf
-                                <div class="card">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            <div class="col-lg-6 mb-2">
-                                                <div class="form-group">
-                                                    <label
-                                                        class="text-label">{{ trans('system.environment.seo_keyword') }}</label>
-                                                    <input value="{{ old('seo_keyword', $seo_keyword ?? '')}}" type="text"
-                                                        name="seo_keyword" class="form-control"
-                                                        placeholder="{{ trans('system.environment.seo_keyword') }}">
-                                                </div>
-                                            </div>
-                                            <div class="col-lg-6 mb-2">
-                                                <div class="form-group">
-                                                    <label
-                                                        class="text-label">{{ trans('system.environment.seo_description') }}</label>
-                                                    <textarea rows="2" type="text" name="seo_description"
-                                                        class="form-control"
-                                                        placeholder="{{ trans('system.environment.seo_description') }}">{{ old('seo_description', $seo_description ?? "") }}</textarea>
-                                                </div>
-                                            </div>
+                                <div class="row">
+                                    <div class="col-lg-12 mb-2">
+                                        <div class="form-group">
+                                            <label class="text-label">{{ trans('system.environment.seo_keyword') }}</label>
+                                            <input value="{{ old('seo_keyword', $seo_keyword ?? '')}}" type="text"
+                                                name="seo_keyword" class="form-control"
+                                                placeholder="{{ trans('system.environment.seo_keyword') }}">
                                         </div>
-                                        <div class="row">
-                                            <div class="col-lg-12 mb-2">
-                                                <div class="form-group">
-                                                    <label
-                                                        class="text-label">{{ trans('system.environment.analytics_code') }}</label>
-                                                    <textarea rows="10" type="text" name="analytics_code"
-                                                        class="form-control"
-                                                        placeholder="{{ trans('system.environment.analytics_code') }}">{{ old('analytics_code', $analytics_code ?? "") }}</textarea>
-                                                </div>
-                                            </div>
+                                    </div>
+                                    <div class="col-lg-12 mb-2">
+                                        <div class="form-group">
+                                            <label
+                                                class="text-label">{{ trans('system.environment.seo_description') }}</label>
+                                            <textarea rows="2" type="text" name="seo_description" class="form-control"
+                                                placeholder="{{ trans('system.environment.seo_description') }}">{{ old('seo_description', $seo_description ?? "") }}</textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-lg-12 mb-2">
+                                        <div class="form-group">
+                                            <label
+                                                class="text-label">{{ trans('system.environment.analytics_code') }}</label>
+                                            <textarea rows="10" type="text" name="analytics_code" class="form-control"
+                                                placeholder="{{ trans('system.environment.analytics_code') }}">{{ old('analytics_code', $analytics_code ?? "") }}</textarea>
                                         </div>
                                     </div>
                                 </div>
