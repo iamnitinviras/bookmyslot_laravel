@@ -182,14 +182,6 @@ class PaymentController extends Controller
                     return (new RazorpayController($this->subscriptionService))->createRazorpaySubscription($razorpay_plan_type, $authUser, $plan, $userPlan->id);
                 }
 
-            } else if ($payment_type == 'paystack') {
-
-                if ($userPlan->type == 'onetime') {
-                    return (new PaystackController($this->subscriptionService))->onetimePayment($plan, $userPlan);
-                } else {
-                    return (new PaystackController($this->subscriptionService))->subscriptionPayment($plan, $userPlan);
-                }
-
             } else if ($payment_type == 'stripe') {
 
                 if ($userPlan->type == 'onetime') {

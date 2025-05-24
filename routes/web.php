@@ -49,8 +49,6 @@ Route::middleware(['preventBackHistory'])->group(function ()
     Route::get('staff/plan', [App\Http\Controllers\Admin\VendorController::class, 'staffPlan']);
     Route::group(['middleware' => ["auth", "default_product_exists"], 'as' => "admin."], function ()
     {
-
-
         //Vendor Module
         Route::group(['middleware' => ['role:vendor|staff', 'vendor_settings']], function ()
         {
@@ -232,14 +230,6 @@ Route::middleware(['preventBackHistory'])->group(function ()
         Route::get('/razor-pay/onetime-cancelled', [\App\Http\Controllers\Admin\Payment\RazorpayController::class, 'onetimeCancelled'])->name('razorpay.onetime.cancel')->withoutMiddleware(['default_product_exists']);
         Route::get('/razor-pay/success', [\App\Http\Controllers\Admin\Payment\RazorpayController::class, 'success'])->name('razorpay.success')->withoutMiddleware(['default_product_exists']);
         Route::get('/razor-pay/cancel', [\App\Http\Controllers\Admin\Payment\RazorpayController::class, 'cancel'])->name('razorpay.cancel')->withoutMiddleware(['default_product_exists']);
-
-        //paystack Payment and Subscription
-        Route::get('/paystack/create-subscription', [\App\Http\Controllers\Admin\Payment\PaystackController::class, 'process_subscription'])->name('paystack.onetime.success')->withoutMiddleware(['default_product_exists']);
-        Route::get('/paystack/onetime-success', [\App\Http\Controllers\Admin\Payment\PaystackController::class, 'onetimeSuccess'])->name('paystack.onetime.success')->withoutMiddleware(['default_product_exists']);
-        Route::get('/paystack/onetime-cancelled', [\App\Http\Controllers\Admin\Payment\PaystackController::class, 'onetimeCancelled'])->name('paystack.onetime.cancel')->withoutMiddleware(['default_product_exists']);
-        Route::get('/paystack/success', [\App\Http\Controllers\Admin\Payment\PaystackController::class, 'success'])->name('paystack.success')->withoutMiddleware(['default_product_exists']);
-        Route::get('/paystack/cancel', [\App\Http\Controllers\Admin\Payment\PaystackController::class, 'cancel'])->name('paystack.cancel')->withoutMiddleware(['default_product_exists']);
-        Route::get('/paystack/payment', [\App\Http\Controllers\Admin\Payment\PaystackController::class, 'payment'])->name('paystack.cancel')->withoutMiddleware(['default_product_exists']);
     });
 });
 
@@ -248,7 +238,6 @@ Route::middleware(['preventBackHistory'])->group(function ()
 Route::post('/webhook/stripe', [\App\Http\Controllers\Webhook\StripeWebhookController::class, 'index'])->withoutMiddleware(['default_product_exists']);
 Route::post('/webhook/paypal', [\App\Http\Controllers\Webhook\PayPalWebhookController::class, 'index'])->withoutMiddleware(['default_product_exists']);
 Route::post('/webhook/razorpay', [\App\Http\Controllers\Webhook\RazorpayController::class, 'index'])->withoutMiddleware(['default_product_exists']);
-Route::post('/webhook/paystack', [\App\Http\Controllers\Webhook\RazorpayController::class, 'index'])->withoutMiddleware(['default_product_exists']);
 
 Auth::routes();
 

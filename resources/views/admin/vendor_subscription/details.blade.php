@@ -148,19 +148,6 @@
                                                             </div>
                                                         @endif
 
-
-                                                        @if (config('paystack.status') == 'enable')
-                                                            <div class="form-check form-check-inline font-size-16">
-                                                                <input onclick="show_payment_section(this)" required
-                                                                    class="form-check-input" type="radio" name="payment_type"
-                                                                    id="paystack_payment" value="paystack">
-                                                                <label class="form-check-label font-size-13"
-                                                                    for="paystack_payment"><i
-                                                                        class="fab fa-money-bill-alt me-1 font-size-20 align-top"></i>
-                                                                    {{ __('system.payment_setting.paystack') }}</label>
-                                                            </div>
-                                                        @endif
-
                                                     </div>
                                                 </div>
 

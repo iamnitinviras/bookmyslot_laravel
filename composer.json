@@ -44,7 +44,7 @@
         "psr-4": {
             "Tests\\": "tests/"
         },
-        "files":[
+        "files": [
             "app/Helpers/CommonHelper.php"
         ]
     },
