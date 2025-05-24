@@ -12,17 +12,7 @@ class SubscriptionController extends Controller
 {
     public function subscriptions(Request $request)
     {
-
-        $subscriptions = Subscriptions::orderBy('created_at', 'desc')->where(function ($query) use ($request) {
-
-            if (isset($request->action) && $request->action == 'approved') {
-                $query->where('status', "approved");
-            } elseif (isset($request->action) && $request->action == 'rejected') {
-                $query->where('status', "rejected");
-            } else {
-                $query->where('status', "pending");
-            }
-        })->get();
+        $subscriptions = Subscriptions::orderBy('created_at', 'desc')->get();
         return view("admin.subscriptions.index", compact('subscriptions'));
     }
 
@@ -76,6 +66,6 @@ class SubscriptionController extends Controller
     public function delete(Request $request, Subscriptions $subscription)
     {
         $subscription->delete();
-        return redirect()->back()->with('Success',  __('system.messages.deleted', ['model' => __('system.plans.title')]));
+        return redirect()->back()->with('Success', __('system.messages.deleted', ['model' => __('system.plans.title')]));
     }
 }
