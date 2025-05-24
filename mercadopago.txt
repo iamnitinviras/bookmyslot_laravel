@@ -1,3 +1,0 @@
-https://www.mercadopago.com.ar/developers/pt/reference
-
-https://github.com/mercadopago/sdk-php
