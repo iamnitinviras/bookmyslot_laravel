@@ -225,7 +225,7 @@ Route::middleware(['preventBackHistory'])->group(function ()
         Route::get('/stripe/onetime-cancelled', [\App\Http\Controllers\Admin\Payment\StripeController::class, 'onetimeCancelled'])->withoutMiddleware(['default_product_exists']);
 
         //Razorpay Payment and Subscription
-        Route::get('/razor-pay/create-subscription', [\App\Http\Controllers\Admin\Payment\RazorpayController::class, 'process_subscription'])->name('razorpay.onetime.success')->withoutMiddleware(['default_product_exists']);
+        // Route::get('/razor-pay/create-subscription', [\App\Http\Controllers\Admin\Payment\RazorpayController::class, 'process_subscription'])->name('razorpay.subscription.success')->withoutMiddleware(['default_product_exists']);
         Route::get('/razor-pay/onetime-success', [\App\Http\Controllers\Admin\Payment\RazorpayController::class, 'onetimeSuccess'])->name('razorpay.onetime.success')->withoutMiddleware(['default_product_exists']);
         Route::get('/razor-pay/onetime-cancelled', [\App\Http\Controllers\Admin\Payment\RazorpayController::class, 'onetimeCancelled'])->name('razorpay.onetime.cancel')->withoutMiddleware(['default_product_exists']);
         Route::get('/razor-pay/success', [\App\Http\Controllers\Admin\Payment\RazorpayController::class, 'success'])->name('razorpay.success')->withoutMiddleware(['default_product_exists']);
