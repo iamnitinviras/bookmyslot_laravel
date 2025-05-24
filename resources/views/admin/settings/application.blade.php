@@ -15,7 +15,7 @@
                             <div class="page-title-right">
                                 <ol class="breadcrumb m-0">
                                     <li class="breadcrumb-item"><a
-                                            href="{{ route('home') }}">{{ __('system.dashboard.menu') }}</a></li>
+                                            href="{{ url('setting') }}">{{ __('system.environment.menu') }}</a></li>
                                     <li class="breadcrumb-item active">{{ __('system.environment.application') }}
                                         {{ __('system.environment.title') }}
                                     </li>

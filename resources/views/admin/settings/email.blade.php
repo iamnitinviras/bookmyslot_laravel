@@ -14,7 +14,7 @@
                             <div class="page-title-box pb-0 d-sm-flex">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('system.dashboard.menu') }}</a></li>
+                                        <li class="breadcrumb-item"><a href="{{ url('setting') }}">{{ __('system.environment.menu') }}</a></li>
                                         <li class="breadcrumb-item active">{{ __('system.environment.email') }}</li>
                                     </ol>
                                 </div>

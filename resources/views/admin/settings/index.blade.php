@@ -8,20 +8,7 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-6 col-xl-6">
-                            <h4 class="card-title">{{ __('system.environment.application') }}
-                                {{ __('system.environment.title') }}
-                            </h4>
-                            <div class="page-title-box pb-0 d-sm-flex">
-                                <div class="page-title-right">
-                                    <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('home') }}">{{ __('system.dashboard.menu') }}</a></li>
-                                        <li class="breadcrumb-item active">{{ __('system.environment.application') }}
-                                            {{ __('system.environment.title') }}
-                                        </li>
-                                    </ol>
-                                </div>
-                            </div>
+                            <h4 class="card-title mb-0">{{ __('system.environment.menu') }}</h4>
                         </div>
                     </div>
                 </div>
@@ -46,7 +33,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <a class="text-decoration-none" href="bill-verification">Manage</a>
+                                            <a class="text-decoration-none"
+                                                href="{{ url('setting/application') }}">Manage</a>
                                         </div>
                                     </div>
                                 </div>
@@ -71,7 +59,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <a class="text-decoration-none" href="bill-verification">Manage</a>
+                                            <a class="text-decoration-none" href="{{ url('setting/email') }}">Manage</a>
                                         </div>
                                     </div>
                                 </div>
@@ -97,7 +85,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <a class="text-decoration-none" href="bill-verification">Manage</a>
+                                            <a class="text-decoration-none" href="{{ url('setting/payment') }}">Manage</a>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +111,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <a class="text-decoration-none" href="bill-verification">Manage</a>
+                                            <a class="text-decoration-none"
+                                                href="{{ route('admin.frontend.admin') }}">Manage</a>
                                         </div>
                                     </div>
                                 </div>
@@ -148,7 +137,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <a class="text-decoration-none" href="bill-verification">Manage</a>
+                                            <a class="text-decoration-none" href="{{ url('setting/recaptcha') }}">Manage</a>
                                         </div>
                                     </div>
                                 </div>
@@ -173,7 +162,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col">
-                                            <a class="text-decoration-none" href="bill-verification">Manage</a>
+                                            <a class="text-decoration-none" href="{{ url('setting/seo') }}">Manage</a>
                                         </div>
                                     </div>
                                 </div>
