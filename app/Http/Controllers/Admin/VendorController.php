@@ -222,17 +222,6 @@ class VendorController extends Controller
         Transactions::where('user_id', $vendor->id)->delete();
         User::where('created_by', $vendor->id)->where('user_type', User::USER_TYPE_STAFF)->delete();
 
-        //Delete Restaurant
-        $vendor_products = Branch::where('user_id', $vendor->id)->get();
-        if (isset($vendor_products) && count($vendor_products) > 0) {
-            foreach ($vendor_products as $restro) {
-                Feedback::where('branch_id', $restro->id)->delete();
-                FeedbackComments::where('branch_id', $restro->id)->delete();
-                Category::where('branch_id', $restro->id)->delete();
-                Roadmap::where('branch_id', $restro->id)->delete();
-                $restro->delete();
-            }
-        }
 
         //Get All Subscription
         if (isset($subscriptions) && count($subscriptions) > 0) {
