@@ -31,12 +31,11 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a class="text-decoration-none"
-                                                href="{{ url('setting/application') }}">Manage</a>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent border-top text-muted p-2">
+                                    <a class="text-decoration-none" href="{{ url('setting/application') }}">
+                                        <i class="fas fa-arrow-alt-circle-right fa-2x text-gray-300"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -53,15 +52,15 @@
                                         </div>
                                         <div class="col-auto">
                                             <a href="{{ url('setting/email') }}">
-                                                <i class="fas fa-server fa-2x text-gray-300"></i>
+                                                <i class="fas fa-envelope fa-2x text-gray-300"></i>
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a class="text-decoration-none" href="{{ url('setting/email') }}">Manage</a>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent border-top text-muted p-2">
+                                    <a class="text-decoration-none" href="{{ url('setting/email') }}">
+                                        <i class="fas fa-arrow-alt-circle-right fa-2x text-gray-300"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -79,15 +78,15 @@
                                         </div>
                                         <div class="col-auto">
                                             <a href="{{ url('setting/payment') }}">
-                                                <i class="fas fa-server fa-2x text-gray-300"></i>
+                                                <i class="fas fa-cre fa-2x text-gray-300"></i>
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a class="text-decoration-none" href="{{ url('setting/payment') }}">Manage</a>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent border-top text-muted p-2">
+                                    <a class="text-decoration-none" href="{{ url('setting/payment') }}">
+                                        <i class="fas fa-arrow-alt-circle-right fa-2x text-gray-300"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -109,12 +108,11 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a class="text-decoration-none"
-                                                href="{{ route('admin.frontend.admin') }}">Manage</a>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent border-top text-muted p-2">
+                                    <a class="text-decoration-none" href="{{ route('admin.frontend.admin') }}">
+                                        <i class="fas fa-arrow-alt-circle-right fa-2x text-gray-300"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -135,11 +133,11 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a class="text-decoration-none" href="{{ url('setting/recaptcha') }}">Manage</a>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent border-top text-muted p-2">
+                                    <a class="text-decoration-none" href="{{ url('setting/recaptcha') }}">
+                                        <i class="fas fa-arrow-alt-circle-right fa-2x text-gray-300"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -160,11 +158,11 @@
                                             </a>
                                         </div>
                                     </div>
-                                    <div class="row">
-                                        <div class="col">
-                                            <a class="text-decoration-none" href="{{ url('setting/seo') }}">Manage</a>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="card-footer bg-transparent border-top text-muted p-2">
+                                    <a class="text-decoration-none" href="{{ url('setting/seo') }}">
+                                        <i class="fas fa-arrow-right fa-2x text-gray-300"></i>
+                                    </a>
                                 </div>
                             </div>
                         </div>
