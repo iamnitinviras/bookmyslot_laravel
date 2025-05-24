@@ -3,15 +3,8 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Models\Branch;
-use App\Models\Product;
-use App\Models\ProductUser;
-use App\Models\Category;
-use App\Models\Feedback;
-use App\Models\FeedbackComments;
-use App\Models\Roadmap;
 use App\Models\User;
 use App\Models\Plans;
-use App\Models\Settings;
 use Illuminate\Support\Arr;
 use App\Models\Transactions;
 use Illuminate\Http\Request;
@@ -106,21 +99,35 @@ class VendorController extends Controller
 
     public function store(UserRequest $request)
     {
-
-
         $vendor = auth()->user();
         $data = $request->all();
-
         $plan_id = (int) request()->user_plan;
 
-        $plan = Plans::find($plan_id);
-
+        $plan = Plans::where('plan_id', $plan_id)->first();
         $free_forever = false;
         if ($plan == null) {
             $free_forever = true;
         }
 
-        $newUser = User::create(['first_name' => $data['first_name'], 'last_name' => $data['last_name'], 'email' => $data['email'], 'phone_number' => $data['phone_number'], 'profile_image' => $data['profile_image'] ?? null, 'password' => Hash::make($data['password']), 'user_type' => 3, 'status' => User::STATUS_ACTIVE, 'created_by' => $vendor->id, 'email_verified_at' => now(), 'free_forever' => $free_forever, 'branch_id' => null, 'address' => $data['address'], 'city' => $data['city'], 'state' => $data['state'], 'country' => $data['country'], 'zip' => $data['zip'],]);
+        $newUser = User::create([
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'email' => $data['email'],
+            'phone_number' => $data['phone_number'],
+            'profile_image' => $data['profile_image'] ?? null,
+            'password' => Hash::make($data['password']),
+            'user_type' => 3,
+            'status' => User::STATUS_ACTIVE,
+            'created_by' => $vendor->id,
+            'email_verified_at' => now(),
+            'free_forever' => $free_forever,
+            'branch_id' => null,
+            'address' => $data['address'],
+            'city' => $data['city'],
+            'state' => $data['state'],
+            'country' => $data['country'],
+            'zip' => $data['zip']
+        ]);
         $newUser->assignRole("vendor");
 
         VendorSetting::updateOrCreate(['user_id' => $newUser->id], []);
