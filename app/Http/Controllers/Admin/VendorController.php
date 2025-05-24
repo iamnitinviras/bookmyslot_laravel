@@ -57,7 +57,7 @@ class VendorController extends Controller
 
         $current_plans = $vendor->subscriptionData();
         $plan_id = $vendor->subscriptionData() ? $vendor->subscriptionData()->plan_id : 0;
-        $plans = Plans::find($plan_id);
+        $plans = Plans::where('plan_id', $plan_id)->first();
 
         return view('admin.vendors.show', compact('vendor', 'total_staff', 'total_board', 'plans', 'current_plans'));
     }
