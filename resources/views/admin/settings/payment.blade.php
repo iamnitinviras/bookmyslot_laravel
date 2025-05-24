@@ -33,10 +33,6 @@
                                 @csrf
                                 <div class="row mt-3">
                                     <div class="col-xl-4">
-                                        @include('admin.settings.payment.offline')
-                                    </div>
-
-                                    <div class="col-xl-4">
                                         @include('admin.settings.payment.stripe')
                                     </div>
 

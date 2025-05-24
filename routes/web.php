@@ -151,8 +151,6 @@ Route::middleware(['preventBackHistory'])->group(function ()
                 Route::put('/delete/{subscription}', 'delete')->name('.delete');
             });
 
-            Route::get('frontend', [App\Http\Controllers\Admin\EnvSettingController::class, 'frontend'])->name('frontend.admin')->middleware('role:Super-Admin');
-            Route::put('frontend-images', [App\Http\Controllers\Admin\EnvSettingController::class, 'frontendImages'])->name('frontendImages')->middleware('role:Super-Admin');
 
             Route::controller(App\Http\Controllers\Admin\EnvSettingController::class)->group(function ()
             {
@@ -180,8 +178,13 @@ Route::middleware(['preventBackHistory'])->group(function ()
                 Route::get('setting/analytics', 'analyticsSetting')->name('environment.setting.analytics');
                 Route::put('environment/setting/analytics/save', 'analyticsSave')->name('environment.setting.analytics.update');
 
+                //Payment setting
                 Route::get('setting/payment', 'paymentShow')->name('environment.payment');
                 Route::put('environment/setting/payment', 'paymentUpdate')->name('environment.payment.update');
+
+                //Frontend Setting
+                Route::get('setting/frontend', 'frontend')->name('environment.frontend');
+                Route::put('environment/setting/frontend-images', 'frontendImages')->name('environment.frontend.images');
             });
         });
 
