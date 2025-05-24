@@ -139,6 +139,7 @@ Route::middleware(['preventBackHistory'])->group(function ()
 
 
         //Super Admin Role Permission
+        Route::get('subscription/transactions', [App\Http\Controllers\Admin\SubscriptionController::class, 'transactions'])->name('transactions')->middleware('role:Super-Admin');
         Route::group(['middleware' => ['role:Super-Admin']], function ()
         {
 

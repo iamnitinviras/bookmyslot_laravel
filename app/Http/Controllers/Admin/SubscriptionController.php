@@ -16,6 +16,12 @@ class SubscriptionController extends Controller
         return view("admin.subscriptions.index", compact('subscriptions'));
     }
 
+    public function transactions(Request $request)
+    {
+        $transactions = Transactions::orderBy('created_at', 'desc')->get();
+        return view("admin.subscriptions.transactions", compact('transactions'));
+    }
+
     public function approve(Request $request, Subscriptions $subscription)
     {
         $paymentId = uniqid();
