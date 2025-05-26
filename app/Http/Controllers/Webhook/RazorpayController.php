@@ -56,9 +56,9 @@ class RazorpayController extends Controller
             case 'subscription.charged':
                 if (isset($resource['subscription']['entity'])) {
 
-                    $id = $resource['subscription']['entity']['notes']['notes_key_1'];
+                    $id = isset($resource['subscription']['entity']['notes']['notes_key_1']) ? $resource['subscription']['entity']['notes']['notes_key_1'] : '';
 
-                    $razorpay_subscription_id = $resource['subscription']['entity']['id'];
+                    $razorpay_subscription_id = isset($resource['subscription']['entity']['id']) ? $resource['subscription']['entity']['id'] : '';
                     $payment_id = $resource['payment']['entity']['id'];
 
                     $user_plan = Subscriptions::find($id);
@@ -71,8 +71,8 @@ class RazorpayController extends Controller
 
                 if (isset($resource['subscription']['entity'])) {
 
-                    $id = $resource['subscription']['entity']['notes']['notes_key_1'];
-                    $subscription_id = $resource['subscription']['entity']['id'];
+                    $id = isset($resource['subscription']['entity']['notes']['notes_key_1']) ? $resource['subscription']['entity']['notes']['notes_key_1'] : '';
+                    $subscription_id = isset($resource['subscription']['entity']['id']) ? $resource['subscription']['entity']['id'] : '';
 
                     $user_plan = Subscriptions::where('id', $id)->where('subscription_id', $subscription_id)->first();
                     if (isset($user_plan) && $user_plan != null) {
