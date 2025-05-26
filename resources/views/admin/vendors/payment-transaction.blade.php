@@ -30,7 +30,7 @@
 
                         <div class="col-md-6 col-xl-6 text-end">
                             <a href="{{ route('admin.vendors.show', $vendor->id) }}"
-                                class="btn btn-primary waves-effect waves-light">{{ __('system.crud.back') }}</a>
+                                class="btn text-muted d-none d-sm-inline-block btn-link"><i class="mdi mdi-arrow-left me-1"></i>{{ __('system.crud.back') }}</a>
                         </div>
                     </div>
                 </div>

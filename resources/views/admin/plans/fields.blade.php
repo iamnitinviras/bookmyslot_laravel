@@ -71,8 +71,8 @@
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text is-unlimited">
-                            <input data-name="member_limit" {{ isset($plan) && $plan->member_unlimited == 'yes' ? 'checked' : '' }} id="is_member_limit" data-target="#member_limit"
-                                name="is_member_unlimited" type="checkbox" class="isUnlimited" value="yes">
+                            <input data-name="member_limit" {{ isset($plan) && $plan->unlimited_member == 'yes' ? 'checked' : '' }} id="is_member_limit" data-target="#member_limit"
+                                name="is_unlimited_member" type="checkbox" class="isUnlimited" value="yes">
                             <label for="is_member_limit" class="form-check-label ml-3">
                                 {{ trans('system.plans.is_unlimited') }}</label>
                         </div>
@@ -88,8 +88,8 @@
                 <div class="input-group">
                     <div class="input-group-prepend">
                         <div class="input-group-text is-unlimited">
-                            <input data-name="branch_limit" {{ isset($plan) && $plan->branch_unlimited == 'yes' ? 'checked' : '' }} id="is_branch_limit" data-target="#branch_limit"
-                                name="is_branch_unlimited" type="checkbox" class="isUnlimited" value="yes">
+                            <input data-name="branch_limit" {{ isset($plan) && $plan->unlimited_branch == 'yes' ? 'checked' : '' }} id="is_branch_limit" data-target="#branch_limit"
+                                name="is_unlimited_branch" type="checkbox" class="isUnlimited" value="yes">
                             <label for="is_branch_limit" class="form-check-label ml-3">
                                 {{ trans('system.plans.is_unlimited') }}</label>
                         </div>

@@ -66,8 +66,8 @@
 
     <h6 class="mb-1">{{ trans('system.plans.branch_limit') }}</h6>
     <p class="mt-1 mb-3 sidebar-setting">
-        @if ($subscription->branch_unlimited == 'yes')
-            {{ trans('system.plans.branch_unlimited') }}
+        @if ($subscription->unlimited_branch == 'yes')
+            {{ trans('system.plans.unlimited_branch') }}
         @else
             {{ $subscription->branch_limit }}
         @endif

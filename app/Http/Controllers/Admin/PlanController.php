@@ -64,21 +64,21 @@ class PlanController extends Controller
                 $request['staff_unlimited'] = 'no';
             }
 
-            if ($request->is_branch_unlimited == 'yes') {
-                unset($request['is_branch_unlimited']);
-                $request['branch_unlimited'] = 'yes';
+            if ($request->is_unlimited_branch == 'yes') {
+                unset($request['is_unlimited_branch']);
+                $request['unlimited_branch'] = 'yes';
                 $request['branch_limit'] = 0;
             } else {
-                $request['branch_unlimited'] = 'no';
+                $request['unlimited_branch'] = 'no';
             }
 
 
-            if ($request->is_member_unlimited == 'yes') {
-                unset($request['is_member_unlimited']);
-                $request['member_unlimited'] = 'yes';
+            if ($request->is_unlimited_member == 'yes') {
+                unset($request['is_unlimited_member']);
+                $request['unlimited_member'] = 'yes';
                 $request['member_limit'] = 0;
             } else {
-                $request['member_unlimited'] = 'no';
+                $request['unlimited_member'] = 'no';
             }
 
             Plans::create($request->all());
@@ -124,20 +124,20 @@ class PlanController extends Controller
                 $request['staff_unlimited'] = 'no';
             }
 
-            if ($request->is_branch_unlimited == 'yes') {
-                unset($request['is_branch_unlimited']);
-                $request['branch_unlimited'] = 'yes';
+            if ($request->is_unlimited_branch == 'yes') {
+                unset($request['is_unlimited_branch']);
+                $request['unlimited_branch'] = 'yes';
                 $request['branch_limit'] = 0;
             } else {
-                $request['branch_unlimited'] = 'no';
+                $request['unlimited_branch'] = 'no';
             }
 
-            if ($request->is_member_unlimited == 'yes') {
-                unset($request['is_member_unlimited']);
-                $request['member_unlimited'] = 'yes';
+            if ($request->is_unlimited_member == 'yes') {
+                unset($request['is_unlimited_member']);
+                $request['unlimited_member'] = 'yes';
                 $request['member_limit'] = 0;
             } else {
-                $request['member_unlimited'] = 'no';
+                $request['unlimited_member'] = 'no';
             }
 
             $plan->update($request->all());

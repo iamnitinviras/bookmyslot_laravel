@@ -112,8 +112,8 @@ class RegisterController extends Controller
         $vendorPlan->amount = 0;
         $vendorPlan->type = "trial";
 
-        $vendorPlan->branch_unlimited = "no";
-        $vendorPlan->member_unlimited = "no";
+        $vendorPlan->unlimited_branch = "no";
+        $vendorPlan->unlimited_member = "no";
         $vendorPlan->staff_unlimited = "no";
 
         $vendorPlan->member_limit = config('custom.trial_member');

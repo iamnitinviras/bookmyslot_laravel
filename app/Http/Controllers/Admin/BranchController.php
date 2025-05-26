@@ -65,7 +65,7 @@ class BranchController extends Controller
 
         if ($user->user_type != User::USER_TYPE_ADMIN && $userPlan && $user->free_forever != true) {
 
-            if ((!$userPlan || $gymBranch >= $userPlan->branch_limit) && $userPlan->branch_unlimited != 'yes') {
+            if ((!$userPlan || $gymBranch >= $userPlan->branch_limit) && $userPlan->unlimited_branch != 'yes') {
                 return false;
             }
         } else if ($user->user_type != User::USER_TYPE_ADMIN && !$userPlan) {

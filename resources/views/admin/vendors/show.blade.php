@@ -11,10 +11,15 @@
                             <div class="page-title-box pb-0 d-sm-flex">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('home') }}">{{ __('system.dashboard.menu') }}</a></li>
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('admin.vendors.index') }}">{{ __('system.vendors.menu') }}</a>
+                                        <li class="breadcrumb-item">
+                                            <a href="{{ route('home') }}">
+                                                {{ __('system.dashboard.menu') }}
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a href="{{ route('admin.vendors.index') }}">
+                                                {{ __('system.vendors.menu') }}
+                                            </a>
                                         </li>
                                         <li class="breadcrumb-item active">
                                             {{ $vendor->first_name . ' ' . $vendor->last_name }}
@@ -22,6 +27,13 @@
                                     </ol>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-6 col-xl-6 text-end">
+                            <a href="{{ route('admin.vendors.index') }}"
+                                class="btn text-muted d-none d-sm-inline-block btn-link">
+                                <i class="mdi mdi-arrow-left me-1"></i>
+                                {{ __('system.crud.back') }}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -66,25 +78,25 @@
                                     </div>
                                     <div class="card-footer bg-transparent border-top text-muted">
                                         @if ($vendor->status == 'active')
-                                                {!! html()->form('post', route('admin.vendors.make.inactive', ['vendor' => $vendor->id]))
-                                                ->class('data-confirm')
-                                                ->attribute('autocomplete', 'off')
-                                                ->attribute('data-confirm-message', __('system.fields.confirm_make_inactive'))
-                                                ->attribute('data-confirm-title', __('system.crud.inactive'))
-                                                ->id('inactive-form_' . $vendor->id)->open() !!}
-                                                <button type="submit"
-                                                    class="btn btn-danger">{{ __('system.crud.make_inactive') }}</button>
-                                                {!! html()->closeModelForm() !!}
+                                                                        {!! html()->form('post', route('admin.vendors.make.inactive', ['vendor' => $vendor->id]))
+                                            ->class('data-confirm')
+                                            ->attribute('autocomplete', 'off')
+                                            ->attribute('data-confirm-message', __('system.fields.confirm_make_inactive'))
+                                            ->attribute('data-confirm-title', __('system.crud.inactive'))
+                                            ->id('inactive-form_' . $vendor->id)->open() !!}
+                                                                        <button type="submit"
+                                                                            class="btn btn-danger">{{ __('system.crud.make_inactive') }}</button>
+                                                                        {!! html()->closeModelForm() !!}
                                         @else
-                                                {!! html()->form('post', route('admin.vendors.make.active', ['vendor' => $vendor->id]))
-                                                ->class('data-confirm')
-                                                ->attribute('autocomplete', 'off')
-                                                ->attribute('data-confirm-message', __('system.fields.confirm_make_active'))
-                                                ->attribute('data-confirm-title', __('system.crud.active'))
-                                                ->id('active-form_' . $vendor->id)->open() !!}
-                                                <button type="submit"
-                                                    class="btn btn-success">{{ __('system.crud.make_active') }}</button>
-                                                {!! html()->closeModelForm() !!}
+                                                                        {!! html()->form('post', route('admin.vendors.make.active', ['vendor' => $vendor->id]))
+                                            ->class('data-confirm')
+                                            ->attribute('autocomplete', 'off')
+                                            ->attribute('data-confirm-message', __('system.fields.confirm_make_active'))
+                                            ->attribute('data-confirm-title', __('system.crud.active'))
+                                            ->id('active-form_' . $vendor->id)->open() !!}
+                                                                        <button type="submit"
+                                                                            class="btn btn-success">{{ __('system.crud.make_active') }}</button>
+                                                                        {!! html()->closeModelForm() !!}
                                         @endif
 
                                     </div>
@@ -149,11 +161,16 @@
                                                     </p>
                                                 </div>
                                             @endif
-
                                         </div>
                                         <div class="card-footer bg-transparent border-top text-muted">
                                             <a href="{{ route('admin.vendors.paymentTransactions', $vendor->id) }}"
-                                                class="btn btn-outline-primary">{{ __('system.payment_setting.payment_history') }}</a>
+                                                class="btn btn-outline-primary">
+                                                {{ __('system.payment_setting.payment_history') }}
+                                            </a>
+                                            <a href="{{ route('admin.vendors.changePlan', $vendor->id) }}"
+                                                class="btn btn-outline-secondary">
+                                                {{ __('system.plans.change_plan') }}
+                                            </a>
                                         </div>
                                     </div>
                                 </div>
@@ -161,13 +178,13 @@
 
                             <!-- Profile Details -->
                             <div class="col-md-4">
-                                <div class="card vendor_details_div_height">
-                                    <div class="card-header">
-                                        {{ __('system.password.menu') }}
-                                    </div>
-                                    <div class="card-body">
-                                        <form method="post" autocomplete="off" novalidate="" id="pristine-valid"
-                                            action="{{ route('admin.vendors.password.update', ['vendor' => $vendor->id]) }}">
+                                <form method="post" autocomplete="off" novalidate="" id="pristine-valid"
+                                    action="{{ route('admin.vendors.password.update', ['vendor' => $vendor->id]) }}">
+                                    <div class="card vendor_details_div_height">
+                                        <div class="card-header">
+                                            {{ __('system.password.menu') }}
+                                        </div>
+                                        <div class="card-body">
                                             @csrf
                                             <div class="row">
                                                 <div class="col-md-12 mb-3">
@@ -197,16 +214,15 @@
                                                     @enderror
                                                 </div>
 
-                                                <div class="col-md-12">
-                                                    <div class="form-group">
-                                                        <button type="submit" class="btn btn-primary">Submit</button>
-                                                    </div>
-                                                </div>
-
                                             </div>
-                                        </form>
+                                        </div>
+                                        <div class="card-footer bg-transparent border-top text-muted">
+                                            <div class="form-group">
+                                                <button type="submit" class="btn btn-primary">Submit</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                </form>
                             </div>
 
                         </div>

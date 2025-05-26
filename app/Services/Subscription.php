@@ -31,7 +31,7 @@ class Subscription
         $userPlan->branch_limit = $plan->branch_limit;
         $userPlan->staff_limit = $plan->staff_limit;
         $userPlan->staff_unlimited = $plan->staff_unlimited;
-        $userPlan->branch_unlimited = $plan->branch_unlimited;
+        $userPlan->unlimited_branch = $plan->unlimited_branch;
         $userPlan->status = 'pending';
         $userPlan->save();
 

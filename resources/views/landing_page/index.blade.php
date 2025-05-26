@@ -212,9 +212,9 @@
 
                                             <div class="pricing-desc mb-5">
                                                 <ul class="list-unstyled mb-0">
-                                                    @if($plan->branch_unlimited=='yes')
+                                                    @if($plan->unlimited_branch=='yes')
                                                         <li><font
-                                                                style="vertical-align: inherit;">{{trans('system.plans.branch_unlimited')}}</font>
+                                                                style="vertical-align: inherit;">{{trans('system.plans.unlimited_branch')}}</font>
                                                         </li>
                                                     @else
                                                         <li><font
@@ -252,9 +252,9 @@
                                             </div>
                                             <div class="pricing-desc mb-5">
                                                 <ul class="list-unstyled mb-0">
-                                                    @if($plan->branch_unlimited=='yes')
+                                                    @if($plan->unlimited_branch=='yes')
                                                         <li><font
-                                                                style="vertical-align: inherit;">{{trans('system.plans.branch_unlimited')}}</font>
+                                                                style="vertical-align: inherit;">{{trans('system.plans.unlimited_branch')}}</font>
                                                         </li>
                                                     @else
                                                         <li><font

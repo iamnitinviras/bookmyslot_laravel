@@ -44,14 +44,14 @@
                         <td>{{ $plan->local_title }}</td>
                         <td>{{ displayCurrency($plan->amount) }}</td>
                         <td>
-                            @if ($plan->member_unlimited == 'yes')
+                            @if ($plan->unlimited_member == 'yes')
                                 <span class="badge bg-warning">{{ __('system.plans.unlimited') }}</span>
                             @else
                                 {{ $plan->member_limit }}
                             @endif
                         </td>
                         <td>
-                            @if ($plan->branch_unlimited == 'yes')
+                            @if ($plan->unlimited_branch == 'yes')
                                 <span class="badge bg-success">{{ __('system.plans.unlimited') }}</span>
                             @else
                                 {{ $plan->branch_limit }}

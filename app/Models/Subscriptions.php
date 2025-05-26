@@ -41,7 +41,7 @@ class Subscriptions extends Model
         'branch_limit',
         'status',
         'staff_limit',
-        'branch_unlimited',
+        'unlimited_branch',
         'staff_unlimited',
         'transaction_id',
         'subscription_id',

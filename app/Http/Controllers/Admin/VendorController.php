@@ -159,7 +159,7 @@ class VendorController extends Controller
             $vendorPlan->amount = 0;
             $vendorPlan->type = 'free';
             $vendorPlan->branch_limit = 0;
-            $vendorPlan->branch_unlimited = "yes";
+            $vendorPlan->unlimited_branch = "yes";
             $vendorPlan->staff_unlimited = "yes";
         } else {
             $vendorPlan->plan_id = $plan->plan_id;
@@ -167,7 +167,7 @@ class VendorController extends Controller
             $vendorPlan->type = $plan->type;
             $vendorPlan->branch_limit = $plan->branch_limit;
             $vendorPlan->staff_limit = $plan->staff_limit;
-            $vendorPlan->branch_unlimited = $plan->branch_unlimited;
+            $vendorPlan->unlimited_branch = $plan->unlimited_branch;
             $vendorPlan->staff_unlimited = $plan->staff_unlimited;
         }
 
@@ -351,6 +351,12 @@ class VendorController extends Controller
     public function support()
     {
         return view("admin.vendor_subscription.support");
+    }
+    public function updatePlan(User $vendor)
+    {
+        $plans = Plans::where('status', 'active')->get();
+        $subscription = $vendor->subscriptionData();
+        return view("admin.vendors.update_plan",compact('plans','subscription'));
     }
 
 

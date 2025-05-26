@@ -22,10 +22,10 @@ return new class extends Migration {
             $table->double('amount')->default(0);
             $table->enum('type', ['onetime', 'monthly', 'weekly', 'yearly', 'trial', 'free', 'day']);
             $table->integer('branch_limit')->default(0);
-            $table->enum('branch_unlimited', ['yes', 'no'])->default('no');
+            $table->enum('unlimited_branch', ['yes', 'no'])->default('no');
 
             $table->integer('member_limit')->default(0);
-            $table->enum('member_unlimited', ['yes', 'no'])->default('no');
+            $table->enum('unlimited_member', ['yes', 'no'])->default('no');
 
             $table->integer('staff_limit')->default(0);
             $table->enum('staff_unlimited', ['yes', 'no'])->default('no');

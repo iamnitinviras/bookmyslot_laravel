@@ -583,10 +583,10 @@ return
                 'unlimited_support' => 'Unlimited Support',
                 'is_unlimited' => 'Is Unlimited',
 
-                'branch_unlimited' => 'Unlimited Branch',
+                'unlimited_branch' => 'Unlimited Branch',
                 'branch_limit' => 'Branch Limit',
 
-                'member_unlimited' => 'Unlimited Member',
+                'unlimited_member' => 'Unlimited Member',
                 'member_limit' => 'Member Limit',
 
                 'staff_limit' => 'Staff Limit',
