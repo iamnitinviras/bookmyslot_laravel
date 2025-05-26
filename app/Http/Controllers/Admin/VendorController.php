@@ -368,7 +368,7 @@ class VendorController extends Controller
     {
         $plans = Plans::where('status', 'active')->get();
         $subscription = $vendor->subscriptionData();
-        return view("admin.vendors.update_plan", compact('plans', 'vendor', 'subscription'));
+        return view("admin.vendors.change_plan", compact('plans', 'vendor', 'subscription'));
     }
 
     public function vendorSignin(User $vendor)
