@@ -81,7 +81,6 @@ class User extends Authenticatable implements Searchable, MustVerifyEmail
         'created_by' => "integer",
         'profile_image' => "string",
         'language' => "string",
-        'status' => "integer",
         'address' => "string",
         'city' => "string",
         'state' => "string",
@@ -169,14 +168,17 @@ class User extends Authenticatable implements Searchable, MustVerifyEmail
         return $this->belongsTo(User::class, 'created_by', 'id')->where('user_type', 2);
     }
 
-    public function assigned_branch(){
-        return $this->hasMany(BranchUser::class, 'user_id', 'id')->where('role',2);
+    public function assigned_branch()
+    {
+        return $this->hasMany(BranchUser::class, 'user_id', 'id')->where('role', 2);
     }
 
     public function scopeAdmin($q, $params)
     {
-        return $q->when(isset($params['admin_user_id']), function ($q) use ($params) {
-            $q->whereHas('branchs', function ($q) use ($params) {
+        return $q->when(isset($params['admin_user_id']), function ($q) use ($params)
+        {
+            $q->whereHas('branchs', function ($q) use ($params)
+            {
                 $q->whereRaw('branch_users.branch_id in (select branch_id from branch_users where user_id = ' . $params['admin_user_id'] . ')');
             });
         });

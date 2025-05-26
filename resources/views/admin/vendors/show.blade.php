@@ -38,43 +38,61 @@
                                         <div class="row">
                                             <div class="col-md-12">
                                                 <p class="font12"><b>{{ __('system.fields.name') }}</b>:
-                                                    {{ $vendor->first_name . ' ' . $vendor->last_name }}</p>
+                                                    {{ $vendor->first_name . ' ' . $vendor->last_name }}
+                                                </p>
                                             </div>
                                             <div class="col-md-12">
                                                 <p class="font12"><b>{{ __('system.fields.email') }}</b>:
-                                                    {{ $vendor->email }}</p>
+                                                    {{ $vendor->email }}
+                                                </p>
                                             </div>
                                             <div class="col-md-12">
                                                 <p class="font12"><b>{{ __('system.fields.phone_number') }}</b>:
-                                                    {{ $vendor->phone_number }}</p>
+                                                    {{ $vendor->phone_number }}
+                                                </p>
                                             </div>
                                             <div class="col-md-12">
                                                 <p class="font12"><b>{{ __('system.fields.member_since') }}</b>:
-                                                    {{ $vendor->created_at }}</p>
+                                                    {{ $vendor->created_at }}
+                                                </p>
                                             </div>
                                             <div class="col-md-12">
                                                 <p class="font12"><b>{{ __('system.fields.address') }}</b>:
-                                                    {{ $vendor->address }}</p>
+                                                    {{ $vendor->address }}{{ $vendor->city ? ", " . $vendor->city : "" }}{{ $vendor->state ? ", " . $vendor->state : "" }}{{ $vendor->zip ? ", " . $vendor->zip : "" }}
+                                                </p>
                                             </div>
-                                            <div class="col-md-12">
-                                                <p class="font12"><b>{{ __('system.fields.city') }}</b>:
-                                                    {{ $vendor->city }}</p>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <p class="font12"><b>{{ __('system.fields.state') }}</b>:
-                                                    {{ $vendor->state }}</p>
-                                            </div>
-                                            <div class="col-md-12">
-                                                <p class="font12"><b>{{ __('system.fields.zip') }}</b>:
-                                                    {{ $vendor->zip }}</p>
-                                            </div>
+
                                         </div>
+                                    </div>
+                                    <div class="card-footer bg-transparent border-top text-muted">
+                                        @if ($vendor->status == 'active')
+                                                {!! html()->form('post', route('admin.vendors.make.inactive', ['vendor' => $vendor->id]))
+                                                ->class('data-confirm')
+                                                ->attribute('autocomplete', 'off')
+                                                ->attribute('data-confirm-message', __('system.fields.confirm_make_inactive'))
+                                                ->attribute('data-confirm-title', __('system.crud.inactive'))
+                                                ->id('inactive-form_' . $vendor->id)->open() !!}
+                                                <button type="submit"
+                                                    class="btn btn-danger">{{ __('system.crud.make_inactive') }}</button>
+                                                {!! html()->closeModelForm() !!}
+                                        @else
+                                                {!! html()->form('post', route('admin.vendors.make.active', ['vendor' => $vendor->id]))
+                                                ->class('data-confirm')
+                                                ->attribute('autocomplete', 'off')
+                                                ->attribute('data-confirm-message', __('system.fields.confirm_make_active'))
+                                                ->attribute('data-confirm-title', __('system.crud.active'))
+                                                ->id('active-form_' . $vendor->id)->open() !!}
+                                                <button type="submit"
+                                                    class="btn btn-success">{{ __('system.crud.make_active') }}</button>
+                                                {!! html()->closeModelForm() !!}
+                                        @endif
+
                                     </div>
                                 </div>
                             </div>
 
                             <!-- Profile Details -->
-                            @if($vendor->free_forever==false)
+                            @if($vendor->free_forever == false)
                                 <div class="col-md-4">
                                     <div class="card vendor_details_div_height">
                                         <div class="card-header">
@@ -84,13 +102,15 @@
 
                                             @if (isset($current_plans->payment_method) && $current_plans->payment_method != 'Trial')
                                                 <div class="col-md-12">
-                                                    <p class="font12"><b>{{ __('system.plans.title') }}</b>: @if (isset($plans->title))
+                                                    <p class="font12"><b>{{ __('system.plans.title') }}</b>:
+                                                        @if (isset($plans->title))
                                                             {{ $plans->local_title }}
                                                         @endif
                                                     </p>
                                                 </div>
                                                 <div class="col-md-12">
-                                                    <p class="font12"><b>{{ __('system.plans.amount') }}</b>: @if (isset($plans->amount))
+                                                    <p class="font12"><b>{{ __('system.plans.amount') }}</b>:
+                                                        @if (isset($plans->amount))
                                                             {{ displayCurrency($plans->amount) }}
                                                         @endif
                                                     </p>
@@ -105,32 +125,35 @@
                                             @endif
 
                                             <div class="col-md-12">
-                                                <p class="font12"><b>{{ __('system.plans.payment_method') }}</b>: @if (isset($current_plans->payment_method))
+                                                <p class="font12"><b>{{ __('system.plans.payment_method') }}</b>:
+                                                    @if (isset($current_plans->payment_method))
                                                         {{ trans('system.payment_setting.' . $current_plans->payment_method)}}
                                                     @endif
                                                 </p>
                                             </div>
 
                                             <div class="col-md-12">
-                                                <p class="font12"><b>{{ __('system.plans.start_date') }}</b>: @if (isset($current_plans->start_date))
+                                                <p class="font12"><b>{{ __('system.plans.start_date') }}</b>:
+                                                    @if (isset($current_plans->start_date))
                                                         {{ formatDate($current_plans->start_date) }}
                                                     @endif
                                                 </p>
                                             </div>
 
-                                                @if($current_plans->type!=="onetime")
-                                                    <div class="col-md-12">
-                                                        <p class="font12"><b>{{ __('system.plans.expiry_date') }}</b>: @if (isset($current_plans->expiry_date))
-                                                                {{ formatDate($current_plans->expiry_date) }}
-                                                            @endif
-                                                        </p>
-                                                    </div>
-                                                @endif
+                                            @if($current_plans->type !== "onetime")
+                                                <div class="col-md-12">
+                                                    <p class="font12"><b>{{ __('system.plans.expiry_date') }}</b>:
+                                                        @if (isset($current_plans->expiry_date))
+                                                            {{ formatDate($current_plans->expiry_date) }}
+                                                        @endif
+                                                    </p>
+                                                </div>
+                                            @endif
 
                                         </div>
                                         <div class="card-footer bg-transparent border-top text-muted">
                                             <a href="{{ route('admin.vendors.paymentTransactions', $vendor->id) }}"
-                                               class="btn btn-outline-primary">{{ __('system.payment_setting.payment_history') }}</a>
+                                                class="btn btn-outline-primary">{{ __('system.payment_setting.payment_history') }}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -150,8 +173,8 @@
                                                 <div class="col-md-12 mb-3">
                                                     <div class="form-group">
                                                         <label>{{ __('system.fields.new_password') }}</label>
-                                                        <input autocomplete="off" value="{{old('new_password')}}" id="new_password" required
-                                                            name="new_password"
+                                                        <input autocomplete="off" value="{{old('new_password')}}"
+                                                            id="new_password" required name="new_password"
                                                             placeholder="{{ __('system.fields.new_password') }}"
                                                             minlength="8" class="form-control" />
                                                     </div>
@@ -162,9 +185,8 @@
                                                 <div class="col-md-12 mb-5">
                                                     <div class="form-group">
                                                         <label>{{ __('system.fields.confirm_password') }}</label>
-                                                        <input autocomplete="off"
-                                                               value="{{old('confirm_password')}}"
-                                                               data-pristine-equals-message="{{ __('system.password.confirm_password_error') }}"
+                                                        <input autocomplete="off" value="{{old('confirm_password')}}"
+                                                            data-pristine-equals-message="{{ __('system.password.confirm_password_error') }}"
                                                             data-pristine-equals="#new_password" id="confirm_password"
                                                             required name="confirm_password"
                                                             placeholder="{{ __('system.fields.confirm_password') }}"

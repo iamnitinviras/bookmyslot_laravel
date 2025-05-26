@@ -318,6 +318,31 @@ class VendorController extends Controller
         }
     }
 
+    public function makeInactive(Request $request, User $vendor)
+    {
+        try {
+            $vendor->status = 'inactive';
+            $vendor->save();
+            return back()->with('Success', __('system.messages.updated', ['model' => __('system.vendors.title')]));
+        } catch (\ErrorException $e) {
+            $request->session()->flash('Success', $e->getMessage());
+            return back();
+        }
+    }
+
+    public function makeActive(Request $request, User $vendor)
+    {
+        try {
+            $vendor->status = 'active';
+            $vendor->save();
+            return back()->with('Success', __('system.messages.updated', ['model' => __('system.vendors.title')]));
+        } catch (\ErrorException $e) {
+            $request->session()->flash('Success', $e->getMessage());
+            return back();
+        }
+    }
+
+
     public function staffPlan()
     {
         return view("admin.vendor_subscription.staff");
