@@ -1,15 +1,5 @@
 @extends('layouts.app')
 @section('title', __('system.plans.subscription'))
-@push('page_css')
-    <style>
-        .data-description {
-            text-overflow: clip;
-            max-height: 50px;
-            min-height: 50px;
-            overflow: hidden;
-        }
-    </style>
-@endpush
 @section('content')
     <div class="row">
         <div class="col-lg-12">
@@ -32,7 +22,8 @@
                                             </a>
                                         </li>
                                         <li class="breadcrumb-item">
-                                            <a href="{{ route('admin.vendors.show', $vendor->id) }}">{{ $vendor->first_name . ' ' . $vendor->last_name }}</a>
+                                            <a
+                                                href="{{ route('admin.vendors.show', $vendor->id) }}">{{ $vendor->first_name . ' ' . $vendor->last_name }}</a>
                                         </li>
                                         <li class="breadcrumb-item active">
                                             {{ __('system.plans.change_plan') }}
