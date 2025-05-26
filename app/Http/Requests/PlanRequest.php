@@ -30,6 +30,7 @@ class PlanRequest extends FormRequest
             'branch_limit' => 'required|numeric|gt:-1',
             'member_limit' => 'required|numeric|gt:-1',
             'staff_limit' => 'required|numeric|gt:-1',
+            'user_id' => 'nullable'
         ];
     }
 }

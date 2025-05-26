@@ -117,7 +117,7 @@ class VendorController extends Controller
             'phone_number' => $data['phone_number'],
             'profile_image' => $data['profile_image'] ?? null,
             'password' => Hash::make($data['password']),
-            'user_type' => 3,
+            'user_type' => User::USER_TYPE_VENDOR,
             'status' => User::STATUS_ACTIVE,
             'created_by' => $vendor->id,
             'email_verified_at' => now(),

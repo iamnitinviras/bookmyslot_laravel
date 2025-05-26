@@ -47,14 +47,15 @@ class Plans extends Model implements Searchable
         'paypal_plan_id',
         'paypal_branch_id',
         'stripe_branch_id',
-        'lang_plan_title'
+        'lang_plan_title',
+        'user_id'
     ];
 
     public $sortable = [
         'plan_id',
         'title',
         'amount',
-        'type',
+        'type'
     ];
 
     protected $casts = [
@@ -72,7 +73,7 @@ class Plans extends Model implements Searchable
 
     public function getSearchResult(): SearchResult
     {
-        $url = route('admin.plan.edit',  $this->plan_id);
+        $url = route('admin.plan.edit', $this->plan_id);
         return new \Spatie\Searchable\SearchResult(
             $this,
             $this->title,

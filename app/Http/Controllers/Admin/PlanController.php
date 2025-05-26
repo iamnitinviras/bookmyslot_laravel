@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\Plans;
 use App\Models\FoodCategory;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Subscriptions;
 use Illuminate\Support\Facades\DB;
@@ -41,7 +42,11 @@ class PlanController extends Controller
      */
     public function create()
     {
-        return view('admin.plans.create');
+        $vendors = User::where('user_type', User::USER_TYPE_VENDOR)
+            ->where('status', User::STATUS_ACTIVE)
+            ->orderBy('first_name', 'asc')
+            ->get();
+        return view('admin.plans.create', compact('vendors'));
     }
 
     /**
@@ -101,7 +106,11 @@ class PlanController extends Controller
             return redirect()->back();
         }
 
-        return view('admin.plans.edit', ['plan' => $plan]);
+        $vendors = User::where('user_type', User::USER_TYPE_VENDOR)
+            ->where('status', User::STATUS_ACTIVE)
+            ->orderBy('first_name', 'asc')
+            ->get();
+        return view('admin.plans.edit', ['plan' => $plan, 'vendors' => $vendors]);
     }
 
     public function update(PlanRequest $request, $id)

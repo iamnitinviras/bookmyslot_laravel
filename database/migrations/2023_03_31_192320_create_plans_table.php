@@ -20,6 +20,7 @@ return new class extends Migration {
             $table->longText('lang_plan_title')->nullable();
             $table->longText('lang_plan_description')->nullable();
             $table->double('amount')->default(0);
+            $table->unsignedBigInteger('user_id')->nullable();
             $table->enum('type', ['onetime', 'monthly', 'weekly', 'yearly', 'trial', 'free', 'day']);
             $table->integer('branch_limit')->default(0);
             $table->enum('unlimited_branch', ['yes', 'no'])->default('no');

@@ -130,6 +130,24 @@
                     </select>
                 </div>
             </div>
+
+            <div class="col-lg-4 mb-2">
+                <div class="form-group">
+                    <label class="text-label">{{ trans('system.vendors.select_vendor') }}</label>
+                    <select name="user_id" class="form-control" id="user_id">
+                        <option value="">{{trans('system.vendors.select_vendor')}}</option>
+                        @if (isset($vendors) && count($vendors) > 0)
+                            @foreach ($vendors as $vendor)
+                                <option {{ old('user_id', $plan->user_id ?? '') == $vendor->id ? 'selected' : '' }}
+                                    value="{{ $vendor->id }}">
+                                    {{ $vendor->first_name }} {{ $vendor->last_name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
+            </div>
+
         </div>
     </section>
 

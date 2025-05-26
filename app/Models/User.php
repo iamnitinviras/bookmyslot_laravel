@@ -19,8 +19,8 @@ class User extends Authenticatable implements Searchable, MustVerifyEmail
     use HasRoles;
 
     protected $table = 'users';
-    const STATUS_ACTIVE = 1;
-    const STATUS_INACTIVE = 0;
+    const STATUS_ACTIVE = 'active';
+    const STATUS_INACTIVE = 'inactive';
 
     const USER_TYPE_ADMIN = 1;
     const USER_TYPE_STAFF = 2;
