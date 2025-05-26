@@ -76,8 +76,10 @@
 
                                         </div>
                                     </div>
+
                                     <div class="card-footer bg-transparent border-top text-muted btn-group btn-group-sm">
-                                        {!! html()->form('post', route('admin.vendors.verify.email', ['vendor' => $vendor->id]))
+                                        @if($vendor->email_verified_at==null)
+                                            {!! html()->form('post', route('admin.vendors.verify.email', ['vendor' => $vendor->id]))
                                             ->class('data-confirm')
                                             ->attribute('autocomplete', 'off')
                                             ->attribute('data-confirm-message', __('system.fields.confirm_vendor_email'))
@@ -86,6 +88,7 @@
                                             <button type="submit"
                                                 class="btn btn-success me-1"><i class="fa fa-check-circle"></i> {{ __('system.crud.verify_email') }}</button>
                                             {!! html()->closeModelForm() !!}
+                                        @endif
 
                                         @if ($vendor->status == 'active')
                                             {!! html()->form('post', route('admin.vendors.make.inactive', ['vendor' => $vendor->id]))

@@ -342,6 +342,18 @@ class VendorController extends Controller
         }
     }
 
+    public function verifyEmail(Request $request, User $vendor)
+    {
+        try {
+            $vendor->email_verified_at = date('Y-m-d H:i:s');
+            $vendor->save();
+            return back()->with('Success', __('system.messages.updated', ['model' => __('system.vendors.title')]));
+        } catch (\ErrorException $e) {
+            $request->session()->flash('Success', $e->getMessage());
+            return back();
+        }
+    }
+
 
     public function staffPlan()
     {
@@ -352,14 +364,12 @@ class VendorController extends Controller
     {
         return view("admin.vendor_subscription.support");
     }
-    public function updatePlan(User $vendor)
+    public function changePlan(User $vendor)
     {
         $plans = Plans::where('status', 'active')->get();
         $subscription = $vendor->subscriptionData();
-        return view("admin.vendors.update_plan",compact('plans','subscription'));
+        return view("admin.vendors.update_plan", compact('plans', 'vendor', 'subscription'));
     }
-
-
 
     public function vendorSignin(User $vendor)
     {

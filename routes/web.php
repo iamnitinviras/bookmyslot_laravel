@@ -123,7 +123,7 @@ Route::middleware(['preventBackHistory'])->group(function ()
         {
             Route::get('{vendor}/sign-in', 'vendorSignin')->name('vendors.vendorSignin');
             Route::get('{vendor}/payment-history', 'paymentTransactions')->name('vendors.paymentTransactions');
-            Route::get('{vendor}/change-plan', 'updatePlan')->name('vendors.changePlan');
+            Route::get('{vendor}/change-plan', 'changePlan')->name('vendors.changePlan');
             Route::get('{vendor}/subscription-history', 'subscriptionHistory')->name('vendors.subscriptionHistory');
         });
 

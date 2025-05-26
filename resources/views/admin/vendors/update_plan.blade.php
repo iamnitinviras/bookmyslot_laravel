@@ -17,16 +17,36 @@
                 <div class="card-header">
                     <div class="row">
                         <div class="col-md-6 col-xl-6">
-                            <h4 class="card-title">{{ __('system.plans.subscription') }}</h4>
+                            <h4 class="card-title">{{ __('system.vendors.menu') }}</h4>
                             <div class="page-title-box pb-0 d-sm-flex">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
-                                        <li class="breadcrumb-item"><a
-                                                href="{{ route('home') }}">{{ __('system.dashboard.menu') }}</a></li>
-                                        <li class="breadcrumb-item active">{{ __('system.plans.subscription') }}</li>
+                                        <li class="breadcrumb-item">
+                                            <a href="{{ route('home') }}">
+                                                {{ __('system.dashboard.menu') }}
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a href="{{ route('admin.vendors.index') }}">
+                                                {{ __('system.vendors.menu') }}
+                                            </a>
+                                        </li>
+                                        <li class="breadcrumb-item">
+                                            <a href="{{ route('admin.vendors.show', $vendor->id) }}">{{ $vendor->first_name . ' ' . $vendor->last_name }}</a>
+                                        </li>
+                                        <li class="breadcrumb-item active">
+                                            {{ __('system.plans.change_plan') }}
+                                        </li>
                                     </ol>
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-md-6 col-xl-6 text-end">
+                            <a href="{{ route('admin.vendors.show', $vendor->id) }}"
+                                class="btn text-muted d-none d-sm-inline-block btn-link">
+                                <i class="mdi mdi-arrow-left me-1"></i>
+                                {{ __('system.crud.back') }}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -186,7 +206,7 @@
 
                                                                     @if ($plan->unlimited_branch == 'yes')
                                                                         <p class="mb-3 font-size-15"><i
-                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_board') }}
+                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_branch') }}
                                                                         </p>
                                                                     @else
                                                                         <p class="mb-3 font-size-15"><i
