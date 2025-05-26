@@ -25,7 +25,7 @@ class CheckDefaultProductExist
             }
 
             if (!$user->free_forever) {
-                $redirectLocation = "subscription/plan";
+                $redirectLocation = "subscription";
 
                 if (auth()->user()->user_type == User::USER_TYPE_STAFF) {
                     $redirectLocation = "staff/plan";

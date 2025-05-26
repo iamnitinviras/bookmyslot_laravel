@@ -300,8 +300,8 @@ class EnvSettingController extends Controller
 
                 //Save offline Details
                 $offline_data = [
-                    'OFFLINE_INSTRUCTIONS' => $input['instructions'],
-                    'OFFLINE_STATUS' => $input['offline_status']
+                    'OFFLINE_INSTRUCTIONS' => $input['instructions'] ?? '',
+                    'OFFLINE_STATUS' => $input['offline_status'] ?? ''
                 ];
 
                 DotenvEditor::setKeys($offline_data)->save();

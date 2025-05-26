@@ -124,6 +124,7 @@ Route::middleware(['preventBackHistory'])->group(function ()
             Route::get('{vendor}/sign-in', 'vendorSignin')->name('vendors.vendorSignin');
             Route::get('{vendor}/payment-history', 'paymentTransactions')->name('vendors.paymentTransactions');
             Route::get('{vendor}/change-plan', 'changePlan')->name('vendors.changePlan');
+            Route::post('{vendor}/change-plan', 'updatePlan')->name('vendors.updatePlan.submit');
             Route::get('{vendor}/subscription-history', 'subscriptionHistory')->name('vendors.subscriptionHistory');
         });
 
@@ -217,6 +218,7 @@ Route::middleware(['preventBackHistory'])->group(function ()
             Route::get('vendor/subscription/manage/{subscription}', 'subscriptionManage')->name('vendor.subscription.manage')->withoutMiddleware(['default_product_exists']);
             Route::get('subscription/plan/{plan}', 'planDetails')->name('vendor.plan.details')->withoutMiddleware(['default_product_exists']);
             Route::post('subscription/plan/{plan}', 'process')->name('vendor.plan.payment')->withoutMiddleware(['default_product_exists']);
+
         })->middleware('role:vendor');
 
         //Paypal Payment and Subscription

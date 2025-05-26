@@ -167,6 +167,12 @@
                                         @if (isset($plans) && count($plans) > 0)
                                             <div class="accordion" id="accordionExample">
                                                 @foreach ($plans as $key => $plan)
+                                                    {!! html()->form('post', route('admin.vendors.updatePlan.submit', ['vendor' => $vendor->id]))
+                                                    ->class('data-confirm')
+                                                    ->attribute('autocomplete', 'off')
+                                                    ->attribute('data-confirm-message', __('system.fields.confirm_vendor_change_plan'))
+                                                    ->attribute('data-confirm-title', __('system.plans.change_plan'))
+                                                    ->id('change_plan-form_' . $vendor->id)->open() !!}
                                                     <div class="accordion-item">
                                                         <h2 class="accordion-header" id="headingOne{{ $plan->plan_id }}">
                                                             <button class="accordion-button fw-medium" type="button"
@@ -220,24 +226,22 @@
                                                                             class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_support') }}
                                                                     </p>
                                                                 </div>
-
+                                                                <input type="hidden" name="plan_id" value="{{ $plan->plan_id }}">
                                                                 @if($subscription == null)
                                                                     <div class="mt-4 pt-2">
-                                                                        <a href="{{ url('vendor/plan/' . $plan->plan_id) }}"
-                                                                            class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
+                                                                        <button type="submit" class="btn btn-success w-100"><i class="fa fa-check-circle"></i> {{ __('system.plans.choose_plan') }}</button>
                                                                     </div>
                                                                 @else
                                                                     @if (isset($subscription->plan_id) && $subscription->plan_id != $plan->plan_id)
                                                                         <div class="mt-4 pt-2">
-                                                                            <a href="{{ url('vendor/plan/' . $plan->plan_id) }}"
-                                                                                class="btn btn-outline-primary w-100">{{ __('system.plans.choose_plan') }}</a>
-                                                                        </div>
+                                                                            <button type="submit" class="btn btn-success w-100"><i class="fa fa-check-circle"></i> {{ __('system.plans.choose_plan') }}</button>                                                                        </div>
                                                                     @endif
                                                                 @endif
 
                                                             </div>
                                                         </div>
                                                     </div>
+                                                    {!! html()->closeModelForm() !!}
                                                 @endforeach
                                             </div><!-- end accordion -->
                                         @else

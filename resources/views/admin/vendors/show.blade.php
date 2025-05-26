@@ -78,38 +78,39 @@
                                     </div>
 
                                     <div class="card-footer bg-transparent border-top text-muted btn-group btn-group-sm">
-                                        @if($vendor->email_verified_at==null)
-                                            {!! html()->form('post', route('admin.vendors.verify.email', ['vendor' => $vendor->id]))
+                                        @if($vendor->email_verified_at == null)
+                                                                        {!! html()->form('post', route('admin.vendors.verify.email', ['vendor' => $vendor->id]))
                                             ->class('data-confirm')
                                             ->attribute('autocomplete', 'off')
                                             ->attribute('data-confirm-message', __('system.fields.confirm_vendor_email'))
                                             ->attribute('data-confirm-title', __('system.crud.verify_email'))
                                             ->id('verify_email-form_' . $vendor->id)->open() !!}
-                                            <button type="submit"
-                                                class="btn btn-success me-1"><i class="fa fa-check-circle"></i> {{ __('system.crud.verify_email') }}</button>
-                                            {!! html()->closeModelForm() !!}
+                                                                        <button type="submit" class="btn btn-success me-1"><i
+                                                                                class="fa fa-check-circle"></i>
+                                                                            {{ __('system.crud.verify_email') }}</button>
+                                                                        {!! html()->closeModelForm() !!}
                                         @endif
 
                                         @if ($vendor->status == 'active')
-                                            {!! html()->form('post', route('admin.vendors.make.inactive', ['vendor' => $vendor->id]))
+                                                                        {!! html()->form('post', route('admin.vendors.make.inactive', ['vendor' => $vendor->id]))
                                             ->class('data-confirm')
                                             ->attribute('autocomplete', 'off')
                                             ->attribute('data-confirm-message', __('system.fields.confirm_make_inactive'))
                                             ->attribute('data-confirm-title', __('system.crud.inactive'))
                                             ->id('inactive-form_' . $vendor->id)->open() !!}
-                                            <button type="submit"
-                                                class="btn btn-danger"><i class="fas fa-ban"></i> {{ __('system.crud.make_inactive') }}</button>
-                                            {!! html()->closeModelForm() !!}
+                                                                        <button type="submit" class="btn btn-danger"><i class="fas fa-ban"></i>
+                                                                            {{ __('system.crud.make_inactive') }}</button>
+                                                                        {!! html()->closeModelForm() !!}
                                         @else
-                                            {!! html()->form('post', route('admin.vendors.make.active', ['vendor' => $vendor->id]))
+                                                                        {!! html()->form('post', route('admin.vendors.make.active', ['vendor' => $vendor->id]))
                                             ->class('data-confirm')
                                             ->attribute('autocomplete', 'off')
                                             ->attribute('data-confirm-message', __('system.fields.confirm_make_active'))
                                             ->attribute('data-confirm-title', __('system.crud.active'))
                                             ->id('active-form_' . $vendor->id)->open() !!}
-                                            <button type="submit"
-                                                class="btn btn-success"><i class="fa fa-check-circle"></i> {{ __('system.crud.make_active') }}</button>
-                                            {!! html()->closeModelForm() !!}
+                                                                        <button type="submit" class="btn btn-success"><i class="fa fa-check-circle"></i>
+                                                                            {{ __('system.crud.make_active') }}</button>
+                                                                        {!! html()->closeModelForm() !!}
                                         @endif
 
                                     </div>
@@ -117,7 +118,7 @@
                             </div>
 
                             <!-- Profile Details -->
-                            @if($vendor->free_forever == false)
+                            @if($vendor->free_forever == false && (isset($current_plans) && $current_plans != null))
                                 <div class="col-md-4">
                                     <div class="card vendor_details_div_height">
                                         <div class="card-header">
@@ -178,7 +179,8 @@
                                         <div class="card-footer bg-transparent border-top text-muted">
                                             <a href="{{ route('admin.vendors.paymentTransactions', $vendor->id) }}"
                                                 class="btn btn-outline-primary">
-                                                <i class="fas fa-list-ul"></i> {{ __('system.payment_setting.payment_history') }}
+                                                <i class="fas fa-list-ul"></i>
+                                                {{ __('system.payment_setting.payment_history') }}
                                             </a>
                                             <a href="{{ route('admin.vendors.changePlan', $vendor->id) }}"
                                                 class="btn btn-outline-secondary">
@@ -231,7 +233,8 @@
                                         </div>
                                         <div class="card-footer bg-transparent border-top text-muted">
                                             <div class="form-group">
-                                                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i> {{ __('system.password.menu') }}</button>
+                                                <button type="submit" class="btn btn-primary"><i class="fa fa-save"></i>
+                                                    {{ __('system.password.menu') }}</button>
                                             </div>
                                         </div>
                                     </div>

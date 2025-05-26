@@ -370,6 +370,52 @@ class VendorController extends Controller
         $subscription = $vendor->subscriptionData();
         return view("admin.vendors.change_plan", compact('plans', 'vendor', 'subscription'));
     }
+    public function updatePlan(User $vendor, Request $request)
+    {
+        $plan = Plans::where('plan_id', $request->plan_id)->first();
+        if ($plan == null) {
+            return redirect(route('admin.vendors.show', $vendor->id));
+        }
+
+        $subscription = Subscriptions::where('user_id', $vendor->id)->first();
+
+        $expiredDate = null;
+        if ($plan->type == 'weekly') {
+            $expiredDate = now()->addWeek();
+
+        } else if ($plan->type == 'monthly') {
+            $expiredDate = now()->addMonth();
+
+        } else if ($plan->type == 'yearly') {
+            $expiredDate = now()->addYear();
+
+        } else if ($plan->type == 'day') {
+            $expiredDate = now()->addDay();
+        }
+
+        if ($subscription == null || (isset($subscription) && $subscription->subscription_id == null)) {
+            Subscriptions::updateOrCreate(['user_id' => $vendor->id], [
+                'plan_id' => $plan->plan_id,
+                'is_current' => 'yes',
+                'payment_method' => 'offline',
+                'amount' => $plan->amount,
+                'type' => $plan->type,
+                'branch_limit' => $plan->branch_limit,
+                'staff_limit' => $plan->staff_limit,
+                'staff_unlimited' => $plan->staff_unlimited,
+                'unlimited_branch' => $plan->unlimited_branch,
+                'status' => 'approved',
+                'expired_date' => $expiredDate,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'start_date' => now(),
+            ]);
+        } else {
+            dd("sd");
+        }
+
+        return redirect(route('admin.vendors.show', $vendor->id))->with('Success', __('system.messages.updated', ['model' => __('system.vendors.title')]));
+    }
 
     public function vendorSignin(User $vendor)
     {

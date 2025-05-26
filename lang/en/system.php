@@ -57,6 +57,7 @@ return
                 'are_you_sure' => 'Are you sure you want to delete?',
                 'confirm_make_inactive' => 'Are you sure you want to make this vendor inactive?',
                 'confirm_vendor_email' => 'Are you sure you want to verify email?',
+                'confirm_vendor_change_plan' => 'Are you sure you want to change plan?',
                 'confirm_make_active' => 'Are you sure you want to make this vendor active?',
                 'support_content' => 'We are constantly delighted to help you with any inquiries or issues you may have..',
                 'support_content_sub' => 'Feel free to reach out to us through the following communication methods:',
