@@ -61,7 +61,7 @@
                                                     <form
                                                         action="{{ route('admin.subscriptions.approve', ['subscription' => $subscription->id]) }}"
                                                         method="POST" autocomplete="off" class="data-confirm"
-                                                        data-confirm-message="{{ __('system.plans.are_you_sure', ['name' => __('system.plans.approve')]) }}"
+                                                        data-confirm-message="{{ __('system.fields.are_you_sure', ['name' => __('system.plans.approve')]) }}"
                                                         data-confirm-title="{{ __('system.plans.approve') }}"
                                                         id="approve_form_{{ $subscription->id }}">
                                                         @csrf
@@ -76,7 +76,7 @@
                                                     <form
                                                         action="{{ route('admin.subscriptions.reject', ['subscription' => $subscription->id]) }}"
                                                         method="POST" autocomplete="off" class="data-confirm"
-                                                        data-confirm-message="{{ __('system.plans.are_you_sure', ['name' => __('system.plans.reject')]) }}"
+                                                        data-confirm-message="{{ __('system.fields.are_you_sure', ['name' => __('system.plans.reject')]) }}"
                                                         data-confirm-title="{{ __('system.plans.reject') }}"
                                                         id="reject_form_{{ $subscription->id }}">
                                                         @csrf

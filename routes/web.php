@@ -130,6 +130,7 @@ Route::middleware(['preventBackHistory'])->group(function ()
         Route::post('vendors/update-password/{vendor}', [App\Http\Controllers\Admin\VendorController::class, 'updatePassword'])->middleware('role:Super-Admin')->name('vendors.password.update');
         Route::post('vendors/inactive/{vendor}', [App\Http\Controllers\Admin\VendorController::class, 'makeInactive'])->middleware('role:Super-Admin')->name('vendors.make.inactive');
         Route::post('vendors/active/{vendor}', [App\Http\Controllers\Admin\VendorController::class, 'makeActive'])->middleware('role:Super-Admin')->name('vendors.make.active');
+        Route::post('vendors/verify-email/{vendor}', [App\Http\Controllers\Admin\VendorController::class, 'verifyEmail'])->middleware('role:Super-Admin')->name('vendors.verify.email');
         Route::post('staff/update-password/{staff}', [App\Http\Controllers\Admin\StaffController::class, 'updatePassword'])->middleware('role:vendor|staff')->name('staff.password.update');
 
         Route::post('trail/store', [App\Http\Controllers\Admin\PlanController::class, 'trailDetails'])->middleware('role:Super-Admin')->name('trailDetails.store');

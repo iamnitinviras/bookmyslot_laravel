@@ -72,7 +72,7 @@
                                 ->id('delete-form_' . $plan->id)
                                 ->class('data-confirm')
                                 ->attribute('autocomplete', 'off')
-                                ->attribute('data-confirm-message', __('system.plans.are_you_sure', ['name' => $plan->local_title]))
+                                ->attribute('data-confirm-message', __('system.fields.are_you_sure', ['name' => $plan->local_title]))
                                 ->attribute('data-confirm-title', __('system.crud.delete'))->open() !!}
                             @endif
 
