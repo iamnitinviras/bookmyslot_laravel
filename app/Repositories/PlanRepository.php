@@ -24,11 +24,14 @@ class PlanRepository extends BaseRepository
     public function allPlan($params)
     {
         $table = $this->model->getTable();
-        return $this->model->sortable()->when(isset($params['filter']), function ($q) use ($params, $table) {
-            $q->where(function ($query) use ($params, $table) {
+        return $this->model->with('vendor')->sortable()->when(isset($params['filter']), function ($q) use ($params, $table)
+        {
+            $q->where(function ($query) use ($params, $table)
+            {
                 $query->where("$table.title", 'like', '%' . $params['filter'] . '%');
-                $query->orWhere("$table.plan_id", '=',  $params['filter']);
+                $query->orWhere("$table.plan_id", '=', $params['filter']);
             });
-        })->get();;
+        })->get();
+        ;
     }
 }

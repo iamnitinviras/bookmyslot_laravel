@@ -41,7 +41,12 @@
             <tbody>
                 @forelse ($plans as $key => $plan)
                     <tr>
-                        <td>{{ $plan->local_title }}</td>
+                        <td>
+                            <p class="mb-1">{{ $plan->local_title }}</p>
+                            @if (isset($plan->vendor))
+                                <span class="badge bg-primary p-1">{{ $plan->vendor->first_name }} {{ $plan->vendor->last_name }}</span>
+                            @endif
+                        </td>
                         <td>{{ displayCurrency($plan->amount) }}</td>
                         <td>
                             @if ($plan->unlimited_member == 'yes')

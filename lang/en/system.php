@@ -551,6 +551,8 @@ return
             ),
         'plans' =>
             array(
+                'select_vendor_specific_plan' => 'To create a vendor-specific plan, please select a vendor from the dropdown below.',
+                'vendor_specific_plan' => 'Vendor Specific Plan',
                 'available_plans' => 'Available Plans',
                 'next_billing_date' => 'Next billing date',
                 'your_current_subscription' => 'Your Current Subscription',

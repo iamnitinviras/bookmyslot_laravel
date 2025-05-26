@@ -130,38 +130,40 @@
                     </select>
                 </div>
             </div>
+        </div>
 
-            <div class="col-lg-4 mb-2">
-                <div class="form-group">
-                    <label class="text-label">{{ trans('system.vendors.select_vendor') }}</label>
-                    <select name="user_id" class="form-control" id="user_id">
-                        <option value="">{{trans('system.vendors.select_vendor')}}</option>
-                        @if (isset($vendors) && count($vendors) > 0)
-                            @foreach ($vendors as $vendor)
-                                <option {{ old('user_id', $plan->user_id ?? '') == $vendor->id ? 'selected' : '' }}
-                                    value="{{ $vendor->id }}">
-                                    {{ $vendor->first_name }} {{ $vendor->last_name }}
-                                </option>
-                            @endforeach
-                        @endif
-                    </select>
+        <div class="row mt-5">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="card-header">
+                        <h4 class="card-title">{{ trans('system.plans.vendor_specific_plan') }}</h4>
+                        <p class="card-title-desc">{{ trans('system.plans.select_vendor_specific_plan') }}</p>
+                    </div>
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-sm-4">
+                                <label class="text-label">{{ trans('system.vendors.select_vendor') }}</label>
+                                <select name="user_id" class="form-control" id="user_id">
+                                    <option value="">{{trans('system.vendors.select_vendor')}}</option>
+                                    @if (isset($vendors) && count($vendors) > 0)
+                                        @foreach ($vendors as $vendor)
+                                            <option {{ old('user_id', $plan->user_id ?? '') == $vendor->id ? 'selected' : '' }}
+                                                value="{{ $vendor->id }}">
+                                                {{ $vendor->first_name }} {{ $vendor->last_name }}
+                                            </option>
+                                        @endforeach
+                                    @endif
+                                </select>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-
         </div>
     </section>
-
 </div>
 
 @once
-    @push('page_css')
-        <style>
-            .ml-3 {
-                margin-left: 10px;
-            }
-        </style>
-    @endpush
-
     @push('page_scripts')
         <script>
             $(document).ready(function () {

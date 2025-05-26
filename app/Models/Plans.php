@@ -80,4 +80,8 @@ class Plans extends Model implements Searchable
             $url
         );
     }
+    public function vendor()
+    {
+        return $this->hasOne(User::class, 'id', 'user_id');
+    }
 }
