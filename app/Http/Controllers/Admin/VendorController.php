@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Hash;
 use App\Http\Requests\UserRequest;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Session;
+use Stripe\Subscription;
 
 class VendorController extends Controller
 {
@@ -411,7 +412,83 @@ class VendorController extends Controller
                 'start_date' => now(),
             ]);
         } else {
-            dd("sd");
+            $payment_method = $subscription->payment_method;
+            if ($payment_method == 'stripe') {
+                $subscription_id = $subscription->subscription_id;
+                $currency = config('custom.currency');
+                $stripe_secret_key = config('stripe.stripe_secret_key');
+
+                if ($plan->type == 'weekly') {
+                    $recurring_type = 'week';
+                } else if ($plan->type == 'monthly') {
+                    $recurring_type = 'month';
+                } else if ($plan->type == 'yearly') {
+                    $recurring_type = 'year';
+                } else if ($plan->type == 'day') {
+                    $recurring_type = 'day';
+                } else {
+                    $recurring_type = '';
+                }
+
+                //Subscription
+                $stripe = new \Stripe\StripeClient($stripe_secret_key);
+                \Stripe\Stripe::setApiKey($stripe_secret_key);
+
+                //Product
+                $stripe_plan_id = $plan->stripe_plan_id;
+
+                if ($plan->stripe_plan_id == null) {
+                    $product = $stripe->products->create([
+                        'name' => $plan->title,
+                    ]);
+
+                    $stripe_plan_id = $product->id;
+                    $plan->stripe_plan_id = $product->id;
+                    $plan->save();
+                }
+
+                //Price
+                $price_array = [
+                    'unit_amount' => $plan->amount * 100,
+                    'currency' => $currency,
+                    'product' => $stripe_plan_id,
+                ];
+
+                $price_array['recurring'] = ['interval' => $recurring_type];
+                $price = $stripe->prices->create($price_array);
+                $subscription = Subscription::retrieve($subscription_id);
+
+                // Get subscription item ID (needed for update)
+                $subscriptionItemId = $subscription->items->data[0]->id;
+
+                // Update the subscription with new price
+                Subscription::update($subscription_id, [
+                    'items' => [
+                        [
+                            'id' => $subscriptionItemId,
+                            'price' => $price->id,
+                        ],
+                    ],
+                    'proration_behavior' => 'create_prorations'
+                ]);
+                $updated = Subscriptions::where('subscription_id', $subscription_id)->update([
+                    'plan_id' => $plan->plan_id,
+                    'is_current' => 'yes',
+                    'amount' => $plan->amount,
+                    'type' => $plan->type,
+                    'branch_limit' => $plan->branch_limit,
+                    'unlimited_branch' => $plan->unlimited_branch,
+                    'staff_limit' => $plan->staff_limit,
+                    'staff_unlimited' => $plan->staff_unlimited,
+                    'member_limit' => $plan->member_limit,
+                    'unlimited_member' => $plan->unlimited_member,
+                    'status' => 'approved',
+                    'expiry_date' => $expiredDate,
+                    'created_at' => now(),
+                    'updated_at' => now(),
+                    'start_date' => now(),
+                ]);
+            }
         }
 
         return redirect(route('admin.vendors.show', $vendor->id))->with('Success', __('system.messages.updated', ['model' => __('system.vendors.title')]));

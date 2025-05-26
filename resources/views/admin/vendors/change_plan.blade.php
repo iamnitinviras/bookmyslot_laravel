@@ -140,19 +140,6 @@
                                             </div>
                                             <!-- end table-responsive -->
                                         </div>
-                                        @if (isset($subscription->subscription_id) && $subscription->subscription_id != null)
-                                            <div class="card-footer bg-transparent border-top text-muted">
-                                                <div class="d-flex flex-wrap gap-2">
-                                                    {{ Form::open(['route' => ['admin.vendor.subscription.cancel', ['subscription' => $subscription->id]], 'autocomplete' => 'off', 'class' => 'data-confirm', 'data-confirm-message' => __('system.plans.cancel_subscription_title'), 'data-confirm-title' => __('system.plans.cancel_subscription'), 'id' => 'cancel-form_' . $subscription->id, 'method' => 'post']) }}
-                                                    <button type="submit" class="btn btn-danger">
-                                                        {{ trans('system.plans.cancel_subscription') }}
-                                                    </button>
-                                                    {{ Form::close() }}
-
-                                                </div>
-                                            </div>
-                                        @endif
-
                                     </div>
                                 </div>
                             @endif
