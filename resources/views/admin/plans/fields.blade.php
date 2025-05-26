@@ -72,7 +72,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text is-unlimited">
                             <input data-name="member_limit" {{ isset($plan) && $plan->unlimited_member == 'yes' ? 'checked' : '' }} id="is_member_limit" data-target="#member_limit"
-                                name="is_unlimited_member" type="checkbox" class="isUnlimited" value="yes">
+                                name="is_unlimited_member" type="checkbox" class="isUnlimited me-2" value="yes">
                             <label for="is_member_limit" class="form-check-label ml-3">
                                 {{ trans('system.plans.is_unlimited') }}</label>
                         </div>
@@ -89,7 +89,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text is-unlimited">
                             <input data-name="branch_limit" {{ isset($plan) && $plan->unlimited_branch == 'yes' ? 'checked' : '' }} id="is_branch_limit" data-target="#branch_limit"
-                                name="is_unlimited_branch" type="checkbox" class="isUnlimited" value="yes">
+                                name="is_unlimited_branch" type="checkbox" class="isUnlimited me-2" value="yes">
                             <label for="is_branch_limit" class="form-check-label ml-3">
                                 {{ trans('system.plans.is_unlimited') }}</label>
                         </div>
@@ -105,7 +105,7 @@
                     <div class="input-group-prepend">
                         <div class="input-group-text is-unlimited">
                             <input data-name="staff_limit" {{ isset($plan) && $plan->staff_unlimited == 'yes' ? 'checked' : '' }} name="is_staff_unlimited" id="is_staff_unlimited" type="checkbox"
-                                data-target="#staff_limit" class="isUnlimited" value="yes">
+                                data-target="#staff_limit" class="isUnlimited me-2" value="yes">
                             <label class="form-check-label ml-3" for="is_staff_unlimited">
                                 {{ trans('system.plans.is_unlimited') }}
                             </label>

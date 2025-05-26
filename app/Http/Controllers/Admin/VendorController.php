@@ -367,7 +367,11 @@ class VendorController extends Controller
     }
     public function changePlan(User $vendor)
     {
-        $plans = Plans::where('status', 'active')->get();
+        $plans = Plans::where('status', 'active')->where(function ($query) use ($vendor)
+        {
+            $query->whereNull('user_id')->orWhere('user_id', $vendor->id);
+        })->get();
+
         $subscription = $vendor->subscriptionData();
         return view("admin.vendors.change_plan", compact('plans', 'vendor', 'subscription'));
     }

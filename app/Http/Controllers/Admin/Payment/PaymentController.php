@@ -34,7 +34,10 @@ class PaymentController extends Controller
             $subscription = "trial";
         }
 
-        $plans = Plans::where('status', 'active')->get();
+        $plans = Plans::where('status', 'active')->where(function ($query) use ($vendor)
+        {
+            $query->whereNull('user_id')->orWhere('user_id', $vendor->id);
+        })->get();
         return view("admin.vendor_subscription.index", compact('plans', 'vendor', 'subscription'));
     }
 
