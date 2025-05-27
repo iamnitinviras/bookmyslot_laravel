@@ -168,15 +168,47 @@
     @endhasanyrole
 
     @hasanyrole('Super-Admin')
+
+    <div class="col-xl-3 col-md-6">
+        <div class="card card-h-100">
+            <div class="card-body">
+                <a href="{{ route('admin.vendors.index') }}">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <span class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_vendors') }}</span>
+                            <h4 class="mb-3">
+                                <span class="counter-value" data-target="{{ $vendors_count ?? 0 }}">{{ $vendors_count ?? 0 }}</span>
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-md-6">
+        <div class="card card-h-100">
+            <div class="card-body">
+                <a href="{{ url('subscriptions') }}">
+                    <div class="d-flex align-items-center">
+                        <div class="flex-grow-1">
+                            <span class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_subscription') }}</span>
+                            <h4 class="mb-3">
+                                <span class="counter-value" data-target="{{ $total_subscription ?? 0 }}">{{ $total_subscription ?? 0 }}</span>
+                            </h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
     <div class="col-xl-3 col-md-6">
         <div class="card card-h-100">
             <div class="card-body">
                 <div class="d-flex align-items-center">
                     <div class="flex-grow-1">
-                        <span
-                            class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_gyms') }}</span>
+                        <span class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_income') }}</span>
                         <h4 class="mb-3">
-                            <span class="counter-value" data-target="{{ $products_count ?? 0 }}">0</span>
+                            <span class="counter-value" data-target="{{ $total_income ?? 0 }}">{{ displayCurrency($total_income ?? 0) }}</span>
                         </h4>
                     </div>
                 </div>
@@ -186,36 +218,14 @@
     <div class="col-xl-3 col-md-6">
         <div class="card card-h-100">
             <div class="card-body">
-                <a href="{{ route('admin.vendors.index') }}">
-                    <div class="d-flex align-items-center">
-                        <div class="flex-grow-1">
-                            <span
-                                class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_vendors') }}</span>
-                            <h4 class="mb-3">
-                                <span class="counter-value" data-target="{{ $vendors_count ?? 0 }}">0</span>
-                            </h4>
-                        </div>
+                <div class="d-flex align-items-center">
+                    <div class="flex-grow-1">
+                        <span class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_transaction') }}</span>
+                        <h4 class="mb-3">
+                            <span class="counter-value" data-target="{{ $total_transaction ?? 0 }}">{{ displayCurrency($total_transaction ?? 0) }}</span>
+                        </h4>
                     </div>
-                </a>
-            </div>
-        </div>
-    </div>
-    <div class="col-xl-3 col-md-6">
-        <div class="card card-h-100">
-            <div class="card-body">
-                <a href="{{ route('admin.subscriptions') }}">
-                    <div class="d-flex align-items-center">
-
-                        <div class="flex-grow-1">
-                            <span
-                                class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.pending_subscriptions') }}</span>
-                            <h4 class="mb-3">
-                                <span class="counter-value" data-target="{{ $pending_subscriptions ?? 0 }}">0</span>
-                            </h4>
-                        </div>
-
-                    </div>
-                </a>
+                </div>
             </div>
         </div>
     </div>

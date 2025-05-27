@@ -211,6 +211,9 @@ return
                 'linkedin' => 'Linkedin',
             ),
         'dashboard' => array(
+            'total_income' => "Total Income",
+            'total_transaction' => "Total Transaction",
+            'total_subscription' => "Total Subscription",
             'monthly_feedback_chart' => "Monthly Feedback",
             '404_alert' => "Oops! The page you are looking for cannot be found.",
             'create_branch' => 'Create at least one branch to getting started.',
@@ -288,6 +291,7 @@ return
                     ),
                 'select_branch' => 'Select Branch',
                 'select_vendor' => 'Select Vendor',
+                'continue_as_vendor' => 'Continue as Vendor',
             ),
         'staffs' =>
             array(

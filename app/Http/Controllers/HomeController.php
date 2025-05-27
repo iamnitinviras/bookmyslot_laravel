@@ -10,6 +10,7 @@ use App\Models\Members;
 use App\Models\MembersAttendance;
 use App\Models\PendingPayments;
 use App\Models\Testimonial;
+use App\Models\Transactions;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\Settings;
@@ -157,7 +158,9 @@ class HomeController extends Controller
 //            $count['monthlyCounts'] =$monthlyFeedbackChartData;
         } else {
 
-            $count['branches_count'] = 0;
+            $count['total_income'] = Transactions::sum('amount');
+            $count['total_transaction'] = Transactions::count();
+            $count['total_subscription'] = Subscriptions::where('status', 'approved')->count();
             $count['users_count'] = User::where('user_type', User::USER_TYPE_STAFF)->count();
             $count['subscriptions'] = Subscriptions::orderBy('created_at', 'desc')->where('status', "pending")->with([
                 'user' => function ($thisUser)
