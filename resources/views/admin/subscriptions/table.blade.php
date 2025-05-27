@@ -10,21 +10,27 @@
                     <th>{{trans('system.plans.payment_method')}}</th>
                     <th>{{trans('system.plans.start_date')}}</th>
                     <th>{{trans('system.plans.expiry_date')}}</th>
+                    <th scope="col">
+                        {{__('system.plans.amount')}}
+                    </th>
                     <th>{{trans('system.plans.status')}}</th>
                 </tr>
             </thead>
             <tbody>
                 @if(isset($subscriptions) && count($subscriptions) > 0)
                     @foreach($subscriptions as $subscription)
-                        <tr data-url="{{ url('get-rightbar-content') }}" data-id="{{ $subscription->id }}"
-                            data-action="subscription-history" @if(request()->action == 'approved') class="app-cursor-pointer"
-                            onclick="show_rightbar_section(this)" @endif>
-                            <td> @if(isset($subscription->user)) {{$subscription->user->first_name." ".$subscription->user->last_name}} @endif</td>
-                            <td> @if(isset($subscription->plan->title)) {{$subscription->plan->local_title}} @else
-                            {{ __('system.plans.trial') }} @endif
+                        <tr>
+                            <td> @if(isset($subscription->user))
+                            {{$subscription->user->first_name . " " . $subscription->user->last_name}} @endif
+                            </td>
+                            <td> @if(isset($subscription->plan->title)) <span
+                            class="badge bg-warning p-1">{{$subscription->plan->local_title}}</span> @else
+                                    {{ __('system.plans.trial') }} @endif
                             </td>
 
-                            <td>{{ trans('system.payment_setting.' . $subscription->payment_method) }}</td>
+                            <td><span
+                                    class="badge bg-primary">{{ trans('system.payment_setting.' . $subscription->payment_method) }}</span>
+                            </td>
 
                             <td>{{formatDate($subscription->start_date)}}</td>
 
@@ -34,13 +40,26 @@
                                 <td data-action="{{$subscription->expiry_date}}">{{ trans('system.plans.lifetime') }}</td>
                             @endif
                             <td>
-                                @if($subscription->status == 'approved')
-                                    <span class="badge bg-success font-size-12">{{trans('system.plans.approved')}}</span>
-                                @elseif($subscription->status == 'rejected')
-                                    <span class="badge bg-danger font-size-12">{{trans('system.plans.rejected')}}</span>
-                                @elseif($subscription->status == 'pending')
-                                    <span class="badge bg-secondary font-size-12">{{trans('system.plans.pending')}}</span>
+                                @if(isset($subscription->amount))
+                                    {{ displayCurrency($subscription->amount) }}
+                                @else
+                                    {{ displayCurrency(0) }}
                                 @endif
+                                <span class="badge bg-info p-1">{{ __('system.plans.' . $subscription->type) }}</span>
+                            </td>
+                            <td>
+                                @if(isset($subscription->expiry_date) && $subscription->expiry_date != null && $subscription->expiry_date < date('Y-m-d H:i:s'))
+                                    <span class="badge bg-danger">{{ trans('system.plans.expired') }}</span>
+                                @else
+                                    @if($subscription->status == 'approved')
+                                        <span class="badge bg-success font-size-12">{{trans('system.plans.approved')}}</span>
+                                    @elseif($subscription->status == 'rejected')
+                                        <span class="badge bg-danger font-size-12">{{trans('system.plans.rejected')}}</span>
+                                    @elseif($subscription->status == 'pending')
+                                        <span class="badge bg-secondary font-size-12">{{trans('system.plans.pending')}}</span>
+                                    @endif
+                                @endif
+
                             </td>
                         </tr>
                     @endforeach
