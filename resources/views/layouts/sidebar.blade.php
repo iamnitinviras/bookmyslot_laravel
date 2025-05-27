@@ -39,6 +39,32 @@
         </a>
     </li>
     <li>
+        <a href="javascript: void(0);" class="has-arrow">
+           <i class="fas fa-columns font-size-16"></i>
+            <span data-key="t-{{ __('system.cms.menu') }}">{{ __('system.cms.menu') }}</span>
+        </a>
+        <ul class="sub-menu" aria-expanded="false">
+            <li>
+                <a href="{{ route('admin.testimonials.index') }}" key="t-{{ __('system.testimonial.menu') }}">
+                    <i class=" fas fa-chevron-right font-size-16"></i>
+                    {{ __('system.testimonial.menu') }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.faqs.index') }}" key="t-{{ __('system.faq.menu') }}">
+                    <i class=" fas fa-chevron-right font-size-16"></i>
+                    {{ __('system.faq.menu') }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.cms-page.index') }}" key="t-{{ __('system.cms.pages') }}">
+                    <i class=" fas fa-chevron-right font-size-16"></i>
+                    {{ __('system.cms.pages') }}
+                </a>
+            </li>
+        </ul>
+    </li>
+    {{-- <li>
         <a href="{{ route('admin.testimonials.index') }}">
             <i class="fas fa-quote-left font-size-16"></i>
             <span data-key="t-{{ __('system.testimonial.menu') }}">{{ __('system.testimonial.menu') }}</span>
@@ -49,14 +75,14 @@
             <i class="fas fa-question font-size-16"></i>
             <span data-key="t-{{ __('system.faq.menu') }}">{{ __('system.faq.menu') }}</span>
         </a>
-    </li>
+    </li> --}}
     {{-- <li class="menu-title text-white" data-key="t-pages">System Settings</li> --}}
-    <li>
+    {{-- <li>
         <a href="{{ route('admin.cms-page.index') }}">
             <i class="fas fa-pager font-size-16"></i>
             <span data-key="t-{{ __('system.cms.menu') }}">{{ __('system.cms.menu') }}</span>
         </a>
-    </li>
+    </li> --}}
     <li>
         <a href="{{ route('admin.contact-request.index') }}">
             <i class="fas fa-envelope font-size-16"></i>

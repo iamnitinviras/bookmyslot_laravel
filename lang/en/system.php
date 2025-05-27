@@ -871,6 +871,7 @@ return
         'cms' =>
             array(
                 'menu' => 'CMS',
+                'pages' => 'Pages',
                 'are_you_sure' => 'Are you sure you want to delete this CMS?',
                 'create_new' => 'Create CMS',
                 'slug' => 'Slug',
@@ -878,11 +879,11 @@ return
                 'description' => 'Description',
                 'update' =>
                     array(
-                        'menu' => 'Update CMS',
+                        'menu' => 'Update Page',
                     ),
                 'edit' =>
                     array(
-                        'title' => 'Update CMS',
+                        'title' => 'Update Page',
                     ),
             ),
         'contact_us' =>

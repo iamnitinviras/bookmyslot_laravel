@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', __('system.dashboard.cms'))
+@section('title', __('system.cms.pages'))
 @push('page_css')
     <style>
         .data-description {
@@ -11,7 +11,6 @@
     </style>
 @endpush
 @section('content')
-
     <div class="row">
         <div class="col-lg-12">
             <div class="card">
@@ -19,12 +18,12 @@
 
                     <div class="row">
                         <div class="col-md-6 col-xl-6">
-                            <h4 class="card-title">{{ __('system.dashboard.cms') }}</h4>
+                            <h4 class="card-title">{{ __('system.cms.pages') }}</h4>
                             <div class="page-title-box pb-0 d-sm-flex">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a href="{{ route('home') }}">{{ __('system.dashboard.menu') }}</a></li>
-                                        <li class="breadcrumb-item active">{{ __('system.dashboard.cms') }}</li>
+                                        <li class="breadcrumb-item active">{{ __('system.cms.pages') }}</li>
                                     </ol>
                                 </div>
 

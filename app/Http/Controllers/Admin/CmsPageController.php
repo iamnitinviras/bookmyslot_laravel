@@ -25,22 +25,12 @@ class CmsPageController extends Controller
         return view('admin.cms_page.index', ['cmsPages' => $cmsPages]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+
     public function create()
     {
         return redirect('cms-page');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         try {
@@ -57,23 +47,13 @@ class CmsPageController extends Controller
         return redirect()->route('admin.cms-page.index');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function show($id)
     {
         return redirect()->route('admin.cms-page.index');
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function edit($id)
     {
         $cmsPage = CmsPage::where('id', $id)->first();
@@ -85,13 +65,7 @@ class CmsPageController extends Controller
         return view('admin.cms_page.edit', ['cmsPage' => $cmsPage]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
+
     public function update(Request $request, $id)
     {
         $cmsPage = CmsPage::where('id', $id)->first();
@@ -105,7 +79,7 @@ class CmsPageController extends Controller
             $cmsPage->update($request->only('slug', 'title', 'description', 'lang_title', 'lang_description'));
 
             DB::commit();
-            $request->session()->flash('Success', __('system.messages.saved', ['model' => __('system.cms.title')]));
+            $request->session()->flash('Success', __('system.messages.saved', ['model' => __('system.cms.menu')]));
         } catch (\Illuminate\Database\QueryException $ex) {
             DB::rollback();
             $request->session()->flash('Error', __('system.messages.operation_rejected'));
