@@ -12,6 +12,9 @@ class SubscriptionController extends Controller
 {
     public function subscriptions(Request $request)
     {
+        $total_active = Subscriptions::where('status', 'approved')->count();
+        $total_canceled = Subscriptions::where('status', 'canceled')->count();
+
         $subscriptions = Subscriptions::orderBy('created_at', 'desc')->get();
         return view("admin.subscriptions.index", compact('subscriptions'));
     }

@@ -38,7 +38,7 @@ return new class extends Migration {
             $table->integer('staff_limit')->default(0);
             $table->enum('staff_unlimited', ['yes', 'no'])->default('no');
 
-            $table->enum('status', ['pending', 'approved', 'rejected', 'canceled'])->default('pending');
+            $table->enum('status', ['pending', 'approved', 'rejected', 'canceled', 'expired'])->default('pending');
             $table->string('transaction_id')->nullable();
             $table->longText('subscription_id')->nullable();
             $table->longText('json_response')->nullable();

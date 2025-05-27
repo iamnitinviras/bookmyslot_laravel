@@ -35,20 +35,20 @@
                         @endif
 
                         @if (
-                            empty(auth()->user()->address) ||
-                            empty(auth()->user()->city) ||
-                            empty(auth()->user()->zip) ||
-                            empty(auth()->user()->country)
-                        )
-                                            <div class="col-md-6 mb-3">
-                                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0"
-                                                    role="alert">
-                                                    <a href="{{ route('admin.profile.edit') }}">
-                                                        <i class="mdi mdi-account-edit-outline label-icon"></i>
-                                                        {{ __('system.dashboard.missing_address') }}
-                                                    </a>
-                                                </div>
-                                            </div>
+                                empty(auth()->user()->address) ||
+                                empty(auth()->user()->city) ||
+                                empty(auth()->user()->zip) ||
+                                empty(auth()->user()->country)
+                            )
+                            <div class="col-md-6 mb-3">
+                                <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0"
+                                    role="alert">
+                                    <a href="{{ route('admin.profile.edit') }}">
+                                        <i class="mdi mdi-account-edit-outline label-icon"></i>
+                                        {{ __('system.dashboard.missing_address') }}
+                                    </a>
+                                </div>
+                            </div>
                         @endif
                     </div>
                 </div>
@@ -228,23 +228,23 @@
                     @hasanyrole('Super-Admin')
                     <a href="javascript:void(0)">
     @else
-                        <a href="{{ route('admin.staffs.index') }}">
-                            @endhasanyrole
+                                        <a href="{{ route('admin.staffs.index') }}">
+                                            @endhasanyrole
 
-                            <div class="d-flex align-items-center">
-                                <div class="flex-grow-1">
-                                    <span
-                                        class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_users') }}</span>
-                                    <h4 class="mb-3">
-                                        <span class="counter-value" data-target="{{ $users_count ?? 0 }}">0</span>
-                                    </h4>
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <span
+                                                        class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_users') }}</span>
+                                                    <h4 class="mb-3">
+                                                        <span class="counter-value" data-target="{{ $users_count ?? 0 }}">0</span>
+                                                    </h4>
+                                                </div>
+                                            </div>
+                                        </a>
                                 </div>
                             </div>
-                        </a>
-                </div>
-            </div>
-        </div>
-    @endcan
+                        </div>
+                    @endcan
 </div>
 
 @if((auth()->user()->product != null) && auth()->user()->product->allow_feature_request == true)
