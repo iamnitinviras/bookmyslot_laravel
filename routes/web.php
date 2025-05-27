@@ -121,6 +121,7 @@ Route::middleware(['preventBackHistory'])->group(function ()
 
         Route::group(['prefix' => 'vendors', 'controller' => App\Http\Controllers\Admin\VendorController::class, 'middleware' => 'role:Super-Admin'], function ()
         {
+            Route::post('admin/subscription/cancel/{subscription}', 'subscriptionCancel')->name('subscription.cancel.admin');
             Route::get('{vendor}/sign-in', 'vendorSignin')->name('vendors.vendorSignin');
             Route::get('{vendor}/payment-history', 'paymentTransactions')->name('vendors.paymentTransactions');
             Route::get('{vendor}/change-plan', 'changePlan')->name('vendors.changePlan');

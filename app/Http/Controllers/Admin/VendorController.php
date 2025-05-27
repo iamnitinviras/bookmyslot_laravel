@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Admin\Payment\PayPalController;
 use App\Http\Controllers\Admin\Payment\RazorpayController;
+use App\Http\Controllers\Admin\Payment\StripeController;
 use App\Models\Branch;
 use App\Models\User;
 use App\Models\Plans;
@@ -511,6 +512,39 @@ class VendorController extends Controller
         }
 
         return redirect(route('admin.vendors.show', $vendor->id))->with('Success', __('system.messages.updated', ['model' => __('system.vendors.title')]));
+    }
+
+    public function subscriptionCancel(Subscriptions $subscription)
+    {
+        try {
+
+            dd($subscription);
+            if ($subscription == null) {
+                throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
+            }
+
+            $userPlan = Subscriptions::where('id', $subscription->id)->first();
+
+            if ($userPlan == null) {
+                throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
+            }
+
+            //Cancel Subscription
+            if ($userPlan->payment_method == "paypal") {
+                return (new PayPalController($this->subscriptionService))->cancelSubscription($userPlan->subscription_id);
+
+            } elseif ($userPlan->payment_method == "razorpay") {
+                return (new RazorpayController($this->subscriptionService))->cancelSubscription($userPlan->subscription_id);
+
+            } elseif ($userPlan->payment_method == "stripe") {
+                return (new StripeController($this->subscriptionService))->subscriptionCancel($userPlan);
+
+            }
+            return redirect()->back()->with('Success', trans('system.plans.cancel_subscription_success'));
+
+        } catch (\Exception $exception) {
+            return redirect('subscription')->with(['Error' => $exception->getMessage()]);
+        }
     }
 
     public function vendorSignin(User $vendor)

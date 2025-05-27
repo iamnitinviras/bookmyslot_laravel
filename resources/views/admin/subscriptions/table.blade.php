@@ -14,6 +14,7 @@
                         {{__('system.plans.amount')}}
                     </th>
                     <th>{{trans('system.plans.status')}}</th>
+                    <th class="h-mw-80px">{{ __('system.crud.action') }}</th>
                 </tr>
             </thead>
             <tbody>
@@ -55,11 +56,27 @@
                                         <span class="badge bg-success font-size-12">{{trans('system.plans.approved')}}</span>
                                     @elseif($subscription->status == 'rejected')
                                         <span class="badge bg-danger font-size-12">{{trans('system.plans.rejected')}}</span>
+                                    @elseif($subscription->status == 'canceled')
+                                        <span class="badge bg-danger font-size-12">{{trans('system.plans.canceled')}}</span>
                                     @elseif($subscription->status == 'pending')
                                         <span class="badge bg-secondary font-size-12">{{trans('system.plans.pending')}}</span>
                                     @endif
                                 @endif
-
+                            </td>
+                            <td>
+                                @if ($subscription->status != 'canceled' && $subscription->subscription_id != null)
+                                    <form
+                                        action="{{ route('admin.subscription.cancel.admin', ['subscription' => $subscription->id]) }}"
+                                        method="POST" autocomplete="off" class="data-confirm"
+                                        data-confirm-message="{{ __('system.plans.cancel_subscription_title') }}"
+                                        data-confirm-title="{{ __('system.plans.cancel_subscription') }}"
+                                        id="cancel-form_{{ $subscription->id }}">
+                                        @csrf
+                                        <button type="submit" class="btn btn-danger">
+                                            {{ trans('system.plans.cancel_subscription') }}
+                                        </button>
+                                        {!! html()->closeModelForm() !!}
+                                @endif
                             </td>
                         </tr>
                     @endforeach
