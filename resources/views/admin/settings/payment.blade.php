@@ -32,15 +32,15 @@
                                 @method('put')
                                 @csrf
                                 <div class="row mt-3">
-                                    <div class="col-xl-4">
+                                    <div class="col-xl-12">
                                         @include('admin.settings.payment.stripe')
                                     </div>
 
-                                    <div class="col-xl-4">
+                                    <div class="col-xl-12">
                                         @include('admin.settings.payment.paypal')
                                     </div>
 
-                                    <div class="col-xl-4">
+                                    <div class="col-xl-12">
                                         @include('admin.settings.payment.razorpay')
                                     </div>
                                 </div>

@@ -3,7 +3,7 @@
     <div class="card-header">{{ __('system.payment_setting.razorpay_payments') }}</div>
     <div class="card-body">
         <div class="row">
-            <div class="col-md-12 mb-3">
+            <div class="col-md-4 mb-3">
                 <div class="form-group">
                     <label class="form-label">{{trans('system.payment_setting.select_app_currency')}}</label>
                     <select name="razorpay_currency_code" id="razorpay_currency_code" required="required"
@@ -283,22 +283,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-12 mb-3">
-                <div class="form-group">
-                    <label class="form-label">{{ __('system.payment_setting.razorpay_key_id') }}</label>
-                    <input value="{{ config('razorpay.key_id') }}" type="text" name="razorpay_key_id" required
-                        class="form-control" type="text" name="razorpay_key_id" required class="form-control"
-                        placeholder="{{ trans('system.payment_setting.razorpay_key_id') }}">
-                </div>
-            </div>
-            <div class="col-md-12 mb-3">
-                <div class="form-group">
-                    <label class="form-label">{{ trans('system.payment_setting.secret_key') }}</label>
-                    <input value="{{ config('razorpay.secret') }}" type="text" name="razorpay_secret_key" required
-                        class="form-control" placeholder="{{ trans('system.payment_setting.secret_key') }}">
-                </div>
-            </div>
-            <div class="col-md-12 mb-3">
+            <div class="col-md-4 mb-3">
                 <div class="form-group">
                     <label class="form-label"
                         for="razorpay_mode">{{ trans('system.payment_setting.gateway_mode') }}</label>
@@ -312,7 +297,7 @@
                     </select>
                 </div>
             </div>
-            <div class="col-md-12 mb-3">
+            <div class="col-md-4 mb-3">
                 <div class="form-group">
                     <label class="form-label" for="razorpay_status">{{ trans('system.payment_setting.status') }}</label>
                     <select id="razorpay_status" name="razorpay_status" required class="form-control">
@@ -323,6 +308,21 @@
                             {{ trans('system.payment_setting.disable') }}
                         </option>
                     </select>
+                </div>
+            </div>
+            <div class="col-md-12 mb-3">
+                <div class="form-group">
+                    <label class="form-label">{{ __('system.payment_setting.razorpay_key_id') }}</label>
+                    <input value="{{ config('razorpay.key_id') }}" type="text" name="razorpay_key_id" required
+                        class="form-control" type="text" name="razorpay_key_id" required class="form-control"
+                        placeholder="{{ trans('system.payment_setting.razorpay_key_id') }}">
+                </div>
+            </div>
+            <div class="col-md-12 mb-3">
+                <div class="form-group">
+                    <label class="form-label">{{ trans('system.payment_setting.secret_key') }}</label>
+                    <input value="{{ config('razorpay.secret') }}" type="text" name="razorpay_secret_key" required
+                        class="form-control" placeholder="{{ trans('system.payment_setting.secret_key') }}">
                 </div>
             </div>
         </div>
