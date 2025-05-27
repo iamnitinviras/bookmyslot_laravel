@@ -60,7 +60,6 @@
     @hasanyrole('Super-Admin')
     {{-- vendor missing details on boarding --}}
     @php
-
         $show_admin_boarding = false;
         $show_smtp = false;
         $show_system = false;
@@ -69,16 +68,16 @@
             $show_smtp = true;
         }
 
-        if (empty(config('custom.timezone')) || empty(config('custom.date_time_format')) || empty(config('custom.date_format')) || empty(config('custom.currency')) || empty(config('custom.currency_symbol')) || (empty(config('custom.favicon_icon')) || config('custom.favicon_icon') == '/assets/images/defualt_logo/logo.png') || (empty(config('custom.logo')) || config('custom.logo') == '/assets/images/defualt_logo/logo.png')) {
+        if (empty(config('custom.date_time_format')) || empty(config('custom.date_format')) || empty(config('custom.currency')) || empty(config('custom.currency_symbol')) || (empty(config('custom.favicon_icon')) || config('custom.favicon_icon') == '/assets/images/defualt_logo/logo.png') || (empty(config('custom.logo')) || config('custom.logo') == '/assets/images/defualt_logo/logo.png')) {
             $show_admin_boarding = true;
             $show_system = true;
         }
 
-        if (!extension_loaded('imagick')) {
-            $show_admin_boarding = true;
+        if (config('stripe.stripe_status') == 'enable' || config('paypal.status') == 'enable' || config('razorpay.status') == 'enable') {
+            $show_admin_boarding = false;
         }
 
-        if (isset($payment_setting_count) && $payment_setting_count == 0) {
+        if (!extension_loaded('imagick')) {
             $show_admin_boarding = true;
         }
     @endphp
@@ -115,7 +114,7 @@
                             </div>
                         @endif
 
-                        @if (isset($payment_setting_count) && $payment_setting_count == 0)
+                        @if (config('stripe.stripe_status') == 'disable' && config('paypal.status') == 'disable' && config('razorpay.status') == 'disable')
                             <div class="col-md-6 mb-3">
                                 <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0"
                                     role="alert">
@@ -127,11 +126,12 @@
                             </div>
                         @endif
 
+
                         @if ($show_system)
                             <div class="col-md-6 mb-3">
                                 <div class="alert alert-info alert-dismissible alert-label-icon label-arrow fade show mb-0"
                                     role="alert">
-                                    <a href="{{ route('admin.environment.setting') }}">
+                                    <a href="{{ url('setting/application') }}">
                                         <i class="mdi mdi-alert-circle-outline label-icon"></i>
                                         {{ __('system.dashboard.missing_system_details') }}
                                     </a>
