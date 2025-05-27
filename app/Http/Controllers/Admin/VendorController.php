@@ -518,7 +518,6 @@ class VendorController extends Controller
     {
         try {
 
-            dd($subscription);
             if ($subscription == null) {
                 throw new \Exception(__('system.messages.not_found', ['model' => __('system.plans.subscription')]));
             }
