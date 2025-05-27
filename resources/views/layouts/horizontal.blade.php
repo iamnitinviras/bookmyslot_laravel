@@ -158,12 +158,12 @@
 
                             @if (auth()->user()->free_forever == false)
                                 <a class="dropdown-item" href="{{ route('admin.vendor.subscription') }}">
-                                    <i class="mdi mdi-card-account-details-star font-size-16 align-middle me-1"></i>
+                                    <i class="fas fa-credit-card me-1"></i>
                                     {{ __('system.plans.subscription') }}
                                 </a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="{{ route('admin.vendor.payment.history') }}">
-                                    <i class="mdi mdi-format-list-checks font-size-16 align-middle me-1"></i>
+                                    <i class="fas fa-list-ul font-size-16 me-1"></i>
                                     {{ __('system.plans.transactions') }}
                                 </a>
                                 <div class="dropdown-divider"></div>
