@@ -693,6 +693,7 @@ return
         'crud' =>
             array(
                 'yes' => 'Yes',
+                'cancelled' => 'Canceled',
                 'update' => 'Update',
                 'upload' => 'Upload',
                 'reply' => 'Reply',

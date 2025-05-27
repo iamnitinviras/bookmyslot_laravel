@@ -33,16 +33,16 @@
                 <div class="card-body">
                     <div class="mb-4">
                         <div class="row">
-                            <div class="col-xl-3 col-md-6">
+                            <div class="col-xl-6 col-md-6">
                                 <div class="card text-success bg-soft-success">
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1">
                                                 <span
-                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_gyms') }}</span>
+                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.crud.active') }}</span>
                                                 <h4>
                                                     <span class="counter-value"
-                                                        data-target="{{ $products_count ?? 0 }}">0</span>
+                                                        data-target="{{ $total_active ?? 0 }}">0</span>
                                                 </h4>
                                             </div>
                                         </div>
@@ -51,16 +51,16 @@
                             </div>
 
 
-                            <div class="col-xl-3 col-md-6">
+                            <div class="col-xl-6 col-md-6">
                                 <div class="card text-success bg-soft-info">
                                     <div class="card-body">
                                         <div class="d-flex align-items-center">
                                             <div class="flex-grow-1">
                                                 <span
-                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_gyms') }}</span>
+                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.crud.cancelled') }}</span>
                                                 <h4>
                                                     <span class="counter-value"
-                                                        data-target="{{ $products_count ?? 0 }}">0</span>
+                                                        data-target="{{ $total_canceled ?? 0 }}">0</span>
                                                 </h4>
                                             </div>
                                         </div>
@@ -69,39 +69,9 @@
                             </div>
 
 
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card text-success bg-soft-dark">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <span
-                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_gyms') }}</span>
-                                                <h4>
-                                                    <span class="counter-value"
-                                                        data-target="{{ $products_count ?? 0 }}">0</span>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
 
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card text-success bg-soft-warning">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <span
-                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_gyms') }}</span>
-                                                <h4>
-                                                    <span class="counter-value"
-                                                        data-target="{{ $products_count ?? 0 }}">0</span>
-                                                </h4>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+
+
 
                         </div>
                         <div class="row">
