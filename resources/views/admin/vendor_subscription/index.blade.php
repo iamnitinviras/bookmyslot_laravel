@@ -122,7 +122,7 @@
                     @if (isset($plans) && count($plans) > 0)
                         <div class="row">
                             @foreach ($plans as $plan)
-                                <div class="col-md-4">
+                                <div class="col-md-4 mt-2">
                                     <div class="card mb-xl-0">
                                         <div class="card-body">
                                             <div class="p-2">

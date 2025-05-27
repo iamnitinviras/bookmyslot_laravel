@@ -24,7 +24,7 @@ class PlanRepository extends BaseRepository
     public function allPlan($params)
     {
         $table = $this->model->getTable();
-        return $this->model->with('vendor')->sortable()->when(isset($params['filter']), function ($q) use ($params, $table)
+        return $this->model->with('vendor')->sortable(['created_at' => 'desc'])->when(isset($params['filter']), function ($q) use ($params, $table)
         {
             $q->where(function ($query) use ($params, $table)
             {
