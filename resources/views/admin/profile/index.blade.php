@@ -92,8 +92,8 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="justify-content-md-end">
-                                <a href="{{ route('admin.profile.edit') }}" role="button" class="btn btn-primary">{{ __('system.profile.edit.menu') }}</a>
-                                <a href="{{ route('admin.password.edit') }}" role="button" class="btn btn-info">{{ __('system.password.menu') }}</a>
+                                <a href="{{ route('admin.profile.edit') }}" role="button" class="btn btn-primary"><i class="fas fa-edit"></i> {{ __('system.profile.edit.menu') }}</a>
+                                <a href="{{ route('admin.password.edit') }}" role="button" class="btn btn-info"><i class="fas fa-lock"></i> {{ __('system.password.menu') }}</a>
                             </div>
                         </div>
                         @hasanyrole('staff|vendor')
@@ -107,7 +107,7 @@
                                 ->attribute('data-confirm-title', __('system.profile.delete_profile_account'))
                                 ->open() !!}
                                 <button type="submit" class="btn btn-danger">
-                                    {{ __('system.profile.delete_profile_account') }}
+                                    <i class="fas fa-trash-alt"></i> {{ __('system.profile.delete_profile_account') }}
                                 </button>
                                 {!! html()->closeModelForm() !!}
                             </div>

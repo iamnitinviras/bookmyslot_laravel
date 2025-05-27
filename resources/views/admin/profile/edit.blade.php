@@ -42,7 +42,8 @@
                                         <div class="preview-image-default">
                                             <h1
                                                 class="rounded-circle font-size text-white d-inline-block text-bold bg-primary px-4 py-3 ">
-                                                {{ $user->logo_name }}</h1>
+                                                {{ $user->logo_name }}
+                                            </h1>
                                         </div>
                                         <img class="avatar-xl rounded-circle img-thumbnail preview-image"
                                             style="display: none;" />
@@ -130,8 +131,13 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mt-3">
-                        <h5 class="font-size-14 mb-3">{{ __('system.fields.address_details') }}</h5>
+
+                    <div class="card mt-3">
+                        <div class="card-header">
+                            {{ __('system.fields.address_details') }}
+                        </div>
+                        <div class="card-body">
+   <div class="row">
                         <div class="col-md-4">
                             @php($lbl_address = __('system.fields.address'))
 
@@ -202,6 +208,10 @@
                         </div>
 
                     </div>
+                        </div>
+                    </div>
+
+
 
                 </div>
                 <div class="card-footer bg-transparent border-top text-muted">
