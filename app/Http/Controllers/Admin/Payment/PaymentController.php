@@ -4,20 +4,18 @@ namespace App\Http\Controllers\Admin\Payment;
 
 use App\Http\Controllers\Controller;
 use App\Models\Plans;
-use App\Models\Settings;
 use App\Models\Subscriptions;
 use App\Models\Transactions;
 use App\Models\User;
 use App\Notifications\OfflineVendorSubscriptionNotification;
-use App\Services\Subscription;
+use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Log;
 
 class PaymentController extends Controller
 {
     protected $subscriptionService;
 
-    public function __construct(Subscription $subscriptionService)
+    public function __construct(SubscriptionService $subscriptionService)
     {
         $this->subscriptionService = $subscriptionService;
     }
@@ -239,6 +237,7 @@ class PaymentController extends Controller
                 return (new StripeController($this->subscriptionService))->subscriptionCancel($userPlan);
 
             }
+            return redirect()->back()->with('Success', trans('system.plans.cancel_subscription_success'));
 
         } catch (\Exception $exception) {
             return redirect('subscription')->with(['Error' => $exception->getMessage()]);

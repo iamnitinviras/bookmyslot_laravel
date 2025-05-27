@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Payment;
 
 use App\Http\Controllers\Controller;
 use App\Models\Subscriptions;
-use App\Services\Subscription;
+use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use GuzzleHttp\Client;
 
@@ -14,7 +14,7 @@ class PayPalController extends Controller
     private $baseUrl;
 
     protected $subscriptionService;
-    public function __construct(Subscription $subscriptionService)
+    public function __construct(SubscriptionService $subscriptionService)
     {
         $this->subscriptionService = $subscriptionService;
         $this->client = new Client();
@@ -112,7 +112,7 @@ class PayPalController extends Controller
             $response = $this->client->post("{$this->baseUrl}/v1/billing/plans", [
                 'headers' => ['Authorization' => "Bearer $accessToken", 'Content-Type' => 'application/json'],
                 'json' => [
-                    'product_id' => $product['id'], // Get from PayPal Developer Dashboard
+                    'product_id' => $product['id'],
                     'name' => $title,
                     'status' => 'ACTIVE',
                     'billing_cycles' => [
@@ -203,8 +203,6 @@ class PayPalController extends Controller
             $userPlan->status = 'canceled';
             $userPlan->save();
         }
-
-        return redirect()->back()->with('Success', trans('system.plans.cancel_subscription_success'));
     }
 
     public function createProduct($name, $description = 'Subscription Product')
@@ -335,4 +333,26 @@ class PayPalController extends Controller
         }
     }
 
+    public function reviseSubscription($subscriptionId, $newPlanId)
+    {
+        $accessToken = $this->getAccessToken();
+
+        $response = $this->client->post("{$this->baseUrl}/v1/billing/subscriptions/{$subscriptionId}/revise", [
+            'headers' => [
+                'Authorization' => "Bearer $accessToken",
+                'Content-Type' => 'application/json',
+            ],
+            'json' => [
+                'plan_id' => $newPlanId
+            ],
+        ]);
+
+        return json_decode($response->getBody(), true);
+    }
+
+
+    public function switchPlan($subscription_id, $new_plan_id)
+    {
+        return $this->reviseSubscription($subscription_id, $new_plan_id);
+    }
 }

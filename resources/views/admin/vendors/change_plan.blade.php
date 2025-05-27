@@ -43,6 +43,24 @@
                 </div>
                 <div class="card-body">
                     <div class="mb-4">
+                        @if (config('razorpay.status') == 'enable' || config('paypal.status') == 'enable')
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="alert alert-warning" role="alert">
+                                        <h5 class="alert-heading">{{ __('system.plans.plan_switch_requires_user_approval') }}
+                                        </h5>
+                                        <hr />
+                                        <p>
+                                            {{ __('system.plans.plan_switch_info_one') }}
+                                        </p>
+                                        <p>
+                                            {{ __('system.plans.plan_switch_info_two') }}
+                                        </p>
+                                    </div>
+
+                                </div>
+                            </div>
+                        @endif
                         <div class="row">
                             @if((isset($subscription) && $subscription != null))
                                 <div class="col-md-6">
@@ -154,81 +172,86 @@
                                         @if (isset($plans) && count($plans) > 0)
                                             <div class="accordion" id="accordionExample">
                                                 @foreach ($plans as $key => $plan)
-                                                    {!! html()->form('post', route('admin.vendors.updatePlan.submit', ['vendor' => $vendor->id]))
+                                                                                {!! html()->form('post', route('admin.vendors.updatePlan.submit', ['vendor' => $vendor->id]))
                                                     ->class('data-confirm')
                                                     ->attribute('autocomplete', 'off')
                                                     ->attribute('data-confirm-message', __('system.fields.confirm_vendor_change_plan'))
                                                     ->attribute('data-confirm-title', __('system.plans.change_plan'))
                                                     ->id('change_plan-form_' . $vendor->id)->open() !!}
-                                                    <div class="accordion-item">
-                                                        <h2 class="accordion-header" id="headingOne{{ $plan->plan_id }}">
-                                                            <button class="accordion-button fw-medium" type="button"
-                                                                data-bs-toggle="collapse"
-                                                                data-bs-target="#collapseOne{{ $plan->plan_id }}"
-                                                                aria-expanded="true"
-                                                                aria-controls="collapseOne{{ $plan->plan_id }}">
-                                                                <div class="row w-100">
-                                                                    <div class="col-md-6">
-                                                                        @if (isset($subscription->plan_id) && $subscription->plan_id == $plan->plan_id)
-                                                                            <i class="fa fa-check-circle"></i>
-                                                                        @endif
-                                                                        {{ $plan->local_title }}
-                                                                    </div>
-                                                                    <div class="col-md-6" style="text-align: right">
-                                                                        {{ displayCurrency($plan->amount) }} /
-                                                                        {{ ucfirst($plan->type) }}</span>
-                                                                    </div>
-                                                                </div>
-                                                            </button>
-                                                        </h2>
-                                                        <div id="collapseOne{{ $plan->plan_id }}"
-                                                            class="accordion-collapse collapse @if (isset($subscription->plan_id) && $subscription->plan_id == $plan->plan_id) show @endif"
-                                                            aria-labelledby="headingOne{{ $plan->plan_id }}"
-                                                            data-bs-parent="#accordionExample{{ $plan->plan_id }}">
-                                                            <div class="accordion-body">
-                                                                <div class="text-muted">
+                                                                                <div class="accordion-item">
+                                                                                    <h2 class="accordion-header" id="headingOne{{ $plan->plan_id }}">
+                                                                                        <button class="accordion-button fw-medium" type="button"
+                                                                                            data-bs-toggle="collapse"
+                                                                                            data-bs-target="#collapseOne{{ $plan->plan_id }}"
+                                                                                            aria-expanded="true"
+                                                                                            aria-controls="collapseOne{{ $plan->plan_id }}">
+                                                                                            <div class="row w-100">
+                                                                                                <div class="col-md-6">
+                                                                                                    @if (isset($subscription->plan_id) && $subscription->plan_id == $plan->plan_id)
+                                                                                                        <i class="fa fa-check-circle"></i>
+                                                                                                    @endif
+                                                                                                    {{ $plan->local_title }}
+                                                                                                </div>
+                                                                                                <div class="col-md-6" style="text-align: right">
+                                                                                                    {{ displayCurrency($plan->amount) }} /
+                                                                                                    {{ ucfirst($plan->type) }}</span>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </button>
+                                                                                    </h2>
+                                                                                    <div id="collapseOne{{ $plan->plan_id }}"
+                                                                                        class="accordion-collapse collapse @if (isset($subscription->plan_id) && $subscription->plan_id == $plan->plan_id) show @endif"
+                                                                                        aria-labelledby="headingOne{{ $plan->plan_id }}"
+                                                                                        data-bs-parent="#accordionExample{{ $plan->plan_id }}">
+                                                                                        <div class="accordion-body">
+                                                                                            <div class="text-muted">
 
-                                                                    @if ($plan->unlimited_branch == 'yes')
-                                                                        <p class="mb-3 font-size-15"><i
-                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_branch') }}
-                                                                        </p>
-                                                                    @else
-                                                                        <p class="mb-3 font-size-15"><i
-                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i><strong>{{ $plan->branch_limit }}</strong>
-                                                                            {{ trans('system.plans.branch_limit') }}
-                                                                        </p>
-                                                                    @endif
+                                                                                                @if ($plan->unlimited_branch == 'yes')
+                                                                                                    <p class="mb-3 font-size-15"><i
+                                                                                                            class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_branch') }}
+                                                                                                    </p>
+                                                                                                @else
+                                                                                                    <p class="mb-3 font-size-15"><i
+                                                                                                            class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i><strong>{{ $plan->branch_limit }}</strong>
+                                                                                                        {{ trans('system.plans.branch_limit') }}
+                                                                                                    </p>
+                                                                                                @endif
 
-                                                                    @if ($plan->staff_unlimited == 'yes')
-                                                                        <p class="mb-3 font-size-15"><i
-                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_staff') }}
-                                                                        </p>
-                                                                    @else
-                                                                        <p class="mb-3 font-size-15"><i
-                                                                                class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i><strong>{{ $plan->staff_limit }}</strong>
-                                                                            {{ trans('system.plans.staff_limit') }}</p>
-                                                                    @endif
+                                                                                                @if ($plan->staff_unlimited == 'yes')
+                                                                                                    <p class="mb-3 font-size-15"><i
+                                                                                                            class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_staff') }}
+                                                                                                    </p>
+                                                                                                @else
+                                                                                                    <p class="mb-3 font-size-15"><i
+                                                                                                            class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i><strong>{{ $plan->staff_limit }}</strong>
+                                                                                                        {{ trans('system.plans.staff_limit') }}</p>
+                                                                                                @endif
 
-                                                                    <p class="mb-3 font-size-15"><i
-                                                                            class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_support') }}
-                                                                    </p>
-                                                                </div>
-                                                                <input type="hidden" name="plan_id" value="{{ $plan->plan_id }}">
-                                                                @if($subscription == null)
-                                                                    <div class="mt-4 pt-2">
-                                                                        <button type="submit" class="btn btn-success w-100"><i class="fa fa-check-circle"></i> {{ __('system.plans.choose_plan') }}</button>
-                                                                    </div>
-                                                                @else
-                                                                    @if (isset($subscription->plan_id) && $subscription->plan_id != $plan->plan_id)
-                                                                        <div class="mt-4 pt-2">
-                                                                            <button type="submit" class="btn btn-success w-100"><i class="fa fa-check-circle"></i> {{ __('system.plans.choose_plan') }}</button>                                                                        </div>
-                                                                    @endif
-                                                                @endif
+                                                                                                <p class="mb-3 font-size-15"><i
+                                                                                                        class="mdi mdi-check-circle text-secondary font-size-18 me-2"></i>{{ trans('system.plans.unlimited_support') }}
+                                                                                                </p>
+                                                                                            </div>
+                                                                                            <input type="hidden" name="plan_id" value="{{ $plan->plan_id }}">
+                                                                                            @if($subscription == null)
+                                                                                                <div class="mt-4 pt-2">
+                                                                                                    <button type="submit" class="btn btn-success w-100"><i
+                                                                                                            class="fa fa-check-circle"></i>
+                                                                                                        {{ __('system.plans.choose_plan') }}</button>
+                                                                                                </div>
+                                                                                            @else
+                                                                                                @if (isset($subscription->plan_id) && $subscription->plan_id != $plan->plan_id)
+                                                                                                    <div class="mt-4 pt-2">
+                                                                                                        <button type="submit" class="btn btn-success w-100"><i
+                                                                                                                class="fa fa-check-circle"></i>
+                                                                                                            {{ __('system.plans.choose_plan') }}</button>
+                                                                                                    </div>
+                                                                                                @endif
+                                                                                            @endif
 
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    {!! html()->closeModelForm() !!}
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                {!! html()->closeModelForm() !!}
                                                 @endforeach
                                             </div><!-- end accordion -->
                                         @else

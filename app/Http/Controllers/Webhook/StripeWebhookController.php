@@ -9,7 +9,7 @@ use App\Models\Transactions;
 use App\Models\User;
 use App\Models\WebhookData;
 use App\Notifications\OnetimePaymentNotification;
-use App\Services\Subscription;
+use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use App\Models\Subscriptions;
 use Illuminate\Support\Facades\Log;
@@ -20,7 +20,7 @@ class StripeWebhookController extends Controller
 
     protected $subscriptionService;
 
-    public function __construct(Subscription $subscriptionService)
+    public function __construct(SubscriptionService $subscriptionService)
     {
         $this->subscriptionService = $subscriptionService;
     }

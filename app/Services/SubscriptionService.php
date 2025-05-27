@@ -8,7 +8,7 @@ use App\Models\Transactions;
 use App\Notifications\OnetimePaymentNotification;
 use GuzzleHttp\Client;
 
-class Subscription
+class SubscriptionService
 {
 
     public function __construct()

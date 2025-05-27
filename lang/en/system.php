@@ -666,6 +666,9 @@ return
                 'subscription_delete' => 'Are you sure you want to delete subscription?',
                 'no_subscription' => 'In order to continue using the system, you need to subscribe to a plan as you are currently not subscribed to any.',
                 'subscription_expire' => 'To continue using the system, you need to subscribe to a plan as your current subscription has expired.',
+                'plan_switch_requires_user_approval' => 'Plan switch requires user approval',
+                'plan_switch_info_one' => 'Subscription switching for PayPal and Razorpay requires user approval and cannot be completed directly by a super admin.',
+                'plan_switch_info_two' => 'To continue, the system will cancel the users existing subscription and create a new offline subscription under the selected plan. Please ensure the user is informed and approves the change if needed.',
             ),
         'languages' =>
             array(

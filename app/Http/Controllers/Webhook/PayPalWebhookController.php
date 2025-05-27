@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Webhook;
 use App\Http\Controllers\Controller;
 use App\Models\Subscriptions;
 use App\Models\WebhookData;
-use App\Services\Subscription;
+use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use Log;
 
@@ -13,7 +13,7 @@ class PayPalWebhookController extends Controller
 {
     protected $subscriptionService;
 
-    public function __construct(Subscription $subscriptionService)
+    public function __construct(SubscriptionService $subscriptionService)
     {
         $this->subscriptionService = $subscriptionService;
     }

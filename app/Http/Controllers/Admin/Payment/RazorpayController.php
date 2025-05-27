@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin\Payment;
 
 use App\Http\Controllers\Controller;
 use App\Models\Subscriptions;
-use App\Services\Subscription;
+use App\Services\SubscriptionService;
 use Illuminate\Http\Request;
 use Razorpay\Api\Api;
 
@@ -13,7 +13,7 @@ class RazorpayController extends Controller
 
     protected $subscriptionService;
 
-    public function __construct(Subscription $subscriptionService)
+    public function __construct(SubscriptionService $subscriptionService)
     {
         $this->subscriptionService = $subscriptionService;
     }
@@ -128,8 +128,6 @@ class RazorpayController extends Controller
             $userPlan->status = 'canceled';
             $userPlan->save();
         }
-
-        return redirect()->back()->with('Success', trans('system.plans.cancel_subscription_success'));
     }
 
     public function createOrder($authUser, $amount, $returnUrl, $user_plan)

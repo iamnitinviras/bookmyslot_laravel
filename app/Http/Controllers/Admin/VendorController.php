@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Admin\Payment\PayPalController;
+use App\Http\Controllers\Admin\Payment\RazorpayController;
 use App\Models\Branch;
 use App\Models\User;
 use App\Models\Plans;
@@ -17,9 +19,17 @@ use App\Http\Requests\UserRequest;
 use App\Repositories\UserRepository;
 use Illuminate\Support\Facades\Session;
 use Stripe\Subscription;
+use App\Services\SubscriptionService;
 
 class VendorController extends Controller
 {
+    protected $subscriptionService;
+
+    public function __construct(SubscriptionService $subscriptionService)
+    {
+        $this->subscriptionService = $subscriptionService;
+    }
+
     public function index()
     {
         $request = request();
@@ -416,9 +426,10 @@ class VendorController extends Controller
                 'start_date' => now(),
             ]);
         } else {
+            $subscription_id = $subscription->subscription_id;
             $payment_method = $subscription->payment_method;
             if ($payment_method == 'stripe') {
-                $subscription_id = $subscription->subscription_id;
+
                 $currency = config('custom.currency');
                 $stripe_secret_key = config('stripe.stripe_secret_key');
 
@@ -475,24 +486,28 @@ class VendorController extends Controller
                     ],
                     'proration_behavior' => 'create_prorations'
                 ]);
-                $updated = Subscriptions::where('subscription_id', $subscription_id)->update([
-                    'plan_id' => $plan->plan_id,
-                    'is_current' => 'yes',
-                    'amount' => $plan->amount,
-                    'type' => $plan->type,
-                    'branch_limit' => $plan->branch_limit,
-                    'unlimited_branch' => $plan->unlimited_branch,
-                    'staff_limit' => $plan->staff_limit,
-                    'staff_unlimited' => $plan->staff_unlimited,
-                    'member_limit' => $plan->member_limit,
-                    'unlimited_member' => $plan->unlimited_member,
-                    'status' => 'approved',
-                    'expiry_date' => $expiredDate,
-                    'created_at' => now(),
-                    'updated_at' => now(),
-                    'start_date' => now(),
-                ]);
+            } elseif ($payment_method == 'paypal') {
+                (new PayPalController($this->subscriptionService))->cancelSubscription($subscription_id);
+            } elseif ($payment_method == 'razorpay') {
+                (new RazorpayController($this->subscriptionService))->cancelSubscription($subscription_id);
             }
+            Subscriptions::where('id', $subscription->id)->update([
+                'plan_id' => $plan->plan_id,
+                'is_current' => 'yes',
+                'amount' => $plan->amount,
+                'type' => $plan->type,
+                'branch_limit' => $plan->branch_limit,
+                'unlimited_branch' => $plan->unlimited_branch,
+                'staff_limit' => $plan->staff_limit,
+                'staff_unlimited' => $plan->staff_unlimited,
+                'member_limit' => $plan->member_limit,
+                'unlimited_member' => $plan->unlimited_member,
+                'status' => 'approved',
+                'expiry_date' => $expiredDate,
+                'created_at' => now(),
+                'updated_at' => now(),
+                'start_date' => now(),
+            ]);
         }
 
         return redirect(route('admin.vendors.show', $vendor->id))->with('Success', __('system.messages.updated', ['model' => __('system.vendors.title')]));
