@@ -660,6 +660,7 @@ return
                 'approve' => 'Approve',
                 'rejected' => 'Rejected',
                 'pending' => 'Pending',
+                'expired' => 'Expired',
                 'wait_until_approved_or_rejected' => 'You have already requested the subscription. wail until its get approved or rejected',
                 'cancel_subscription_title' => 'Are you sure you want to cancel subscription?',
                 'cancel_subscription_success' => 'Successfully canceled subscription.',

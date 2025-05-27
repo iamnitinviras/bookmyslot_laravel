@@ -80,6 +80,15 @@
                                         {{ $subscription->staff_limit }}
                                     @endif
                                 </div>
+                                @if (isset($subscription) && $subscription->expiry_date != null && ($subscription->expiry_date < date('Y-m-d H:i:s')))
+                                    <div class="col-md-4 py-2">
+                                        <b>
+                                            {{ trans('system.fields.status') }}
+                                        </b>:
+                                        <span class="badge bg-danger">{{ trans('system.plans.expired') }}</span>
+                                    </div>
+                                @endif
+
                             @endif
                         </div>
                     </div>
@@ -118,7 +127,7 @@
                                         <div class="card-body">
                                             <div class="p-2">
 
-                                                @if (isset($subscription->plan_id) && $subscription->plan_id == $plan->plan_id)
+                                                @if (isset($subscription->plan_id) && $subscription->plan_id == $plan->plan_id && $subscription->expiry_date >= date('Y-m-d H:i:s'))
                                                     <div class="pricing-badge">
                                                         <span class="badge"> <i data-feather="check-circle"></i></span>
                                                     </div>
@@ -155,7 +164,7 @@
                                                     </p>
                                                 </div>
 
-                                                @if ((isset($subscription->plan_id) && $subscription->plan_id != $plan->plan_id) || $subscription == null)
+                                                @if ((isset($subscription->plan_id) && $subscription->plan_id != $plan->plan_id) || $subscription == null || (isset($subscription) && $subscription->expiry_date < date('Y-m-d H:i:s')))
                                                     <div class="mt-4 pt-2">
                                                         <a href="{{ url('subscription/plan/' . $plan->plan_id) }}"
                                                             class="btn btn-outline-primary w-100">{{ __('system.plans.select_plan') }}</a>

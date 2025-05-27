@@ -76,10 +76,10 @@ class PaymentController extends Controller
             }
         }
 
-        if ($current_plans == $plan->plan_id) {
+        //redirect back if selected plan is same as old plan and not expired.
+        if (($current_plans == $plan->plan_id) && $current_plan_data->expiry_date > date('Y-m-d H:i:s')) {
             return redirect('subscription');
         }
-
         return view("admin.vendor_subscription.details", compact('plan'));
     }
 
