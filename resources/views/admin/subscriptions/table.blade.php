@@ -24,12 +24,12 @@
                             {{$subscription->user->first_name . " " . $subscription->user->last_name}} @endif
                             </td>
                             <td> @if(isset($subscription->plan->title)) <span
-                            class="badge bg-warning p-1">{{$subscription->plan->local_title}}</span> @else
+                            class="badge bg-info p-1">{{$subscription->plan->local_title}}</span> @else
                                     {{ __('system.plans.trial') }} @endif
                             </td>
 
                             <td><span
-                                    class="badge bg-primary">{{ trans('system.payment_setting.' . $subscription->payment_method) }}</span>
+                                    class="badge bg-primary p-1">{{ trans('system.payment_setting.' . $subscription->payment_method) }}</span>
                             </td>
 
                             <td>{{formatDate($subscription->start_date)}}</td>
@@ -45,7 +45,7 @@
                                 @else
                                     {{ displayCurrency(0) }}
                                 @endif
-                                <span class="badge bg-info p-1">{{ __('system.plans.' . $subscription->type) }}</span>
+                                <span class="badge bg-warning p-1">{{ __('system.plans.' . $subscription->type) }}</span>
                             </td>
                             <td>
                                 @if(isset($subscription->expiry_date) && $subscription->expiry_date != null && $subscription->expiry_date < date('Y-m-d H:i:s'))
