@@ -50,7 +50,7 @@
                                         <h5 class="alert-heading">{{ __('system.plans.plan_switch_requires_user_approval') }}
                                         </h5>
                                         <hr />
-                                        <p>
+                                        <p class="mb-1">
                                             {{ __('system.plans.plan_switch_info_one') }}
                                         </p>
                                         <p>

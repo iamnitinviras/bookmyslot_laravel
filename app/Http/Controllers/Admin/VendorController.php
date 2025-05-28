@@ -440,10 +440,27 @@ class VendorController extends Controller
         );
 
         if ($subscription == null) {
-            Subscriptions::updateOrCreate(['user_id' => $vendor->id], $subscription_data_array);
+            $subscription_object = Subscriptions::updateOrCreate(['user_id' => $vendor->id], $subscription_data_array);
+
+            Transactions::create([
+                'transaction_id' => time(),
+                'user_id' => $vendor->id,
+                'plan_id' => $plan->plan_id,
+                'subscription_id' => $subscription_object->id,
+                'amount' => $plan->amount,
+                'details' => trans('system.plans.manually_added_by_admin'),
+            ]);
 
         } elseif (isset($subscription) && $subscription != null && $subscription->subscription_id == null) {
             Subscriptions::updateOrCreate(['id' => $subscription->id], $subscription_data_array);
+            Transactions::create([
+                'transaction_id' => time(),
+                'user_id' => $vendor->id,
+                'plan_id' => $plan->plan_id,
+                'subscription_id' => $subscription->id,
+                'amount' => $plan->amount,
+                'details' => trans('system.plans.manually_added_by_admin'),
+            ]);
 
         } else {
             $subscription_id = $subscription->subscription_id;
@@ -512,6 +529,14 @@ class VendorController extends Controller
                 (new RazorpayController($this->subscriptionService))->cancelSubscription($subscription_id);
             }
             Subscriptions::where('id', $subscription->id)->update($subscription_data_array);
+            Transactions::create([
+                'transaction_id' => time(),
+                'user_id' => $vendor->id,
+                'plan_id' => $plan->plan_id,
+                'subscription_id' => $subscription->id,
+                'amount' => $plan->amount,
+                'details' => trans('system.plans.manually_added_by_admin'),
+            ]);
         }
 
         return redirect(route('admin.vendors.show', $vendor->id))->with('Success', __('system.messages.updated', ['model' => __('system.vendors.title')]));
