@@ -55,7 +55,10 @@ class Plans extends Model implements Searchable
         'plan_id',
         'title',
         'amount',
-        'type'
+        'type',
+        'member_limit',
+        'branch_limit',
+        'staff_limit'
     ];
 
     protected $casts = [
