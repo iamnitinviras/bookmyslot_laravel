@@ -30,7 +30,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                @include('admin.blog_categories.fields')
+                                @include('admin.blogs.blog_categories.fields')
                             </div>
                         </div>
                     </div>

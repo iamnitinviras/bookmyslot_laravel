@@ -31,7 +31,7 @@
                     <div class="mb-4">
                         <div id="boards_list" class="dataTables_wrapper dt-bootstrap4 no-footer table_filter">
                             <div id="data-preview" class='overflow-hidden'>
-                                @include('admin.blog_categories.table')
+                                @include('admin.blogs.blog_categories.table')
                             </div>
                         </div>
                     </div>

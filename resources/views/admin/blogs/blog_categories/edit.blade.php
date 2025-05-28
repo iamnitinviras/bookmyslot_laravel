@@ -31,7 +31,7 @@
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                @include('admin.blog_categories.fields', ['edit' => true])
+                                @include('admin.blogs.blog_categories.fields', ['edit' => true])
                             </div>
                         </div>
                     </div>

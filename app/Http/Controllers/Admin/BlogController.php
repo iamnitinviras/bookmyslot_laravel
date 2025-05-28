@@ -18,32 +18,32 @@ class BlogController extends Controller
         $request = request();
         $params = $request->only('par_page', 'sort', 'direction', 'filter');
         $blogs = (new BlogRepository())->getBlogs($params);
-        return view('admin.blogs.index', ['blogs' => $blogs]);
+        return view('admin.blogs.posts.index', ['blogs' => $blogs]);
     }
 
     public function comments(Request $request)
     {
         $comments = Comments::orderBy('id', 'desc')->get();
-        return view('admin.blogs.comments', ['comments' => $comments]);
+        return view('admin.blogs.posts.comments', ['comments' => $comments]);
     }
     public function commentsApprove(Request $request, Comments $comment)
     {
         $comment->status = $request->approval_status;
         $comment->save();
         $request->session()->flash('Success', __('system.messages.comment_updated'));
-        return redirect()->route('admin.blogs.comments');
+        return redirect()->route('admin.posts.comments');
     }
 
     public function commentsDestroy(Request $request, Comments $comment)
     {
         $comment->delete();
         $request->session()->flash('Success', __('system.messages.deleted', ['model' => __('system.fields.comment')]));
-        return redirect()->route('admin.blogs.comments');
+        return redirect()->route('admin.posts.comments');
     }
     public function create()
     {
         $categories = BlogCategory::where('status', 'active')->orderBy('category_name', 'asc')->get();
-        return view('admin.blogs.create', compact('categories'));
+        return view('admin.blogs.posts.create', compact('categories'));
     }
 
     public function store(BlogRequest $request)
@@ -61,35 +61,35 @@ class BlogController extends Controller
             $request->session()->flash('Error', $ex->getMessage());
             return redirect()->back();
         }
-        return redirect()->route('admin.blogs.index');
+        return redirect()->route('admin.posts.index');
     }
 
-    public function edit(Blogs $blog)
+    public function edit(Blogs $post)
     {
         $categories = BlogCategory::where('status', 'active')->orderBy('category_name', 'asc')->get();
-        return view('admin.blogs.edit', ['blog' => $blog, 'categories' => $categories]);
+        return view('admin.blogs.posts.edit', ['blog' => $post, 'categories' => $categories]);
     }
 
-    public function update(BlogRequest $request, Blogs $blog)
+    public function update(BlogRequest $request, Blogs $post)
     {
         $input = $request->only('title', 'description', 'image', 'status', 'slug', 'read_time', 'category_id', 'seo_keyword', 'seo_description', 'lang_title', 'lang_description');
-        $blog->fill($input)->save();
+        $post->fill($input)->save();
 
         $request->session()->flash('Success', __('system.messages.updated', ['model' => __('system.blogs.title')]));
         if ($request->back) {
             return redirect($request->back);
         }
-        return redirect(route('admin.blogs.index'));
+        return redirect(route('admin.posts.index'));
     }
 
-    public function destroy(Blogs $blog)
+    public function destroy(Blogs $post)
     {
         $request = request();
-        $blog->delete();
+        $post->delete();
         $request->session()->flash('Success', __('system.messages.deleted', ['model' => __('system.blogs.title')]));
         if ($request->back) {
             return redirect($request->back);
         }
-        return redirect(route('admin.blogs.index'));
+        return redirect(route('admin.posts.index'));
     }
 }

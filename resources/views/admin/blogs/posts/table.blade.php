@@ -48,15 +48,15 @@
                                     <span class="text-body">{{ $blog->total_views }}</span>
                                 </td>
                                 <td>
-                                    {!! html()->form('delete', route('admin.blogs.destroy', ['blog' => $blog->id]))
-                    ->class('data-confirm')
-                    ->attribute('autocomplete', 'off')
-                    ->attribute('data-confirm-message', __('system.fields.are_you_sure'))
-                    ->attribute('data-confirm-title', __('system.crud.delete'))
-                    ->id('delete-form_' . $blog->id)->open() !!}
+                                    {!! html()->form('delete', route('admin.posts.destroy', ['post' => $blog->id]))
+                                ->class('data-confirm')
+                                ->attribute('autocomplete', 'off')
+                                ->attribute('data-confirm-message', __('system.fields.are_you_sure'))
+                                ->attribute('data-confirm-title', __('system.crud.delete'))
+                                ->id('delete-form_' . $blog->id)->open() !!}
 
                                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                        <a role="button" href="{{ route('admin.blogs.edit', ['blog' => $blog->id]) }}"
+                                        <a role="button" href="{{ route('admin.posts.edit', ['post' => $blog->id]) }}"
                                             class="btn btn-success">{{ __('system.crud.edit') }}</a>
                                         <button type="submit" class="btn btn-danger">{{ __('system.crud.delete') }}</button>
                                     </div>

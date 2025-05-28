@@ -17,13 +17,13 @@ class BlogCategoryController extends Controller
         $user = auth()->user();
         $params = $request->only('par_page', 'sort', 'direction', 'filter');
         $categories = (new BlogCategoryRepository())->getCategories($params);
-        return view('admin.blog_categories.index', ['categories' => $categories]);
+        return view('admin.blogs.blog_categories.index', ['categories' => $categories]);
     }
 
     public function create()
     {
         $user = auth()->user();
-        return view('admin.blog_categories.create');
+        return view('admin.blogs.blog_categories.create');
     }
 
     public function store(BlogCategoryRequest $request)
@@ -46,7 +46,7 @@ class BlogCategoryController extends Controller
 
     public function edit(BlogCategory $blog_category)
     {
-        return view('admin.blog_categories.edit', ['category' => $blog_category]);
+        return view('admin.blogs.blog_categories.edit', ['category' => $blog_category]);
     }
 
     public function update(BlogCategoryRequest $request, BlogCategory $blog_category)

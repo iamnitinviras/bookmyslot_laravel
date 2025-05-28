@@ -77,9 +77,9 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('admin.blogs.index') }}" key="t-{{ __('system.blogs.post') }}">
+                <a href="{{ route('admin.posts.index') }}" key="t-{{ __('system.blogs.posts') }}">
                     <i class=" fas fa-chevron-right font-size-16"></i>
-                    {{ __('system.blogs.post') }}
+                    {{ __('system.blogs.posts') }}
                 </a>
             </li>
         </ul>

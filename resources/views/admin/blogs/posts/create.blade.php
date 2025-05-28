@@ -2,7 +2,6 @@
 @section('title', __('system.blogs.create.menu'))
 @section('content')
     <div class="row">
-
         <div class="col-xl-12 col-sm-12">
             <div class="card">
                 <div class="card-header">
@@ -16,7 +15,7 @@
                                         <li class="breadcrumb-item"><a
                                                 href="{{ route('home') }}">{{ __('system.dashboard.menu') }}</a></li>
                                         <li class="breadcrumb-item "><a
-                                                href="{{ route('admin.blogs.index') }}">{{ __('system.blogs.menu') }}</a>
+                                                href="{{ route('admin.posts.index') }}">{{ __('system.blogs.posts') }}</a>
                                         </li>
                                         <li class="breadcrumb-item active">{{ __('system.blogs.create.menu') }}</li>
                                     </ol>
@@ -26,13 +25,13 @@
 
                     </div>
                 </div>
-                <form autocomplete="off" novalidate="" action="{{ route('admin.blogs.store') }}" id="pristine-valid"
+                <form autocomplete="off" novalidate="" action="{{ route('admin.posts.store') }}" id="pristine-valid"
                     method="post" enctype="multipart/form-data">
                     @csrf
                     <div class="card-body">
                         <div class="row">
                             <div class="col-md-12">
-                                @include('admin.blogs.fields')
+                                @include('admin.blogs.posts.fields')
                             </div>
                         </div>
                     </div>
@@ -41,7 +40,7 @@
                             <div class="col-12 mt-3">
                                 <button class="btn btn-primary" type="submit"><i class="fa fa-plus-circle"></i>
                                     {{ __('system.crud.save') }}</button>
-                                <a href="{{ route('admin.blogs.index') }}" class="btn btn-secondary"><i
+                                <a href="{{ route('admin.posts.index') }}" class="btn btn-secondary"><i
                                         class="fa fa-arrow-left"></i> {{ __('system.crud.cancel') }}</a>
                             </div>
                         </div>

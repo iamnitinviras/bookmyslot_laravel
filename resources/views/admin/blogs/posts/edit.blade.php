@@ -16,7 +16,7 @@
                                         <li class="breadcrumb-item"><a
                                                 href="{{ route('home') }}">{{ __('system.dashboard.menu') }}</a></li>
                                         <li class="breadcrumb-item "><a
-                                                href="{{ route('admin.blogs.index') }}">{{ __('system.blogs.menu') }}</a>
+                                                href="{{ route('admin.posts.index') }}">{{ __('system.blogs.posts') }}</a>
                                         </li>
                                         <li class="breadcrumb-item active">{{ __('system.blogs.update.menu') }}</li>
                                     </ol>
@@ -25,7 +25,7 @@
                         </div>
                     </div>
                 </div>
-                {!! html()->modelForm($blog, 'PUT', route('admin.blogs.update', $blog->id))
+                {!! html()->modelForm($blog, 'PUT', route('admin.posts.update', $blog->id))
         ->id('pristine-valid')
         ->attribute('enctype', 'multipart/form-data')
         ->open() !!}
@@ -37,7 +37,7 @@
                 <div class="card-body">
                     <div class="row">
                         <div class="col-md-12">
-                            @include('admin.blogs.fields', ['edit' => true])
+                            @include('admin.blogs.posts.fields', ['edit' => true])
                         </div>
                     </div>
                 </div>
@@ -45,7 +45,7 @@
                     <div class="row">
                         <div class="col-12 mt-3">
                             <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i> {{ __('system.crud.save') }}</button>
-                            <a href="{{ route('admin.blogs.index') }}"
+                            <a href="{{ route('admin.posts.index') }}"
                                 class="btn btn-secondary"><i class="fa fa-arrow-left"></i> {{ __('system.crud.back') }}</a>
                         </div>
                     </div>

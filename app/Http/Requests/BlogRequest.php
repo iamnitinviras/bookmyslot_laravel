@@ -29,8 +29,8 @@ class BlogRequest extends FormRequest
             'slug' => ['required','unique:blogs,slug'],
             'description' => ['required'],
         ];
-        if (isset($this->blog)){
-            $rules['slug'] = ['required','unique:blogs,slug,' . $this->blog->id];
+        if (isset($this->post)){
+            $rules['slug'] = ['required','unique:blogs,slug,' . $this->post->id];
         }
         return $rules;
     }

@@ -574,20 +574,20 @@ return
         'blogs' =>
             array(
                 'menu' => 'Blogs',
-                'title' => 'Blog',
+                'title' => 'Post',
                 'exert' => 'exert',
-                'post' => 'Post',
+                'posts' => 'Posts',
                 'read_time' => 'Read Time',
                 'minutes_read' => 'Minutes read',
                 'total_views' => 'Total Views',
                 'description' => 'Description',
                 'create' =>
                     array(
-                        'menu' => 'Add Blog',
+                        'menu' => 'Add Post',
                     ),
                 'update' =>
                     array(
-                        'menu' => 'Update Blog',
+                        'menu' => 'Update Post',
                     ),
             ),
         'plans' =>

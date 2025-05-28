@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', __('system.blogs.menu'))
+@section('title', __('system.blogs.posts'))
 @push('page_css')
     <style>
         .data-description {
@@ -16,25 +16,24 @@
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-header">
-
                     <div class="row">
                         <div class="col-md-6 col-xl-6">
-                            <h4 class="card-title">{{ __('system.blogs.menu') }}</h4>
+                            <h4 class="card-title">{{ __('system.blogs.posts') }}</h4>
                             <div class="page-title-box pb-0 d-sm-flex">
                                 <div class="page-title-right">
                                     <ol class="breadcrumb m-0">
                                         <li class="breadcrumb-item"><a
                                                 href="{{ route('home') }}">{{ __('system.dashboard.menu') }}</a></li>
-                                        <li class="breadcrumb-item active">{{ __('system.blogs.menu') }}</li>
+                                        <li class="breadcrumb-item active">{{ __('system.blogs.posts') }}</li>
                                     </ol>
                                 </div>
-
                             </div>
                         </div>
                         <div class="col-md-6 col-xl-6 text-end add-new-btn-parent">
-                            <a href="{{ route('admin.blogs.create') }}"
-                                class="btn btn-primary btn-rounded waves-effect waves-light"><i
-                                    class="bx bx-plus me-1"></i>{{ __('system.crud.add_new') }}</a>
+                            <a href="{{ route('admin.posts.create') }}"
+                                class="btn btn-primary btn-rounded waves-effect waves-light">
+                                <i class="bx bx-plus me-1"></i>{{ __('system.crud.add_new') }}
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -44,7 +43,7 @@
                     <div class="mb-4">
                         <div id="restaurants_list" class="dataTables_wrapper dt-bootstrap4 no-footer table_filter">
                             <div id="data-preview" class='overflow-hidden'>
-                                @include('admin.blogs.table')
+                                @include('admin.blogs.posts.table')
                             </div>
                         </div>
                     </div>
