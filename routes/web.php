@@ -79,6 +79,8 @@ Route::middleware(['preventBackHistory'])->group(function ()
 
 
         //Admin Modules
+        Route::resource('blogs', App\Http\Controllers\Admin\BlogController::class)->middleware('role:Super-Admin');
+        Route::resource('blog-categories', App\Http\Controllers\Admin\BlogCategoryController::class)->middleware('role:Super-Admin');
         Route::resource('plans', App\Http\Controllers\Admin\PlanController::class)->middleware('role:Super-Admin');
         Route::resource('testimonials', App\Http\Controllers\Admin\TestimonialController::class)->middleware('role:Super-Admin');
         Route::resource('faqs', App\Http\Controllers\Admin\FaqQuestionController::class)->middleware('role:Super-Admin');

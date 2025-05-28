@@ -294,7 +294,14 @@ function getSiteSetting()
 {
     return Settings::pluck('value', 'title')->toArray();
 }
-
+function displayBlogStatus($status)
+{
+    if ($status == 'published') {
+        return '<span class="badge bg-success font-size-12">' . trans('system.fields.published') . '</span>';
+    } elseif ($status == 'unpublished') {
+        return '<span class="badge bg-danger font-size-12">' . trans('system.fields.unpublished') . '</span>';
+    }
+}
 function getAllCategories($branch_id)
 {
     return \App\Models\Category::where('status', 'active')->where('branch_id', $branch_id)->orderBy('category_name', 'asc')->get();

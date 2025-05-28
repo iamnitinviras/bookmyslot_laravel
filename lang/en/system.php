@@ -3,6 +3,8 @@ return
     array(
         'fields' =>
             array(
+                'published' => 'Published',
+                'unpublished' => 'Unpublished',
                 'default' => 'Default',
                 'collect_payment' => 'Collect Payment',
                 'pending_payment' => 'Pending Payment',
@@ -553,6 +555,40 @@ return
                 'Offline_payments' => 'Offline Payments',
                 'razorpay_key_id' => 'Razorpay key ID',
                 'webhook_url' => 'Webhook URL',
+            ),
+        'blog_categories' =>
+            array(
+                'menu' => 'Categories',
+                'title' => 'Category',
+                'not_allowed_to_delete' => 'Your are not allowed to delete category.',
+                'image_upload' => 'Please upload image with 200X200 dimension.',
+                'create' =>
+                    array(
+                        'menu' => 'Add a new category',
+                    ),
+                'update' =>
+                    array(
+                        'menu' => 'Update category',
+                    ),
+            ),
+        'blogs' =>
+            array(
+                'menu' => 'Blogs',
+                'title' => 'Blog',
+                'exert' => 'exert',
+                'post' => 'Post',
+                'read_time' => 'Read Time',
+                'minutes_read' => 'Minutes read',
+                'total_views' => 'Total Views',
+                'description' => 'Description',
+                'create' =>
+                    array(
+                        'menu' => 'Add Blog',
+                    ),
+                'update' =>
+                    array(
+                        'menu' => 'Update Blog',
+                    ),
             ),
         'plans' =>
             array(

@@ -40,7 +40,7 @@
     </li>
     <li>
         <a href="javascript: void(0);" class="has-arrow">
-           <i class="fas fa-columns font-size-16"></i>
+            <i class="fas fa-columns font-size-16"></i>
             <span data-key="t-{{ __('system.cms.menu') }}">{{ __('system.cms.menu') }}</span>
         </a>
         <ul class="sub-menu" aria-expanded="false">
@@ -64,25 +64,26 @@
             </li>
         </ul>
     </li>
-    {{-- <li>
-        <a href="{{ route('admin.testimonials.index') }}">
-            <i class="fas fa-quote-left font-size-16"></i>
-            <span data-key="t-{{ __('system.testimonial.menu') }}">{{ __('system.testimonial.menu') }}</span>
-        </a>
-    </li>
     <li>
-        <a href="{{ route('admin.faqs.index') }}">
-            <i class="fas fa-question font-size-16"></i>
-            <span data-key="t-{{ __('system.faq.menu') }}">{{ __('system.faq.menu') }}</span>
+        <a href="javascript: void(0);" class="has-arrow">
+            <i class="fas fa-comments font-size-16"></i>
+            <span data-key="t-{{ __('system.blogs.menu') }}">{{ __('system.blogs.menu') }}</span>
         </a>
-    </li> --}}
-    {{-- <li class="menu-title text-white" data-key="t-pages">System Settings</li> --}}
-    {{-- <li>
-        <a href="{{ route('admin.cms-page.index') }}">
-            <i class="fas fa-pager font-size-16"></i>
-            <span data-key="t-{{ __('system.cms.menu') }}">{{ __('system.cms.menu') }}</span>
-        </a>
-    </li> --}}
+        <ul class="sub-menu" aria-expanded="false">
+            <li>
+                <a href="{{ route('admin.blog-categories.index') }}" key="t-{{ __('system.blog_categories.menu') }}">
+                    <i class=" fas fa-chevron-right font-size-16"></i>
+                    {{ __('system.blog_categories.menu') }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.blogs.index') }}" key="t-{{ __('system.blogs.post') }}">
+                    <i class=" fas fa-chevron-right font-size-16"></i>
+                    {{ __('system.blogs.post') }}
+                </a>
+            </li>
+        </ul>
+    </li>
     <li>
         <a href="{{ route('admin.contact-request.index') }}">
             <i class="fas fa-envelope font-size-16"></i>
