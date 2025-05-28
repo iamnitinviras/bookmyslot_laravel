@@ -524,6 +524,7 @@ return
                 'razorpay' => 'Razorpay',
                 'paypal' => 'PayPal',
                 'offline' => 'Offline',
+                'manually' => 'Manually',
                 'bank_name' => 'Bank name',
                 'bank_branch' => 'Bank Branch',
                 'account_name' => 'Account Name',
@@ -555,6 +556,7 @@ return
             ),
         'plans' =>
             array(
+                'manually_added_by_admin' => 'Manually added by admin',
                 'select_vendor_specific_plan' => 'To create a vendor-specific plan, please select a vendor from the dropdown below.',
                 'vendor_specific_plan' => 'Vendor Specific Plan',
                 'available_plans' => 'Available Plans',
@@ -673,7 +675,7 @@ return
                 'subscription_expire' => 'To continue using the system, you need to subscribe to a plan as your current subscription has expired.',
                 'plan_switch_requires_user_approval' => 'Plan switch requires user approval',
                 'plan_switch_info_one' => 'Subscription switching for PayPal and Razorpay requires user approval and cannot be completed directly by a super admin.',
-                'plan_switch_info_two' => 'To continue, the system will cancel the users existing subscription and create a new offline subscription under the selected plan. Please ensure the user is informed and approves the change if needed.',
+                'plan_switch_info_two' => 'To continue, the system will cancel the users existing subscription and create a new manual subscription under the selected plan.',
             ),
         'languages' =>
             array(

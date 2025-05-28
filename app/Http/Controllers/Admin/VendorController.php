@@ -162,9 +162,9 @@ class VendorController extends Controller
         $vendorPlan->start_date = now();
         $vendorPlan->expiry_date = $expiredDate;
         $vendorPlan->is_current = 'yes';
-        $vendorPlan->payment_method = 'offline';
+        $vendorPlan->payment_method = 'manually';
         $vendorPlan->status = 'approved';
-        $vendorPlan->details = "Added By Admin";
+        $vendorPlan->details = trans('system.plans.manually_added_by_admin');
 
         if ($plan == null) {
             $vendorPlan->plan_id = 0;
@@ -184,6 +184,17 @@ class VendorController extends Controller
         }
 
         $vendorPlan->save();
+
+        if ($plan != null) {
+            Transactions::create([
+                'transaction_id' => time(),
+                'user_id' => $vendor->id,
+                'plan_id' => $plan->plan_id,
+                'subscription_id' => $vendorPlan->id,
+                'amount' => $plan->amount,
+                'details' => trans('system.plans.manually_added_by_admin'),
+            ]);
+        }
 
         $request->session()->flash('Success', __('system.messages.saved', ['model' => __('system.vendors.title')]));
 
@@ -393,7 +404,7 @@ class VendorController extends Controller
             return redirect(route('admin.vendors.show', $vendor->id));
         }
 
-        $subscription = Subscriptions::where('user_id', $vendor->id)->first();
+        $subscription = Subscriptions::where('user_id', $vendor->id)->where('is_current', 'yes')->first();
 
         $expiredDate = null;
         if ($plan->type == 'weekly') {
@@ -408,24 +419,32 @@ class VendorController extends Controller
         } else if ($plan->type == 'day') {
             $expiredDate = now()->addDay();
         }
+        // dd($expiredDate);
 
-        if ($subscription == null || (isset($subscription) && $subscription->subscription_id == null)) {
-            Subscriptions::updateOrCreate(['user_id' => $vendor->id], [
-                'plan_id' => $plan->plan_id,
-                'is_current' => 'yes',
-                'payment_method' => 'offline',
-                'amount' => $plan->amount,
-                'type' => $plan->type,
-                'branch_limit' => $plan->branch_limit,
-                'staff_limit' => $plan->staff_limit,
-                'staff_unlimited' => $plan->staff_unlimited,
-                'unlimited_branch' => $plan->unlimited_branch,
-                'status' => 'approved',
-                'expired_date' => $expiredDate,
-                'created_at' => now(),
-                'updated_at' => now(),
-                'start_date' => now(),
-            ]);
+        $subscription_data_array = array(
+            'plan_id' => $plan->plan_id,
+            'is_current' => 'yes',
+            'payment_method' => 'manually',
+            'amount' => $plan->amount,
+            'type' => $plan->type,
+            'branch_limit' => $plan->branch_limit,
+            'staff_limit' => $plan->staff_limit,
+            'staff_unlimited' => $plan->staff_unlimited,
+            'unlimited_branch' => $plan->unlimited_branch,
+            'status' => 'approved',
+            'expiry_date' => $expiredDate,
+            'created_at' => now(),
+            'updated_at' => now(),
+            'start_date' => now(),
+            'details' => trans('system.plans.manually_added_by_admin'),
+        );
+
+        if ($subscription == null) {
+            Subscriptions::updateOrCreate(['user_id' => $vendor->id], $subscription_data_array);
+
+        } elseif (isset($subscription) && $subscription != null && $subscription->subscription_id == null) {
+            Subscriptions::updateOrCreate(['id' => $subscription->id], $subscription_data_array);
+
         } else {
             $subscription_id = $subscription->subscription_id;
             $payment_method = $subscription->payment_method;
@@ -492,23 +511,7 @@ class VendorController extends Controller
             } elseif ($payment_method == 'razorpay') {
                 (new RazorpayController($this->subscriptionService))->cancelSubscription($subscription_id);
             }
-            Subscriptions::where('id', $subscription->id)->update([
-                'plan_id' => $plan->plan_id,
-                'is_current' => 'yes',
-                'amount' => $plan->amount,
-                'type' => $plan->type,
-                'branch_limit' => $plan->branch_limit,
-                'unlimited_branch' => $plan->unlimited_branch,
-                'staff_limit' => $plan->staff_limit,
-                'staff_unlimited' => $plan->staff_unlimited,
-                'member_limit' => $plan->member_limit,
-                'unlimited_member' => $plan->unlimited_member,
-                'status' => 'approved',
-                'expiry_date' => $expiredDate,
-                'created_at' => now(),
-                'updated_at' => now(),
-                'start_date' => now(),
-            ]);
+            Subscriptions::where('id', $subscription->id)->update($subscription_data_array);
         }
 
         return redirect(route('admin.vendors.show', $vendor->id))->with('Success', __('system.messages.updated', ['model' => __('system.vendors.title')]));

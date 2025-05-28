@@ -35,7 +35,7 @@ class PaymentController extends Controller
         $plans = Plans::where('status', 'active')->where(function ($query) use ($vendor)
         {
             $query->whereNull('user_id')->orWhere('user_id', $vendor->id);
-        })->orderBy('amount','asc')->get();
+        })->orderBy('amount', 'asc')->get();
         return view("admin.vendor_subscription.index", compact('plans', 'vendor', 'subscription'));
     }
 
@@ -95,19 +95,8 @@ class PaymentController extends Controller
 
         $attributes = $request->validate(['payment_type' => 'in:stripe,paypal,offline,razorpay,paystack',] + $extra_validate);
 
-        $checkExistingPlan = auth()->user()->load([
-            'user_plans' => function ($userPlans)
-            {
-                $userPlans->where('payment_method', 'offline')->where('status', 'pending');
-            }
-        ]);
-
         if (auth()->user()->subscriptionData() && auth()->user()->subscriptionData()->plan_id == $plan->plan_id) {
             return back()->with('Error', trans('system.plans.already_registered_plan'));
-        }
-
-        if (count($checkExistingPlan->user_plans) > 0 && $payment_type == 'offline') {
-            return back()->with('Error', trans('system.plans.wait_until_approved_or_rejected'));
         }
 
         try {
@@ -200,7 +189,7 @@ class PaymentController extends Controller
                 $adminUser = User::where('user_type', User::USER_TYPE_ADMIN)->first();
                 if ($adminUser != null) {
 
-                    $paymentDetails = ['vendor_name' => $authUser->name, 'payment_amount' => $userPlan->amount, 'payment_method' => 'Offline', 'payment_reference' => $request->reference, 'admin_name' => $adminUser->first_name];
+                    $paymentDetails = ['vendor_name' => $authUser->name, 'payment_amount' => $userPlan->amount, 'payment_method' => 'manually', 'payment_reference' => $request->reference, 'admin_name' => $adminUser->first_name];
 
                     $adminUser->notify(new OfflineVendorSubscriptionNotification($paymentDetails));
                 }
