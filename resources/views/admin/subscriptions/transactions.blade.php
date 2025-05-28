@@ -34,6 +34,72 @@
                 <div class="card-body">
                     <div class="mb-4">
                         <div class="row">
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card text-success bg-soft-success">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <span
+                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.payment_setting.manually') }}</span>
+                                                <h4>
+                                                    <span>{{displayCurrency($manually_total ?? 0)}}</span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card text-success bg-soft-info">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <span
+                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.payment_setting.stripe') }}</span>
+                                                <h4>
+                                                    <span>{{displayCurrency($stripe_total ?? 0)}}</span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card text-success bg-soft-warning">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <span
+                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.payment_setting.razorpay') }}</span>
+                                                <h4>
+                                                    <span>{{displayCurrency($razorpay_total ?? 0)}}</span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xl-3 col-md-6">
+                                <div class="card text-success bg-soft-dark">
+                                    <div class="card-body">
+                                        <div class="d-flex align-items-center">
+                                            <div class="flex-grow-1">
+                                                <span
+                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.payment_setting.paypal') }}</span>
+                                                <h4>
+                                                    <span>{{displayCurrency($paypal_total ?? 0)}}</span>
+                                                </h4>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="tab-content">
                                     <div class="tab-pane active">
@@ -73,18 +139,13 @@
                                                                             {{$transaction->user->first_name}} {{$transaction->user->last_name}}
                                                                         @endif
                                                                     </td>
-
-
-                                                                    <td><span
-                                                                            class="badge bg-info p-1">{{ __('system.plans.' . $transaction->plan->type) }}</span>
+                                                                    <td>
+                                                                        <span class="badge bg-info p-1">{{ __('system.plans.' . $transaction->plan->type) }}</span>
                                                                     </td>
-                                                                    @if(isset($transaction->subscription) && $transaction->subscription != null)
-                                                                        <td><span
-                                                                                class="badge bg-success p-1">{{ __('system.payment_setting.' . $transaction->subscription->payment_method) }}</span>
+                                                                    <td>
+                                                                        <span
+                                                                                class="badge bg-success p-1">{{ __('system.payment_setting.' . $transaction->payment_method) }}</span>
                                                                         </td>
-                                                                    @else
-                                                                        <td>{{ __('system.payment_setting.offline') }}</td>
-                                                                    @endif
                                                                     <td>
                                                                         @if(isset($transaction->plan->amount))
                                                                             {{ displayCurrency($transaction->plan->amount) }}

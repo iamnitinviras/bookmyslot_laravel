@@ -208,7 +208,7 @@
                     <div class="flex-grow-1">
                         <span class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.dashboard.total_income') }}</span>
                         <h4 class="mb-3">
-                            <span class="counter-value" data-target="{{ $total_income ?? 0 }}">{{ displayCurrency($total_income ?? 0) }}</span>
+                            <span >{{ displayCurrency($total_income ?? 0) }}</span>
                         </h4>
                     </div>
                 </div>

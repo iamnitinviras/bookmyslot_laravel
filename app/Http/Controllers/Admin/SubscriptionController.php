@@ -16,13 +16,17 @@ class SubscriptionController extends Controller
         $total_canceled = Subscriptions::where('status', 'canceled')->count();
 
         $subscriptions = Subscriptions::orderBy('created_at', 'desc')->get();
-        return view("admin.subscriptions.index", compact('subscriptions','total_active','total_canceled'));
+        return view("admin.subscriptions.index", compact('subscriptions', 'total_active', 'total_canceled'));
     }
 
     public function transactions(Request $request)
     {
+        $paypal_total = Transactions::where('payment_method', 'paypal')->sum('amount');
+        $stripe_total = Transactions::where('payment_method', 'stripe')->sum('amount');
+        $razorpay_total = Transactions::where('payment_method', 'razorpay')->sum('amount');
+        $manually_total = Transactions::where('payment_method', 'manually')->sum('amount');
         $transactions = Transactions::orderBy('created_at', 'desc')->get();
-        return view("admin.subscriptions.transactions", compact('transactions'));
+        return view("admin.subscriptions.transactions", compact('transactions', 'razorpay_total', 'manually_total', 'stripe_total', 'paypal_total'));
     }
 
     public function approve(Request $request, Subscriptions $subscription)
