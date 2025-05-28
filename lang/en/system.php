@@ -220,7 +220,7 @@ return
             'service_menu' => 'Menu',
             'users' => 'Users',
             'account_setting' => 'Account Setting',
-            'frontend' => 'Static Images',
+            'frontend' => 'Frontend Images',
             'user' => 'User',
             'testimonials' => 'Testimonials',
             'faq' => 'FAQ',
