@@ -144,7 +144,8 @@
                                                 <div class="col-md-12">
                                                     <p class="font12"><b>{{ __('system.plans.recurring_type') }}</b>:
                                                         @if (isset($plans->type))
-                                                            {{ __('system.plans.' . $plans->type) }}
+                                                            <span
+                                                                class="badge bg-info p-1">{{ __('system.plans.' . $plans->type) }}</span>
                                                         @endif
                                                     </p>
                                                 </div>
@@ -153,7 +154,8 @@
                                             <div class="col-md-12">
                                                 <p class="font12"><b>{{ __('system.plans.payment_method') }}</b>:
                                                     @if (isset($current_plans->payment_method))
-                                                        {{ trans('system.payment_setting.' . $current_plans->payment_method)}}
+                                                        <span
+                                                            class="badge bg-success p-1">{{ trans('system.payment_setting.' . $current_plans->payment_method)}}</span>
                                                     @endif
                                                 </p>
                                             </div>
