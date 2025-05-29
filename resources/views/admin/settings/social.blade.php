@@ -35,7 +35,7 @@
                             @csrf
                             <div class="card">
                                 <div class="card-header">
-                                    <h5 class="mb-0">{{ __('system.fields.social_media') }}</h5>
+                                    {{ __('system.fields.social_media') }}
                                 </div>
                                 <div class="card-body">
                                     <div class="row align-items-stretch">
