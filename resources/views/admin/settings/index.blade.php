@@ -166,6 +166,30 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xl-3 col-md-6 mb-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <div class="row no-gutters align-items-center">
+                                        <div class="col mr-2">
+                                            <div class="font-size-16">
+                                                {{ __('system.environment.preferred_settings') }}
+                                            </div>
+                                            <div class="h5 mb-1 font-weight-bold text-gray-800"></div>
+                                        </div>
+                                        <div class="col-auto">
+                                            <a href="{{ url('setting/preferred') }}">
+                                                <i class="fas fa-sun fa-2x"></i>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="card-footer py-2 text-end">
+                                    <a class="text-decoration-none" href="{{ url('setting/preferred') }}">
+                                        <i class="fas fa-arrow-right font-size-16"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <!-- end card -->

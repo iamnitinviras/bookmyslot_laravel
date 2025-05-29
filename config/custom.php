@@ -1,6 +1,9 @@
 <?php
 //Custom environment variable
 return [
+    'enable_blog' => env('ENABLE_BLOG', 'enable'),
+    'enable_faq' => env('ENABLE_FAQ', 'enable'),
+    'enable_testimonial' => env('ENABLE_TESTIMONIAL', 'enable'),
     'redirect_https' => env('REDIRECT_HTTPS', true),
     'facebook_url' => env('FACEBOOK_URL'),
     'instagram_url' => env('INSTAGRAM_URL'),

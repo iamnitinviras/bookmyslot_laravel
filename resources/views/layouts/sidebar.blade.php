@@ -44,18 +44,25 @@
             <span data-key="t-{{ __('system.cms.menu') }}">{{ __('system.cms.menu') }}</span>
         </a>
         <ul class="sub-menu" aria-expanded="false">
-            <li>
-                <a href="{{ route('admin.testimonials.index') }}" key="t-{{ __('system.testimonial.menu') }}">
-                    <i class=" fas fa-chevron-right font-size-16"></i>
-                    {{ __('system.testimonial.menu') }}
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('admin.faqs.index') }}" key="t-{{ __('system.faq.menu') }}">
-                    <i class=" fas fa-chevron-right font-size-16"></i>
-                    {{ __('system.faq.menu') }}
-                </a>
-            </li>
+            @if (config('custom.enable_faq') == 'enable')
+                <li>
+                    <a href="{{ route('admin.testimonials.index') }}" key="t-{{ __('system.testimonial.menu') }}">
+                        <i class=" fas fa-chevron-right font-size-16"></i>
+                        {{ __('system.testimonial.menu') }}
+                    </a>
+                </li>
+            @endif
+
+
+            @if (config('custom.enable_faq') == 'enable')
+                <li>
+                    <a href="{{ route('admin.faqs.index') }}" key="t-{{ __('system.faq.menu') }}">
+                        <i class=" fas fa-chevron-right font-size-16"></i>
+                        {{ __('system.faq.menu') }}
+                    </a>
+                </li>
+            @endif
+
             <li>
                 <a href="{{ route('admin.cms-page.index') }}" key="t-{{ __('system.cms.pages') }}">
                     <i class=" fas fa-chevron-right font-size-16"></i>
@@ -64,26 +71,28 @@
             </li>
         </ul>
     </li>
-    <li>
-        <a href="javascript: void(0);" class="has-arrow">
-            <i class="fas fa-comments font-size-16"></i>
-            <span data-key="t-{{ __('system.blogs.menu') }}">{{ __('system.blogs.menu') }}</span>
-        </a>
-        <ul class="sub-menu" aria-expanded="false">
-            <li>
-                <a href="{{ route('admin.blog-categories.index') }}" key="t-{{ __('system.blog_categories.menu') }}">
-                    <i class=" fas fa-chevron-right font-size-16"></i>
-                    {{ __('system.blog_categories.menu') }}
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('admin.posts.index') }}" key="t-{{ __('system.blogs.posts') }}">
-                    <i class=" fas fa-chevron-right font-size-16"></i>
-                    {{ __('system.blogs.posts') }}
-                </a>
-            </li>
-        </ul>
-    </li>
+    @if (config('custom.enable_blog') == 'enable')
+        <li>
+            <a href="javascript: void(0);" class="has-arrow">
+                <i class="fas fa-comments font-size-16"></i>
+                <span data-key="t-{{ __('system.blogs.menu') }}">{{ __('system.blogs.menu') }}</span>
+            </a>
+            <ul class="sub-menu" aria-expanded="false">
+                <li>
+                    <a href="{{ route('admin.blog-categories.index') }}" key="t-{{ __('system.blog_categories.menu') }}">
+                        <i class=" fas fa-chevron-right font-size-16"></i>
+                        {{ __('system.blog_categories.menu') }}
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ route('admin.posts.index') }}" key="t-{{ __('system.blogs.posts') }}">
+                        <i class=" fas fa-chevron-right font-size-16"></i>
+                        {{ __('system.blogs.posts') }}
+                    </a>
+                </li>
+            </ul>
+        </li>
+    @endif
     <li>
         <a href="{{ route('admin.contact-request.index') }}">
             <i class="fas fa-envelope font-size-16"></i>
