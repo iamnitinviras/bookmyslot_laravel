@@ -8,10 +8,10 @@
 <!-- Settings -->
 <hr class="m-0" />
 <div class="p-3">
-    <h6 class="mb-1">{{__('system.feedbacks.name')}}</h6>
+    <h6 class="mb-1">{{__('system.contact_us.name')}}</h6>
     <p class="mt-1 mb-3 sidebar-setting">{{ $contact_data->name }}</p>
 
-    <h6 class="mb-1">{{__('system.feedbacks.email')}}</h6>
+    <h6 class="mb-1">{{__('system.contact_us.email')}}</h6>
     <p class="mt-1 mb-3 sidebar-setting">{{ $contact_data->email }}</p>
 
     <h6 class="mb-1">{{__('system.contact_us.message')}}</h6>

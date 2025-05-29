@@ -49,54 +49,59 @@
                                     </div>
                                 </div>
                             </div>
-
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card text-success bg-soft-info">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <span
-                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.payment_setting.stripe') }}</span>
-                                                <h4>
-                                                    <span>{{displayCurrency($stripe_total ?? 0)}}</span>
-                                                </h4>
+                            @if (config('stripe.stripe_status') == 'enable')
+                                <div class="col-xl-3 col-md-6">
+                                    <div class="card text-success bg-soft-info">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <span
+                                                        class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.payment_setting.stripe') }}</span>
+                                                    <h4>
+                                                        <span>{{displayCurrency($stripe_total ?? 0)}}</span>
+                                                    </h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
 
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card text-success bg-soft-warning">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <span
-                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.payment_setting.razorpay') }}</span>
-                                                <h4>
-                                                    <span>{{displayCurrency($razorpay_total ?? 0)}}</span>
-                                                </h4>
+                            @if (config('razorpay.status') == 'enable')
+                                <div class="col-xl-3 col-md-6">
+                                    <div class="card text-success bg-soft-warning">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <span
+                                                        class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.payment_setting.razorpay') }}</span>
+                                                    <h4>
+                                                        <span>{{displayCurrency($razorpay_total ?? 0)}}</span>
+                                                    </h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                              @endif
 
-                            <div class="col-xl-3 col-md-6">
-                                <div class="card text-success bg-soft-dark">
-                                    <div class="card-body">
-                                        <div class="d-flex align-items-center">
-                                            <div class="flex-grow-1">
-                                                <span
-                                                    class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.payment_setting.paypal') }}</span>
-                                                <h4>
-                                                    <span>{{displayCurrency($paypal_total ?? 0)}}</span>
-                                                </h4>
+                            @if (config('paypal.status') == 'enable')
+                                <div class="col-xl-3 col-md-6">
+                                    <div class="card text-success bg-soft-dark">
+                                        <div class="card-body">
+                                            <div class="d-flex align-items-center">
+                                                <div class="flex-grow-1">
+                                                    <span
+                                                        class="text-muted mb-3 lh-1 d-block text-truncate">{{ __('system.payment_setting.paypal') }}</span>
+                                                    <h4>
+                                                        <span>{{displayCurrency($paypal_total ?? 0)}}</span>
+                                                    </h4>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            @endif
                         </div>
 
                         <div class="row">

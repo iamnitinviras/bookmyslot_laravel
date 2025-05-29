@@ -91,7 +91,6 @@
                                     </div>
                                     <!-- end card -->
                                 </div>
-
                                 <!-- Payment Section -->
                                 <div class="col-xl-6">
                                     <div class="card">
