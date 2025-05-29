@@ -510,6 +510,7 @@ return
                 'email_configuration' => 'Email Configuration',
                 'send_email' => 'Send Email',
                 'preferred_settings' => 'Preferred Settings',
+                'social_settings' => 'Social Settings',
             ),
         'themes' =>
             array(

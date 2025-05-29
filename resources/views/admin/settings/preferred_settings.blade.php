@@ -82,6 +82,22 @@
                                             </select>
                                         </div>
                                     </div>
+                                    <div class="col-md-4 mb-3">
+                                        <div class="form-group">
+                                            <label class="form-label"
+                                                for="enable_sign_up">{{ trans('auth.sign_up') }}</label>
+                                            <select id="enable_sign_up" name="enable_sign_up" required class="form-control">
+                                                <option {{ config('custom.enable_sign_up') == 'enable' ? 'selected' : '' }}
+                                                    value="enable">
+                                                    {{ trans('system.payment_setting.enable') }}
+                                                </option>
+                                                <option {{ config('custom.enable_sign_up') == 'disable' ? 'selected' : '' }}
+                                                    value="disable">
+                                                    {{ trans('system.payment_setting.disable') }}
+                                                </option>
+                                            </select>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>

@@ -1,6 +1,7 @@
 <?php
 //Custom environment variable
 return [
+    'enable_sign_up' => env('ENABLE_SIGNUP', 'enable'),
     'enable_blog' => env('ENABLE_BLOG', 'enable'),
     'enable_faq' => env('ENABLE_FAQ', 'enable'),
     'enable_testimonial' => env('ENABLE_TESTIMONIAL', 'enable'),

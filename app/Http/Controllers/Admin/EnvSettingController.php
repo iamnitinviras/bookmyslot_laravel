@@ -107,11 +107,6 @@ class EnvSettingController extends Controller
         $data = [
             'SUPPORT_EMAIL' => $request->support_email,
             'SUPPORT_PHONE' => $request->support_phone,
-            'FACEBOOK_URL' => $request->facebook_url,
-            'INSTAGRAM_URL' => $request->instagram_url,
-            'TWITTER_URL' => $request->twitter_url,
-            'YOUTUBE_URL' => $request->youtube_url,
-            'LINKEDIN_URL' => $request->linkedin_url,
             'CURRENCY_POSITION' => $request->currency_position,
             'APP_NAME' => $request->app_name,
             'APP_DATE_TIME_FORMAT' => $request->app_date_time_format,
@@ -443,17 +438,7 @@ class EnvSettingController extends Controller
 
     public function preferredSetting()
     {
-
-        $seo_keyword_data = Settings::where('title', 'seo_keyword')->first();
-        $seo_keyword = $seo_keyword_data->value ?? '';
-
-        $seo_description_data = Settings::where('title', 'seo_description')->first();
-        $seo_description = $seo_description_data->value ?? '';
-
-        $analytics_code_data = Settings::where('title', 'analytics_code')->first();
-        $analytics_code = $analytics_code_data->value ?? '';
-
-        return view('admin.settings.preferred_settings', compact('seo_keyword', 'seo_description', 'analytics_code'));
+        return view('admin.settings.preferred_settings');
     }
 
     public function preferredSave()
@@ -463,12 +448,37 @@ class EnvSettingController extends Controller
             'enable_faq' => ['required'],
             'enable_testimonial' => ['required'],
             'enable_blog' => ['required'],
+            'enable_sign_up' => ['required'],
         ]);
 
         $data = [
+            'ENABLE_SIGNUP' => $request->enable_sign_up,
             'ENABLE_BLOG' => $request->enable_blog,
             'ENABLE_FAQ' => $request->enable_faq,
             'ENABLE_TESTIMONIAL' => $request->enable_testimonial,
+        ];
+
+        DotenvEditor::setKeys($data)->save();
+        Artisan::call('config:clear');
+
+        $request->session()->flash('Success', __('system.messages.updated', ['model' => __('system.environment.title')]));
+        return redirect()->back();
+    }
+
+    public function socialSetting()
+    {
+        return view('admin.settings.social');
+    }
+
+    public function socialSave()
+    {
+        $request = request();
+        $data = [
+            'FACEBOOK_URL' => $request->facebook_url,
+            'INSTAGRAM_URL' => $request->instagram_url,
+            'TWITTER_URL' => $request->twitter_url,
+            'YOUTUBE_URL' => $request->youtube_url,
+            'LINKEDIN_URL' => $request->linkedin_url,
         ];
 
         DotenvEditor::setKeys($data)->save();

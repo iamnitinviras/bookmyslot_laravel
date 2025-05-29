@@ -183,9 +183,13 @@ Route::middleware(['preventBackHistory'])->group(function ()
                 Route::get('setting/seo', 'seoSetting')->name('environment.setting.seo');
                 Route::put('environment/setting/seo/save', 'seoSave')->name('environment.setting.seo.update');
 
-                //SEO Setting
+                //preferred Setting
                 Route::get('setting/preferred', 'preferredSetting')->name('environment.setting.preferred');
                 Route::put('environment/setting/preferred/save', 'preferredSave')->name('environment.setting.preferred.update');
+
+                //social Setting
+                Route::get('setting/social', 'socialSetting')->name('environment.setting.social');
+                Route::put('environment/setting/social/save', 'socialSave')->name('environment.setting.social.update');
 
                 //Analytics code
                 Route::get('setting/analytics', 'analyticsSetting')->name('environment.setting.analytics');
