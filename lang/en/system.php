@@ -509,6 +509,7 @@ return
                 'test_email' => 'Test Email',
                 'email_configuration' => 'Email Configuration',
                 'send_email' => 'Send Email',
+                'preferred_settings' => 'Preferred Settings',
             ),
         'themes' =>
             array(
