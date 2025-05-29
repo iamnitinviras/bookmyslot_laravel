@@ -44,7 +44,7 @@
             <span data-key="t-{{ __('system.cms.menu') }}">{{ __('system.cms.menu') }}</span>
         </a>
         <ul class="sub-menu" aria-expanded="false">
-            @if (config('custom.enable_faq') == 'enable')
+            @if (config('custom.enable_testimonial') == 'enable')
                 <li>
                     <a href="{{ route('admin.testimonials.index') }}" key="t-{{ __('system.testimonial.menu') }}">
                         <i class=" fas fa-chevron-right font-size-16"></i>
