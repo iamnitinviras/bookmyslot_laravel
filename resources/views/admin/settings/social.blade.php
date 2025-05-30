@@ -139,6 +139,166 @@
                                 </div>
                             </div>
 
+                            <div class="card mt-5">
+                                <div class="card-header">
+                                    {{ __('system.environment.facebook_social_login') }}
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <div class="form-group">
+                                                <label class="form-label"
+                                                    for="facebook_social_login">{{ trans('system.payment_setting.status') }}</label>
+                                                <select onchange="enable_facebook_social_login(this)"
+                                                    id="facebook_social_login" name="facebook_social_login" required
+                                                    class="form-control">
+                                                    <option {{ config('custom.facebook_social_login') == 'enable' ? 'selected' : '' }} value="enable">
+                                                        {{ trans('system.payment_setting.enable') }}
+                                                    </option>
+                                                    <option {{ config('custom.facebook_social_login') == 'disable' ? 'selected' : '' }} value="disable">
+                                                        {{ trans('system.payment_setting.disable') }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row {{ config('custom.facebook_social_login') == 'disable' ? 'd-none' : '' }}"
+                                        id="facebook_social_block">
+                                        <div class="col-md-6">
+                                            @php($facebook_client_id = __('system.environment.facebook_client_id'))
+                                            <div
+                                                class="mb-3 form-group @error('facebook_client_id') has-danger @enderror">
+                                                <label class="form-label"
+                                                    for="facebook_client_id">{{ $facebook_client_id }}*</label>
+                                                {!! html()->text('facebook_client_id', config('custom.facebook_client_id'))
+    ->class('form-control')
+    ->id('facebook_client_id')
+    ->attribute('placeholder', $facebook_client_id)
+    ->required(false) !!}
+                                            </div>
+                                            @error('facebook_client_id')
+                                                <div class="pristine-error text-help">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            @php($facebook_client_secret = __('system.environment.facebook_client_secret'))
+                                            <div
+                                                class="mb-3 form-group @error('facebook_client_secret') has-danger @enderror">
+                                                <label class="form-label"
+                                                    for="facebook_client_secret">{{ $facebook_client_secret }}*</label>
+                                                {!! html()->text('facebook_client_secret', config('custom.facebook_client_secret'))
+    ->class('form-control')
+    ->id('facebook_client_secret')
+    ->attribute('placeholder', $facebook_client_secret)
+    ->required(false) !!}
+                                            </div>
+                                            @error('facebook_client_secret')
+                                                <div class="pristine-error text-help">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            @php($facebook_callback_url = __('system.environment.facebook_callback_url'))
+                                            <div class="mb-3 form-group @error('linkedin_url') has-danger @enderror">
+                                                <label class="form-label"
+                                                    for="facebook_callback_url">{{ $facebook_callback_url }}*</label>
+                                                {!! html()->text('facebook_callback_url', url('facebook/callback'))
+    ->class('form-control')
+    ->isReadonly(true)
+    ->id('facebook_callback_url')
+    ->attribute('placeholder', $facebook_callback_url)
+    ->required(false) !!}
+                                            </div>
+                                            @error('facebook_callback_url')
+                                                <div class="pristine-error text-help">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="card mt-5">
+                                <div class="card-header">
+                                    {{ __('system.environment.google_social_login') }}
+                                </div>
+                                <div class="card-body">
+                                    <div class="row">
+                                        <div class="col-md-4 mb-3">
+                                            <div class="form-group">
+                                                <label class="form-label"
+                                                    for="google_social_login">{{ trans('system.payment_setting.status') }}</label>
+                                                <select onchange="enable_google_social_login(this)"
+                                                    id="google_social_login" name="google_social_login" required
+                                                    class="form-control">
+                                                    <option {{ config('custom.google_social_login') == 'enable' ? 'selected' : '' }} value="enable">
+                                                        {{ trans('system.payment_setting.enable') }}
+                                                    </option>
+                                                    <option {{ config('custom.google_social_login') == 'disable' ? 'selected' : '' }} value="disable">
+                                                        {{ trans('system.payment_setting.disable') }}
+                                                    </option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row {{ config('custom.google_social_login') == 'disable' ? 'd-none' : '' }}"
+                                        id="google_social_block">
+                                        <div class="col-md-6">
+                                            @php($google_client_id = __('system.environment.google_client_id'))
+                                            <div
+                                                class="mb-3 form-group @error('google_client_id') has-danger @enderror">
+                                                <label class="form-label"
+                                                    for="google_client_id">{{ $google_client_id }}*</label>
+                                                {!! html()->text('google_client_id', config('custom.google_client_id'))
+    ->class('form-control')
+    ->id('google_client_id')
+    ->attribute('placeholder', $google_client_id)
+    ->required(false) !!}
+                                            </div>
+                                            @error('google_client_id')
+                                                <div class="pristine-error text-help">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+
+                                        <div class="col-md-6">
+                                            @php($google_client_secret = __('system.environment.google_client_secret'))
+                                            <div
+                                                class="mb-3 form-group @error('google_client_secret') has-danger @enderror">
+                                                <label class="form-label"
+                                                    for="google_client_secret">{{ $google_client_secret }}*</label>
+                                                {!! html()->text('google_client_secret', config('custom.google_client_secret'))
+    ->class('form-control')
+    ->id('google_client_secret')
+    ->attribute('placeholder', $google_client_secret)
+    ->required(false) !!}
+                                            </div>
+                                            @error('google_client_secret')
+                                                <div class="pristine-error text-help">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+
+                                        <div class="col-md-12">
+                                            @php($google_callback_url = __('system.environment.google_callback_url'))
+                                            <div class="mb-3 form-group @error('linkedin_url') has-danger @enderror">
+                                                <label class="form-label"
+                                                    for="google_callback_url">{{ $google_callback_url }}*</label>
+                                                {!! html()->text('google_callback_url', url('google/callback'))
+    ->class('form-control')
+    ->isReadonly(true)
+    ->id('google_callback_url')
+    ->attribute('placeholder', $google_callback_url)
+    ->required(false) !!}
+                                            </div>
+                                            @error('google_callback_url')
+                                                <div class="pristine-error text-help">{{ $message }}</div>
+                                            @enderror
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

@@ -511,6 +511,14 @@ return
                 'send_email' => 'Send Email',
                 'preferred_settings' => 'Preferred Settings',
                 'social_settings' => 'Social Settings',
+                'facebook_social_login' => 'Facebook Social Login',
+                'google_social_login' => 'Google Social Login',
+                'facebook_client_id' => 'Facebook Client ID',
+                'facebook_client_secret' => 'Facebook Client Secret',
+                'facebook_callback_url' => 'Facebook Callback Url',
+                'google_client_id' => 'Google Client ID',
+                'google_client_secret' => 'Google Client Secret',
+                'google_callback_url' => 'Google Callback Url',
             ),
         'themes' =>
             array(

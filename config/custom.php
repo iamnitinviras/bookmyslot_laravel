@@ -1,6 +1,17 @@
 <?php
 //Custom environment variable
 return [
+    'facebook_social_login' => env('FACEBOOK_SOCIAL_LOGIN', 'disable'),
+    'google_social_login' => env('GOOGLE_SOCIAL_LOGIN', 'disable'),
+
+    'facebook_client_id' => env('FACEBOOK_CLIENT_ID', ''),
+    'facebook_client_secret' => env('FACEBOOK_CLIENT_SECRET', ''),
+    'facebook_callback_url' => env('FACEBOOK_CALLBACK_URL', ''),
+
+    'google_client_id' => env('GOOGLE_CLIENT_ID', ''),
+    'google_client_secret' => env('GOOGLE_CLIENT_SECRET', ''),
+    'google_callback_url' => env('GOOGLE_CALLBACK_URL', ''),
+
     'enable_sign_up' => env('ENABLE_SIGNUP', 'enable'),
     'enable_blog' => env('ENABLE_BLOG', 'enable'),
     'enable_faq' => env('ENABLE_FAQ', 'enable'),

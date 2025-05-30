@@ -479,6 +479,18 @@ class EnvSettingController extends Controller
             'TWITTER_URL' => $request->twitter_url,
             'YOUTUBE_URL' => $request->youtube_url,
             'LINKEDIN_URL' => $request->linkedin_url,
+
+            'FACEBOOK_SOCIAL_LOGIN' => $request->facebook_social_login,
+            'GOOGLE_SOCIAL_LOGIN' => $request->google_social_login,
+
+            'FACEBOOK_CLIENT_ID' => $request->facebook_client_id,
+            'FACEBOOK_CLIENT_SECRET' => $request->facebook_client_secret,
+            'FACEBOOK_CALLBACK_URL' => $request->facebook_callback_url,
+
+            'GOOGLE_CLIENT_ID' => $request->google_client_id,
+            'GOOGLE_CLIENT_SECRET' => $request->google_client_secret,
+            'GOOGLE_CALLBACK_URL' => $request->google_callback_url,
+
         ];
 
         DotenvEditor::setKeys($data)->save();
