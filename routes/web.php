@@ -263,4 +263,8 @@ Route::post('/webhook/razorpay', [\App\Http\Controllers\Webhook\RazorpayControll
 
 Auth::routes();
 
+// Social Login
+Route::get('login/{provider}', [\App\Http\Controllers\Auth\LoginController::class, 'redirectToProvider']);
+Route::get('login/{provider}/callback', [\App\Http\Controllers\Auth\LoginController::class, 'handleProviderCallback']);
+
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

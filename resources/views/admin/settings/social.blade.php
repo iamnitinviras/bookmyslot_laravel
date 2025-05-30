@@ -204,7 +204,7 @@
                                             <div class="mb-3 form-group @error('linkedin_url') has-danger @enderror">
                                                 <label class="form-label"
                                                     for="facebook_callback_url">{{ $facebook_callback_url }}*</label>
-                                                {!! html()->text('facebook_callback_url', url('facebook/callback'))
+                                                {!! html()->text('facebook_callback_url', url('login/facebook/callback'))
     ->class('form-control')
     ->isReadonly(true)
     ->id('facebook_callback_url')
@@ -284,7 +284,7 @@
                                             <div class="mb-3 form-group @error('linkedin_url') has-danger @enderror">
                                                 <label class="form-label"
                                                     for="google_callback_url">{{ $google_callback_url }}*</label>
-                                                {!! html()->text('google_callback_url', url('google/callback'))
+                                                {!! html()->text('google_callback_url', url('login/google/callback'))
     ->class('form-control')
     ->isReadonly(true)
     ->id('google_callback_url')
