@@ -44,6 +44,7 @@
                         } else {
 
                             $current_plans_id = $vendor->subscriptionData() ? $vendor->subscriptionData()->plan_id : 0;
+                            $expiry_date = $vendor->subscriptionData() ? $vendor->subscriptionData()->expiry_date : null;
                             if ($current_plans_id == 0) {
                                 $plan_title = trans('system.plans.trial');
                             } else {
@@ -82,7 +83,12 @@
                             @endif
                             {{ $vendor->email }}
                         </td>
-                        <td><span class="badge bg-primary p-2">{{ $plan_title }}</span></td>
+                        <td>
+                            <span class="badge bg-primary p-2">{{ $plan_title }}</span>
+                            @if(isset($expiry_date) && $expiry_date != null && ($expiry_date < now()))
+                                <span class="badge bg-danger p-2">{{ trans('system.plans.expired') }}</span>
+                            @endif
+                        </td>
                         <td>{{ $vendor->phone_number }}</td>
                         <td>{{ $vendor->created_at }}</td>
                         <td>
