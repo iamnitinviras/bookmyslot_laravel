@@ -104,7 +104,7 @@
 
                             <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
                                 <a role="button" href="{{ route('admin.vendors.show', ['vendor' => $vendor->id]) }}"
-                                    class="btn btn-secondary">{{ __('system.fields.view') }}
+                                    class="btn btn-secondary">{{ __('system.crud.manage') }}
                                 </a>
                                 <a role="button" href="{{ route('admin.vendors.edit', ['vendor' => $vendor->id]) }}"
                                     class="btn btn-success">{{ __('system.crud.edit') }}

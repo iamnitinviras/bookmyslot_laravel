@@ -745,6 +745,7 @@ return
         'crud' =>
             array(
                 'yes' => 'Yes',
+                'manage' => 'Manage',
                 'cancelled' => 'Canceled',
                 'update' => 'Update',
                 'upload' => 'Upload',
