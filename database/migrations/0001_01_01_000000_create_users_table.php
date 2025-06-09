@@ -30,7 +30,6 @@ return new class extends Migration {
             $table->enum('status', ['active', 'inactive'])->default('active');
             $table->rememberToken();
             $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
-            $table->boolean('plan_purchased')->default(false);
             $table->boolean('free_forever')->default(false);
             $table->dateTime('last_login_at')->nullable();
             $table->string('user_ip', 100)->nullable();

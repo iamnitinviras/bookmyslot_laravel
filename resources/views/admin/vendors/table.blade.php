@@ -42,10 +42,12 @@
                         if ($vendor->free_forever == true) {
                             $plan_title = trans('system.vendors.free_forever');
                         } else {
-                            if ($vendor->is_trial_enabled == true) {
+
+                            $current_plans_id = $vendor->subscriptionData() ? $vendor->subscriptionData()->plan_id : 0;
+                            if ($current_plans_id == 0) {
                                 $plan_title = trans('system.plans.trial');
                             } else {
-                                $current_plans_id = $vendor->subscriptionData() ? $vendor->subscriptionData()->plan_id : 0;
+
                                 if (isset($plans) && count($plans) > 0) {
                                     if ($current_plans_id == 0) {
                                         $plan_title = trans('system.plans.trial');
@@ -54,6 +56,7 @@
                                     }
                                 }
                             }
+
                         }
                     @endphp
                     <tr>
@@ -91,7 +94,7 @@
                         </td>
                         <td>
                             @if (auth()->user()->user_type == App\Models\User::USER_TYPE_ADMIN)
-                                {!! html()->form('delete', route('admin.vendors.destroy', ['vendor' => $vendor->id]))
+                                            {!! html()->form('delete', route('admin.vendors.destroy', ['vendor' => $vendor->id]))
                                 ->class('data-confirm')
                                 ->attribute('autocomplete', 'off')
                                 ->attribute('data-confirm-message', __('system.fields.are_you_sure'))
